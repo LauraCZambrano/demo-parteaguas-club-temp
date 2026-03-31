@@ -107,6 +107,7 @@ export type PodcastEpisode = {
   date: string;
   image: string;
   isNew?: boolean;
+  audioUrl?: string;
 };
 
 import podcastCover from "@/assets/podcast-cover.jpg";
@@ -120,6 +121,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     date: "26 Mar 2026",
     image: podcastCover,
     isNew: true,
+    audioUrl: "https://res.cloudinary.com/dfdy3dt9h/video/upload/v1774993586/voz_jonathan_1774993585.mp3",
   },
   {
     id: "ep2",
