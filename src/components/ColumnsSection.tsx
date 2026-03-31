@@ -64,7 +64,7 @@ const ColumnsSection = () => {
               </div>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col pt-4">
+              <div className="flex flex-1 flex-col p-5">
                 {/* Thin rule above title */}
                 <div className="mb-3 h-px w-full bg-border/60" />
 
