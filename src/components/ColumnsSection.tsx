@@ -57,7 +57,7 @@ const ColumnsSection = () => {
 
         {/* Uniform 3-col grid */}
         <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((article, i) => (
+          {visible.map((article, i) => (
             <Link
               key={article.id}
               to={`/articulo/${article.id}`}
@@ -110,6 +110,26 @@ const ColumnsSection = () => {
             </Link>
           ))}
         </div>
+
+        {/* Load more */}
+        {hasMore && (
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={handleLoadMore}
+              disabled={loading}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  Cargando...
+                </>
+              ) : (
+                "Ver más columnas"
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
