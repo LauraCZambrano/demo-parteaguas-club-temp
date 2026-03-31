@@ -127,7 +127,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Desmontamos la narrativa del genio solitario y exploramos cómo realmente nacen las grandes empresas.",
     duration: "38 min",
     date: "19 Mar 2026",
-    image: podcastCover46,
+    image: podcastCover,
   },
   {
     id: "ep3",
