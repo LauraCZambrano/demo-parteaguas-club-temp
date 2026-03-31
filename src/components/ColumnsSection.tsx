@@ -10,6 +10,21 @@ const ColumnsSection = () => {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
   const filtered = active === "Todos" ? articles : articles.filter((a) => a.category === active);
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
+  const handleLoadMore = useCallback(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
+      setLoading(false);
+    }, 600);
+  }, []);
+
+  const handleFilterChange = (cat: string) => {
+    setActive(cat);
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
 
   return (
     <section id="columnas" className="py-16 md:py-24">
