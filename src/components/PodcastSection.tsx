@@ -99,7 +99,7 @@ const PodcastSection = () => {
                   loading="lazy"
                 />
                 {featured.isNew && (
-                  <Badge className="absolute left-2.5 top-2.5 rounded-sm bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0">
+                  <Badge className="absolute left-2.5 top-2.5 rounded-none bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0 font-mono">
                     Nuevo
                   </Badge>
                 )}
