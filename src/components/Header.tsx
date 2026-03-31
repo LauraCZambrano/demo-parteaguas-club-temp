@@ -22,7 +22,7 @@ const Header = () => {
           <a href="#podcast" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </a>
-          <Button size="sm" className="rounded-sm font-semibold">
+          <Button size="sm" className="rounded-full px-6 font-semibold">
             Suscribirse
           </Button>
         </nav>
@@ -55,7 +55,7 @@ const Header = () => {
             >
               Podcast
             </a>
-            <Button size="sm" className="w-full rounded-sm font-semibold">
+            <Button size="sm" className="w-full rounded-full font-semibold">
               Suscribirse
             </Button>
           </div>

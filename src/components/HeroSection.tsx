@@ -42,7 +42,7 @@ const HeroSection = () => {
               className="h-11 rounded-sm border"
               required
             />
-            <Button type="submit" className="h-11 shrink-0 gap-2 rounded-sm px-6 font-semibold">
+            <Button type="submit" className="h-11 shrink-0 gap-2 rounded-full px-6 font-semibold">
               Unirse <ArrowRight size={16} />
             </Button>
           </form>

@@ -45,7 +45,7 @@ const SubscriptionBar = () => {
             className="h-8 w-40 rounded-sm border-background/20 bg-background/10 text-xs text-background placeholder:text-background/40 sm:w-52"
             required
           />
-          <Button type="submit" size="sm" className="h-8 rounded-sm px-3 text-xs font-semibold">
+          <Button type="submit" size="sm" className="h-8 rounded-full px-3 text-xs font-semibold">
             <ArrowRight size={14} />
           </Button>
         </form>
