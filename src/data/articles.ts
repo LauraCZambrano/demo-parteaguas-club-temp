@@ -90,6 +90,7 @@ export const articles: Article[] = [
     category: "Tecnología",
     date: "13 Mar 2026",
     image: article6,
+    readingTime: 4,
     content: `<p>La inteligencia artificial generativa ha pasado de ser una curiosidad técnica a una herramienta que redefine lo que significa "crear". Pero el debate público sigue atrapado en una dicotomía falsa: IA vs. humanos.</p>
 <h2>El verdadero cambio</h2>
 <p>La pregunta correcta no es "¿la IA reemplazará a los creativos?" sino "¿qué tipo de creativos prosperarán en un mundo con IA?" La respuesta, como siempre, favorece a los adaptables.</p>`,
