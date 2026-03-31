@@ -106,7 +106,7 @@ const PodcastSection = () => {
               </div>
 
               {/* Info */}
-              <h3 className="mt-4 font-editorial text-lg font-bold leading-snug md:text-xl">
+              <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">
                 {featured.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
