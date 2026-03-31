@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import iconParteaguas from "@/assets/icon-parteaguas.png";
 
 const HeroSection = () => {
   const [email, setEmail] = useState("");
