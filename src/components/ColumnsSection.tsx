@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Clock } from "lucide-react";
 import { articles, categories } from "@/data/articles";
+import BreakoutCard from "@/components/BreakoutCard";
+import iconParteaguas from "@/assets/icon-parteaguas.png";
 
 const ColumnsSection = () => {
   const [active, setActive] = useState("Todos");
@@ -10,13 +13,36 @@ const ColumnsSection = () => {
   return (
     <section id="columnas" className="py-16 md:py-24">
       <div className="container">
+        {/* Section divider */}
+        <div className="mb-10 h-px w-full bg-border" />
+
         <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">
           Columnas editoriales
         </h2>
         <p className="mt-2 text-muted-foreground">Análisis profundo sobre lo que importa.</p>
 
+        {/* Breakout card — Idea de la Semana */}
+        <div className="mt-10">
+          <BreakoutCard title="El arte de pensar en sistemas complejos">
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2">
+                <img src={iconParteaguas} alt="" className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Los modelos mentales son la herramienta más poderosa del siglo XXI.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <img src={iconParteaguas} alt="" className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Pensar en redes, no en líneas rectas, es lo que separa a los visionarios.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <img src={iconParteaguas} alt="" className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>La complejidad no se simplifica: se navega con mejores herramientas cognitivas.</span>
+              </li>
+            </ul>
+          </BreakoutCard>
+        </div>
+
         {/* Filter tabs */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-12 flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -52,9 +78,15 @@ const ColumnsSection = () => {
                 />
               </div>
               <div className="p-5">
-                <span className="inline-block rounded-sm bg-tag px-2 py-0.5 text-xs font-medium text-tag-foreground">
-                  {article.category}
-                </span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-block rounded-sm bg-tag px-2 py-0.5 text-xs font-medium text-tag-foreground">
+                    {article.category}
+                  </span>
+                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
+                    <Clock size={12} />
+                    {article.readingTime} min
+                  </span>
+                </div>
                 <h3 className="mt-3 font-editorial text-lg font-bold leading-snug tracking-tight group-hover:underline">
                   {article.title}
                 </h3>
