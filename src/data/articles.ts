@@ -24,6 +24,7 @@ export const articles: Article[] = [
     category: "Pensamiento",
     date: "28 Mar 2026",
     image: article1,
+    readingTime: 7,
     content: `<p>En un mundo saturado de datos, la capacidad de pensar en sistemas complejos se ha convertido en la habilidad más valiosa del siglo XXI. No se trata simplemente de acumular información, sino de entender las conexiones invisibles que dan forma a nuestra realidad.</p>
 <p>Los modelos mentales —esas representaciones simplificadas de cómo funciona el mundo— son las herramientas que utilizan los pensadores más efectivos para navegar la complejidad. Desde Charlie Munger hasta Elon Musk, los líderes que transforman industrias comparten una característica: piensan en redes, no en líneas rectas.</p>
 <h2>La trampa del pensamiento lineal</h2>
