@@ -21,13 +21,15 @@ interface AudioContextValue extends AudioState {
 
 const SPEEDS = [1, 1.5, 2];
 
-const Ctx = createContext<AudioContextValue | null>(null);
-
-export const useAudio = () => {
-  const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("useAudio must be inside AudioProvider");
-  return ctx;
+const noopAudio: AudioContextValue = {
+  episode: null, isPlaying: false, currentTime: 0, duration: 0, speed: 1,
+  play: () => {}, togglePlay: () => {}, pause: () => {},
+  seek: () => {}, rewind15: () => {}, cycleSpeed: () => {}, close: () => {},
 };
+
+const Ctx = createContext<AudioContextValue>(noopAudio);
+
+export const useAudio = () => useContext(Ctx);
 
 export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
