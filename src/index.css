@@ -109,3 +109,37 @@
     font-family: var(--font-sans);
   }
 }
+
+/* Article prose styles */
+.prose-article {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: hsl(var(--foreground));
+}
+
+.prose-article p {
+  margin-bottom: 1.5em;
+}
+
+.prose-article h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  letter-spacing: -0.01em;
+}
+
+.prose-article a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+.prose-article blockquote {
+  border-left: 3px solid hsl(var(--primary));
+  padding-left: 1.25em;
+  margin: 1.5em 0;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+}
