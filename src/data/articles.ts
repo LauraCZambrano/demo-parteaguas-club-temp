@@ -66,6 +66,7 @@ export const articles: Article[] = [
     category: "Cultura",
     date: "19 Mar 2026",
     image: article4,
+    readingTime: 4,
     content: `<p>El minimalismo se ha convertido en la estética dominante de nuestra era. Desde las interfaces de Apple hasta la arquitectura de lujo, "menos es más" se repite como un mantra incuestionable. Pero, ¿qué ocurre cuando el minimalismo se convierte en dogma?</p>
 <h2>La paradoja del minimalismo de lujo</h2>
 <p>Es irónico que el minimalismo —originalmente una respuesta al consumismo— se haya convertido en su propia forma de consumo conspicuo. Un sofá "minimalista" de 5,000 dólares comunica estatus precisamente por su aparente simplicidad.</p>`,
