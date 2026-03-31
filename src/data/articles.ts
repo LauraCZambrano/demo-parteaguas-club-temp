@@ -13,6 +13,7 @@ export type Article = {
   date: string;
   image: string;
   content: string;
+  readingTime: number; // minutes
 };
 
 export const articles: Article[] = [
