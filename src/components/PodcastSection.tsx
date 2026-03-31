@@ -46,7 +46,7 @@ const YouTubeIcon = () => (
 const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (
   <a
     href={href}
-    className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-all hover:bg-foreground hover:text-background hover:border-foreground"
+    className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground transition-all hover:bg-foreground hover:text-background hover:border-foreground"
   >
     {icon}
     {label}
@@ -87,7 +87,7 @@ const PodcastSection = () => {
           </div>
 
           {/* ── The Podcast Hub — Two-column dashboard ── */}
-          <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row">
+          <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
             {/* LEFT — Featured Episode (40%) */}
             <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
               {/* Cover */}
@@ -99,14 +99,14 @@ const PodcastSection = () => {
                   loading="lazy"
                 />
                 {featured.isNew && (
-                  <Badge className="absolute left-2.5 top-2.5 rounded-sm bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0">
+                  <Badge className="absolute left-2.5 top-2.5 rounded-none bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0 font-mono">
                     Nuevo
                   </Badge>
                 )}
               </div>
 
               {/* Info */}
-              <h3 className="mt-4 font-editorial text-lg font-bold leading-snug md:text-xl">
+              <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">
                 {featured.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
@@ -125,7 +125,7 @@ const PodcastSection = () => {
               >
                 {isActive(featured.id) ? (
                   <>
-                    <Equalizer /> Reproduciendo…
+                    <Pause size={16} /> Pausar
                   </>
                 ) : (
                   <>
@@ -136,7 +136,7 @@ const PodcastSection = () => {
             </div>
 
             {/* RIGHT — Episode list (60%) */}
-            <div className="flex w-full flex-col border-t border-border bg-card md:w-[60%] md:border-l md:border-t-0">
+            <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0" style={{ backgroundColor: '#F8F9FA' }}>
               <div className="border-b border-border px-5 py-3">
                 <h4 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                   Episodios anteriores
