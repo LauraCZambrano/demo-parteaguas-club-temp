@@ -23,9 +23,8 @@ const Footer = () => {
         <div className="grid gap-12 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2">
-              <img src={logo} alt="Parteaguas Club" width={32} height={32} className="h-8 w-8 invert" />
-              <span className="font-editorial text-lg font-bold">Parteaguas Club</span>
+            <div className="flex items-center">
+              <img src={logo} alt="Parteaguas Club" className="h-10 w-auto invert" />
             </div>
             <p className="mt-3 text-sm leading-relaxed opacity-70">
               Un medio digital para quienes buscan entender el mundo con profundidad, claridad y criterio propio.
