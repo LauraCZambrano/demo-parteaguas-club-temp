@@ -115,10 +115,11 @@ const ColumnsSection = () => {
         {/* Load more */}
         {hasMore && (
           <div className="mt-12 flex justify-center">
-            <button
+            <Button
               onClick={handleLoadMore}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+              variant="outline"
+              className="rounded-full px-6"
             >
               {loading ? (
                 <>
@@ -128,7 +129,7 @@ const ColumnsSection = () => {
               ) : (
                 "Ver más columnas"
               )}
-            </button>
+            </Button>
           </div>
         )}
       </div>

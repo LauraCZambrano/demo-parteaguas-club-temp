@@ -119,9 +119,9 @@ const PodcastSection = () => {
               </div>
 
               {/* CTA */}
-              <button
+              <Button
                 onClick={() => play(featured)}
-                className="mt-4 inline-flex w-fit items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                className="mt-4 w-fit rounded-full px-6"
               >
                 {isActive(featured.id) ? (
                   <>
@@ -132,7 +132,7 @@ const PodcastSection = () => {
                     <Play size={16} className="ml-0.5" /> Escuchar ahora
                   </>
                 )}
-              </button>
+              </Button>
             </div>
 
             {/* RIGHT — Episode list (60%) */}
