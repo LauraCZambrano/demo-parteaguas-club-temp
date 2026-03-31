@@ -136,7 +136,7 @@ const PodcastSection = () => {
             </div>
 
             {/* RIGHT — Episode list (60%) */}
-            <div className="flex w-full flex-col border-t border-border bg-card md:w-[60%] md:border-l md:border-t-0">
+            <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0" style={{ backgroundColor: '#F8F9FA' }}>
               <div className="border-b border-border px-5 py-3">
                 <h4 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                   Episodios anteriores
