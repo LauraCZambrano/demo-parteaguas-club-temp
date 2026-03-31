@@ -49,7 +49,7 @@ const ColumnsSection = () => {
               style={{ animationDelay: `${i * 80}ms` }}
             >
               {/* Image — 4:5 portrait */}
-              <div className="overflow-hidden" style={{ aspectRatio: "4/5" }}>
+              <div className="overflow-hidden" style={{ aspectRatio: "3/2" }}>
                 <img
                   src={article.image}
                   alt={article.title}
