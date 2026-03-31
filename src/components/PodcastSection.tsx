@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Headphones, Play, Pause } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { podcastEpisodes, type PodcastEpisode } from "@/data/articles";
+import { useAudio } from "@/contexts/AudioContext";
 import AudioPlayer from "@/components/AudioPlayer";
 
 /* ---------- Equalizer animation ---------- */
@@ -55,14 +55,12 @@ const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: s
 );
 
 const PodcastSection = () => {
-  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null);
+  const { episode: activeEpisode, isPlaying, play } = useAudio();
 
   const featured = podcastEpisodes[0];
   const rest = podcastEpisodes.slice(1);
 
-  const play = (ep: PodcastEpisode) =>
-    setActiveEpisode((prev) => (prev?.id === ep.id ? null : ep));
-
+  const isActiveAndPlaying = (id: string) => activeEpisode?.id === id && isPlaying;
   const isActive = (id: string) => activeEpisode?.id === id;
 
   return (
@@ -87,11 +85,10 @@ const PodcastSection = () => {
             <PlatformButton icon={<YouTubeIcon />} label="YouTube" href="#" />
           </div>
 
-          {/* ── The Podcast Hub — Two-column dashboard ── */}
+          {/* ── The Podcast Hub ── */}
           <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
             {/* LEFT — Featured Episode (40%) */}
             <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
-              {/* Cover */}
               <div className="relative">
                 <img
                   src={featured.image}
@@ -106,7 +103,6 @@ const PodcastSection = () => {
                 )}
               </div>
 
-              {/* Info */}
               <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">
                 {featured.title}
               </h3>
@@ -119,12 +115,11 @@ const PodcastSection = () => {
                 <time>{featured.date}</time>
               </div>
 
-              {/* CTA */}
               <Button
                 onClick={() => play(featured)}
                 className="mt-4 w-fit rounded-full px-6"
               >
-                {isActive(featured.id) ? (
+                {isActiveAndPlaying(featured.id) ? (
                   <>
                     <Pause size={16} /> Pausar
                   </>
@@ -149,31 +144,28 @@ const PodcastSection = () => {
                   {rest.map((ep) => {
                     const epNum = ep.title.match(/Ep\.\s*(\d+)/)?.[1] ?? "";
                     const active = isActive(ep.id);
+                    const playing = isActiveAndPlaying(ep.id);
                     return (
                       <button
                         key={ep.id}
                         onClick={() => play(ep)}
                         className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
                       >
-                        {/* Episode number */}
                         <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
                           {epNum}
                         </span>
 
-                        {/* Title + equalizer */}
                         <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-primary" : ""}`}>
-                          {active && <Equalizer />}
+                          {playing && <Equalizer />}
                           {ep.title.replace(/Ep\.\s*\d+\s*—\s*/, "")}
                         </span>
 
-                        {/* Duration */}
                         <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
                           {ep.duration}
                         </span>
 
-                        {/* Play / Pause icon */}
                         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
-                          {active ? (
+                          {playing ? (
                             <Pause size={12} />
                           ) : (
                             <Play size={12} className="ml-0.5" />
@@ -190,7 +182,7 @@ const PodcastSection = () => {
       </section>
 
       {/* ── Sticky audio player ── */}
-      <AudioPlayer episode={activeEpisode} onClose={() => setActiveEpisode(null)} />
+      <AudioPlayer />
     </>
   );
 };
