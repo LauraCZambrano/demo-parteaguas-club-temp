@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Headphones, Play, Pause } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { podcastEpisodes, type PodcastEpisode } from "@/data/articles";
 import AudioPlayer from "@/components/AudioPlayer";
