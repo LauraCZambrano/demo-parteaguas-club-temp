@@ -55,7 +55,7 @@ const Header = () => {
             >
               Podcast
             </a>
-            <Button size="sm" className="w-full rounded-sm font-semibold">
+            <Button size="sm" className="w-full rounded-full font-semibold">
               Suscribirse
             </Button>
           </div>

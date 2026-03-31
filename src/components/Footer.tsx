@@ -61,7 +61,7 @@ const Footer = () => {
                 className="h-10 rounded-sm border-background/20 bg-background/10 text-background placeholder:text-background/40"
                 required
               />
-              <Button type="submit" size="sm" className="h-10 shrink-0 rounded-sm">
+              <Button type="submit" size="sm" className="h-10 shrink-0 rounded-full">
                 <ArrowRight size={16} />
               </Button>
             </form>
