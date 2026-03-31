@@ -64,10 +64,7 @@ const ColumnsSection = () => {
               </div>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col p-5">
-                {/* Thin rule above title */}
-                <div className="mb-3 h-px w-full bg-border/60" />
-
+              <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
                 <span className="mb-2 inline-block w-fit rounded-full bg-tag px-2.5 py-0.5 text-[10px] font-medium text-tag-foreground">
                   {article.category}
                 </span>
