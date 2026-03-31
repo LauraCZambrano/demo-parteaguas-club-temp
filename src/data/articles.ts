@@ -109,9 +109,7 @@ export type PodcastEpisode = {
   isNew?: boolean;
 };
 
-import podcastCover47 from "@/assets/podcast-cover-47.jpg";
-import podcastCover46 from "@/assets/podcast-cover-46.jpg";
-import podcastCover45 from "@/assets/podcast-cover-45.jpg";
+import podcastCover from "@/assets/podcast-cover.jpg";
 
 export const podcastEpisodes: PodcastEpisode[] = [
   {
