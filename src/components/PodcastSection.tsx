@@ -125,7 +125,7 @@ const PodcastSection = () => {
               >
                 {isActive(featured.id) ? (
                   <>
-                    <Equalizer /> Reproduciendo…
+                    <Pause size={16} /> Pausar
                   </>
                 ) : (
                   <>
