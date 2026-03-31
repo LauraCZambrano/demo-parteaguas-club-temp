@@ -130,6 +130,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     duration: "38 min",
     date: "19 Mar 2026",
     image: podcastCover,
+    audioUrl: "https://res.cloudinary.com/dfdy3dt9h/video/upload/v1774982817/voz_jonathan_1774982816.mp3",
   },
   {
     id: "ep3",
