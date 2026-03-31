@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { articles, categories } from "@/data/articles";
 
 const ITEMS_PER_PAGE = 3;
