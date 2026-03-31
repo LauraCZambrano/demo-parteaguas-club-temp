@@ -87,7 +87,7 @@ const PodcastSection = () => {
           </div>
 
           {/* ── The Podcast Hub — Two-column dashboard ── */}
-          <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row">
+          <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
             {/* LEFT — Featured Episode (40%) */}
             <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
               {/* Cover */}
