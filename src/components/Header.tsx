@@ -11,7 +11,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Parteaguas Club" className="h-8 w-auto" />
+          <img src={logo} alt="Parteaguas Club" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop nav */}
