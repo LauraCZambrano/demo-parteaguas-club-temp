@@ -1,12 +1,30 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Clock, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight, Loader2 } from "lucide-react";
 import { articles, categories } from "@/data/articles";
+
+const ITEMS_PER_PAGE = 3;
 
 const ColumnsSection = () => {
   const [active, setActive] = useState("Todos");
-
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [loading, setLoading] = useState(false);
   const filtered = active === "Todos" ? articles : articles.filter((a) => a.category === active);
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
+  const handleLoadMore = useCallback(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
+      setLoading(false);
+    }, 600);
+  }, []);
+
+  const handleFilterChange = (cat: string) => {
+    setActive(cat);
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
 
   return (
     <section id="columnas" className="py-16 md:py-24">
@@ -22,7 +40,7 @@ const ColumnsSection = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActive(cat)}
+              onClick={() => handleFilterChange(cat)}
               className={`relative pb-2 text-sm font-medium transition-colors ${
                 active === cat
                   ? "text-foreground"
@@ -39,7 +57,7 @@ const ColumnsSection = () => {
 
         {/* Uniform 3-col grid */}
         <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((article, i) => (
+          {visible.map((article, i) => (
             <Link
               key={article.id}
               to={`/articulo/${article.id}`}
@@ -92,6 +110,26 @@ const ColumnsSection = () => {
             </Link>
           ))}
         </div>
+
+        {/* Load more */}
+        {hasMore && (
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={handleLoadMore}
+              disabled={loading}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  Cargando...
+                </>
+              ) : (
+                "Ver más columnas"
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
