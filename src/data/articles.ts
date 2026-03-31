@@ -135,6 +135,6 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Un análisis profundo del ecosistema fintech latinoamericano y su impacto en la inclusión financiera.",
     duration: "51 min",
     date: "12 Mar 2026",
-    image: podcastCover45,
+    image: podcastCover,
   },
 ];
