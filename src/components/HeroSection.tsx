@@ -21,6 +21,7 @@ const HeroSection = () => {
     <section className="border-b">
       <div className="container py-20 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
+          <img src={iconParteaguas} alt="Parteaguas" className="mx-auto mb-6 h-24 w-24 md:h-28 md:w-28" />
           <h1 className="font-editorial text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
             Ideas que{" "}
             <span className="relative inline-block">
