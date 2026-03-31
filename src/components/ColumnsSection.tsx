@@ -54,9 +54,7 @@ const ColumnsSection = () => {
                   src={article.image}
                   alt={article.title}
                   loading="lazy"
-                  width={640}
-                  height={800}
-                  className="h-full w-full object-cover transition-all duration-300 group-hover:brightness-105"
+                  className="block h-full w-full object-cover transition-all duration-300 group-hover:brightness-105"
                 />
                 {i === 0 && active === "Todos" && (
                   <span className="absolute top-3 left-3 rounded-sm bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
@@ -66,7 +64,7 @@ const ColumnsSection = () => {
               </div>
 
               {/* Content */}
-              <div className="flex flex-1 flex-col pt-4">
+              <div className="flex flex-1 flex-col p-5">
                 {/* Thin rule above title */}
                 <div className="mb-3 h-px w-full bg-border/60" />
 
