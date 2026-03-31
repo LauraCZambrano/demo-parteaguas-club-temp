@@ -118,7 +118,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Conversamos sobre la crisis de la lectura profunda y cómo recuperar la capacidad de concentración.",
     duration: "42 min",
     date: "26 Mar 2026",
-    image: podcastCover47,
+    image: podcastCover,
     isNew: true,
   },
   {
