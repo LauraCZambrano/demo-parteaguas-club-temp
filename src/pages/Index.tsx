@@ -13,8 +13,6 @@ const Index = () => {
       <main>
         <HeroSection />
         <ColumnsSection />
-        {/* Section divider */}
-        <div className="container"><div className="h-px w-full bg-border" /></div>
         <PodcastSection />
       </main>
       <Footer />

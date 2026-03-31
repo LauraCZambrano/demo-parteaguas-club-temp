@@ -11,8 +11,6 @@ const ColumnsSection = () => {
   return (
     <section id="columnas" className="py-16 md:py-24">
       <div className="container">
-        {/* Section divider */}
-        <div className="mb-10 h-px w-full bg-border" />
 
         <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">
           Columnas editoriales
