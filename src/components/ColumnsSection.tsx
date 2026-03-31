@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock } from "lucide-react";
 import { articles, categories } from "@/data/articles";
-import BreakoutCard from "@/components/BreakoutCard";
-import iconParteaguas from "@/assets/icon-parteaguas.png";
 
 const ColumnsSection = () => {
   const [active, setActive] = useState("Todos");
