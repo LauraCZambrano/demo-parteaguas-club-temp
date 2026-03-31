@@ -46,7 +46,7 @@ const YouTubeIcon = () => (
 const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (
   <a
     href={href}
-    className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-all hover:bg-foreground hover:text-background hover:border-foreground"
+    className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground transition-all hover:bg-foreground hover:text-background hover:border-foreground"
   >
     {icon}
     {label}
