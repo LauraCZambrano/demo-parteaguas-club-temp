@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Clock, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight, Loader2 } from "lucide-react";
 import { articles, categories } from "@/data/articles";
+
+const ITEMS_PER_PAGE = 3;
 
 const ColumnsSection = () => {
   const [active, setActive] = useState("Todos");
-
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [loading, setLoading] = useState(false);
   const filtered = active === "Todos" ? articles : articles.filter((a) => a.category === active);
 
   return (
