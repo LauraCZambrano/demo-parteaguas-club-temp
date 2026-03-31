@@ -109,9 +109,7 @@ export type PodcastEpisode = {
   isNew?: boolean;
 };
 
-import podcastCover47 from "@/assets/podcast-cover-47.jpg";
-import podcastCover46 from "@/assets/podcast-cover-46.jpg";
-import podcastCover45 from "@/assets/podcast-cover-45.jpg";
+import podcastCover from "@/assets/podcast-cover.jpg";
 
 export const podcastEpisodes: PodcastEpisode[] = [
   {
@@ -120,7 +118,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Conversamos sobre la crisis de la lectura profunda y cómo recuperar la capacidad de concentración.",
     duration: "42 min",
     date: "26 Mar 2026",
-    image: podcastCover47,
+    image: podcastCover,
     isNew: true,
   },
   {
@@ -129,7 +127,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Desmontamos la narrativa del genio solitario y exploramos cómo realmente nacen las grandes empresas.",
     duration: "38 min",
     date: "19 Mar 2026",
-    image: podcastCover46,
+    image: podcastCover,
   },
   {
     id: "ep3",
@@ -137,6 +135,6 @@ export const podcastEpisodes: PodcastEpisode[] = [
     description: "Un análisis profundo del ecosistema fintech latinoamericano y su impacto en la inclusión financiera.",
     duration: "51 min",
     date: "12 Mar 2026",
-    image: podcastCover45,
+    image: podcastCover,
   },
 ];
