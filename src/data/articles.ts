@@ -78,6 +78,7 @@ export const articles: Article[] = [
     category: "Innovación",
     date: "16 Mar 2026",
     image: article5,
+    readingTime: 5,
     content: `<p>La narrativa dominante de la innovación nos dice que las grandes ideas nacen en garajes de Palo Alto, financiadas por venture capital y escaladas por genios solitarios. La realidad es mucho más interesante.</p>
 <h2>Innovación por necesidad</h2>
 <p>M-Pesa nació en Kenia, no en San Francisco. El sistema de pagos móviles que transformó las finanzas de un continente entero fue creado porque los bancos tradicionales ignoraban a millones de personas. La necesidad, no el capital, fue el motor.</p>`,
