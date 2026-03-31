@@ -41,6 +41,7 @@ export const articles: Article[] = [
     category: "Tecnología",
     date: "25 Mar 2026",
     image: article2,
+    readingTime: 5,
     content: `<p>La economía de la atención no es un concepto nuevo, pero sus implicaciones nunca han sido tan profundas. Cada día, miles de ingenieros optimizan algoritmos diseñados para capturar tu mirada durante un segundo más. Y ese segundo se acumula.</p>
 <h2>El costo invisible</h2>
 <p>Investigadores de Stanford han demostrado que el cambio constante entre tareas —lo que hacemos cada vez que revisamos el teléfono— reduce nuestra capacidad de pensamiento profundo en un 40%. No es solo tiempo perdido; es capacidad cognitiva que nunca recuperamos.</p>
