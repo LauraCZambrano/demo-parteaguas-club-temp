@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { articles, categories } from "@/data/articles";
 
 const ITEMS_PER_PAGE = 3;
@@ -114,10 +115,11 @@ const ColumnsSection = () => {
         {/* Load more */}
         {hasMore && (
           <div className="mt-12 flex justify-center">
-            <button
+            <Button
               onClick={handleLoadMore}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+              variant="outline"
+              className="rounded-full px-6"
             >
               {loading ? (
                 <>
@@ -127,7 +129,7 @@ const ColumnsSection = () => {
               ) : (
                 "Ver más columnas"
               )}
-            </button>
+            </Button>
           </div>
         )}
       </div>
