@@ -40,7 +40,7 @@ const ColumnsSection = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActive(cat)}
+              onClick={() => handleFilterChange(cat)}
               className={`relative pb-2 text-sm font-medium transition-colors ${
                 active === cat
                   ? "text-foreground"
