@@ -100,24 +100,32 @@ const ArticleDetail = () => {
             <img src={article.img1} alt={article.titulo} width={800} height={512} className="w-full object-cover" />
           </div>
 
-          <div className="prose-article mt-12 whitespace-pre-line text-base leading-relaxed text-foreground">
-            {article.columna}
-          </div>
+          {(() => {
+            const paragraphs = article.columna.split(/\n\s*\n/).filter(Boolean);
+            const total = paragraphs.length;
+            const insertImg2 = article.img2 ? Math.floor(total / 3) : -1;
+            const insertImg3 = article.img3 ? Math.floor((total * 2) / 3) : -1;
 
-          {(article.img2 || article.img3) && (
-            <div className="mt-10 space-y-8">
-              {article.img2 && (
-                <div className="overflow-hidden rounded-sm">
-                  <img src={article.img2} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
-                </div>
-              )}
-              {article.img3 && (
-                <div className="overflow-hidden rounded-sm">
-                  <img src={article.img3} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
-                </div>
-              )}
-            </div>
-          )}
+            return (
+              <div className="prose-article mt-12 text-base leading-relaxed text-foreground space-y-6">
+                {paragraphs.map((p, i) => (
+                  <div key={i}>
+                    <p className="whitespace-pre-line">{p}</p>
+                    {i === insertImg2 && (
+                      <div className="my-8 overflow-hidden rounded-sm">
+                        <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
+                      </div>
+                    )}
+                    {i === insertImg3 && (
+                      <div className="my-8 overflow-hidden rounded-sm">
+                        <img src={article.img3!} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </article>
       <Footer />
