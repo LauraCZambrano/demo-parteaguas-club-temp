@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,20 +10,34 @@ import Footer from "@/components/Footer";
 const ArticleDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ColumnRecord | null>(null);
+  const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       const { data } = await (supabase as any)
         .from("columns")
         .select("*")
         .eq("id", Number(id))
         .single();
       setArticle(data ?? null);
+
+      if (data) {
+        const { data: next } = await (supabase as any)
+          .from("columns")
+          .select("*")
+          .eq("status", "completado")
+          .lt("created_at", data.created_at)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .single();
+        setNextArticle(next ?? null);
+      }
       setLoading(false);
     };
-    fetch();
+    fetchData();
   }, [id]);
 
   useEffect(() => {
@@ -126,6 +140,34 @@ const ArticleDetail = () => {
               </div>
             );
           })()}
+
+          {/* Siguiente nota */}
+          {nextArticle && (
+            <Link
+              to={`/articulo/${nextArticle.id}`}
+              className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/40"
+            >
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Siguiente nota</span>
+              <div className="mt-4 flex items-start gap-5">
+                <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm">
+                  <img
+                    src={nextArticle.img1}
+                    alt={nextArticle.titulo}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex-1">
+                  <span className="inline-block rounded-sm bg-tag px-2 py-0.5 text-[10px] font-medium text-tag-foreground">
+                    {nextArticle.origen}
+                  </span>
+                  <h3 className="mt-1 font-editorial text-lg font-bold leading-snug tracking-tight group-hover:text-primary transition-colors">
+                    {nextArticle.titulo}
+                  </h3>
+                </div>
+                <ArrowRight size={20} className="mt-1 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+              </div>
+            </Link>
+          )}
         </div>
       </article>
       <Footer />
