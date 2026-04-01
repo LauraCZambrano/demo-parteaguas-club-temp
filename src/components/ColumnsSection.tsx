@@ -13,7 +13,7 @@ interface ColumnsSectionProps {
   error: string | null;
 }
 
-const ColumnsSection = ({ columns, loading, error }: ColumnsSectionProps) => {
+const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) => {
   const [active, setActive] = useState("Todos");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [loadingMore, setLoadingMore] = useState(false);
