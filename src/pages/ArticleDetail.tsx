@@ -103,6 +103,21 @@ const ArticleDetail = () => {
           <div className="prose-article mt-12 whitespace-pre-line text-base leading-relaxed text-foreground">
             {article.columna}
           </div>
+
+          {(article.img2 || article.img3) && (
+            <div className="mt-10 space-y-8">
+              {article.img2 && (
+                <div className="overflow-hidden rounded-sm">
+                  <img src={article.img2} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
+                </div>
+              )}
+              {article.img3 && (
+                <div className="overflow-hidden rounded-sm">
+                  <img src={article.img3} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </article>
       <Footer />
