@@ -1,12 +1,7 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Play, Pause, RotateCcw, X, FileText } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const formatTime = (s: number) => {
   if (!isFinite(s)) return "0:00";
@@ -18,7 +13,7 @@ const formatTime = (s: number) => {
 const AudioPlayer = () => {
   const { episode, isPlaying, currentTime, duration, speed, togglePlay, rewind15, seek, cycleSpeed, close } = useAudio();
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const [showColumn, setShowColumn] = useState(false);
+  const navigate = useNavigate();
 
   const handleProgressClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -35,7 +30,7 @@ const AudioPlayer = () => {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const hasAudio = !!episode.audioUrl;
-  const hasColumnText = !!episode.columnText;
+  const hasColumnText = !!episode.columnId;
 
   return (
     <>
@@ -70,7 +65,7 @@ const AudioPlayer = () => {
             {/* Read column button — only visible when column text exists */}
             {hasColumnText && (
               <button
-                onClick={() => setShowColumn(true)}
+                onClick={() => navigate(`/articulo/${episode.columnId}`)}
                 className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
               >
                 <FileText size={13} />
@@ -83,7 +78,7 @@ const AudioPlayer = () => {
             {/* Mobile-only read column icon */}
             {hasColumnText && (
               <button
-                onClick={() => setShowColumn(true)}
+                onClick={() => navigate(`/articulo/${episode.columnId}`)}
                 className="flex sm:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Leer columna"
               >
@@ -127,21 +122,6 @@ const AudioPlayer = () => {
         </div>
       </div>
 
-      {/* Column text modal — audio keeps playing */}
-      <Dialog open={showColumn} onOpenChange={setShowColumn}>
-        <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-editorial text-xl font-bold leading-snug">
-              {episode.title}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground">
-            {episode.columnText?.split(/\n\s*\n/).filter(Boolean).map((p, i) => (
-              <p key={i} className="whitespace-pre-line">{p}</p>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
