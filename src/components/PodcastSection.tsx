@@ -70,7 +70,7 @@ interface PodcastSectionProps {
   error: string | null;
 }
 
-const PodcastSection = ({ columns, loading, error }: PodcastSectionProps) => {
+const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) => {
   const { episode: activeEpisode, isPlaying, play } = useAudio();
   const playedRef = useRef<Set<string>>(new Set());
 
