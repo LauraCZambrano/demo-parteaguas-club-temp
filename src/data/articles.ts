@@ -116,6 +116,8 @@ export type PodcastEpisode = {
   isNew?: boolean;
   audioUrl?: string;
   plays: number;
+  columnId?: number;
+  columnText?: string;
 };
 
 import podcastCover from "@/assets/podcast-cover.jpg";
