@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { podcastEpisodes, type PodcastEpisode } from "@/data/articles";
 import { useAudio } from "@/contexts/AudioContext";
+import { useMetrics, formatCount } from "@/hooks/useMetrics";
 import AudioPlayer from "@/components/AudioPlayer";
+import { useRef } from "react";
 
 /* ---------- Equalizer animation ---------- */
 const Equalizer = () => (
@@ -56,6 +58,24 @@ const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: s
 
 const PodcastSection = () => {
   const { episode: activeEpisode, isPlaying, play } = useAudio();
+
+  const initialPlays = Object.fromEntries(podcastEpisodes.map((ep) => [ep.id, ep.plays]));
+  const { counts: plays, increment: incrementPlay } = useMetrics(initialPlays);
+  const playedRef = useRef<Set<string>>(new Set());
+
+  const handlePlay = (ep: PodcastEpisode) => {
+    // Only increment if this is a new play start (not toggling pause on same ep)
+    const isSameEp = activeEpisode?.id === ep.id;
+    const willPlay = !isSameEp || !isPlaying;
+    if (willPlay && !isSameEp) {
+      // Increment only once per episode per session
+      if (!playedRef.current.has(ep.id)) {
+        playedRef.current.add(ep.id);
+        incrementPlay(ep.id);
+      }
+    }
+    play(ep);
+  };
 
   const featured = podcastEpisodes[0];
   const rest = podcastEpisodes.slice(1);
@@ -113,10 +133,15 @@ const PodcastSection = () => {
                 <span>{featured.duration}</span>
                 <span>·</span>
                 <time>{featured.date}</time>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1">
+                  <Headphones size={11} />
+                  {formatCount(plays[featured.id] ?? 0)} escuchas
+                </span>
               </div>
 
               <Button
-                onClick={() => play(featured)}
+                onClick={() => handlePlay(featured)}
                 className="mt-4 w-fit rounded-full px-6"
               >
                 {isActiveAndPlaying(featured.id) ? (
@@ -148,7 +173,7 @@ const PodcastSection = () => {
                     return (
                       <button
                         key={ep.id}
-                        onClick={() => play(ep)}
+                        onClick={() => handlePlay(ep)}
                         className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
                       >
                         <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
@@ -158,6 +183,10 @@ const PodcastSection = () => {
                         <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-primary" : ""}`}>
                           {playing && <Equalizer />}
                           {ep.title.replace(/Ep\.\s*\d+\s*—\s*/, "")}
+                        </span>
+
+                        <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
+                          {formatCount(plays[ep.id] ?? 0)}
                         </span>
 
                         <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
