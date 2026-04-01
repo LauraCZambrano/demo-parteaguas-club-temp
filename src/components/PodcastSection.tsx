@@ -100,9 +100,9 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
           {/* Section header */}
           <div className="flex items-center gap-3">
             <Headphones size={28} className="text-foreground" />
-            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">El Podcast</h2>
+            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">Podcast</h2>
           </div>
-          <p className="mt-2 text-muted-foreground">Conversaciones largas con las mentes más interesantes.</p>
+          <p className="mt-2 text-muted-foreground">Escucha la historia detrás de cada columna, en voz de Jonathan</p>
 
           {/* Platform buttons */}
           <div className="mt-6 flex flex-wrap items-center gap-2">
