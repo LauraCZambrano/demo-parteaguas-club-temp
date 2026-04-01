@@ -96,8 +96,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
   if (!loading && !error && withAudio.length === 0) return null;
 
   return (
-    <>
-      <section id="podcast" className="bg-podcast py-16 md:py-24">
+    <section id="podcast" className="bg-podcast py-16 md:py-24">
         <div className="container">
           {/* Section header */}
           <div className="flex items-center gap-3">
