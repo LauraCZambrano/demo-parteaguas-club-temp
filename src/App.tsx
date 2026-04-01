@@ -23,6 +23,7 @@ const App = () => (
             <Route path="/articulo/:id" element={<ArticleDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <AudioPlayer />
         </BrowserRouter>
       </AudioProvider>
     </TooltipProvider>
