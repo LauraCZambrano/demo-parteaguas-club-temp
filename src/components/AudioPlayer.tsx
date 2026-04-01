@@ -65,7 +65,7 @@ const AudioPlayer = () => {
             {/* Read column button — only visible when column text exists */}
             {hasColumnText && (
               <button
-                onClick={() => setShowColumn(true)}
+                onClick={() => navigate(`/articulo/${episode.columnId}`)}
                 className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
               >
                 <FileText size={13} />
