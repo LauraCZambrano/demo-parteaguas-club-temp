@@ -13,7 +13,7 @@ const formatTime = (s: number) => {
 const AudioPlayer = () => {
   const { episode, isPlaying, currentTime, duration, speed, togglePlay, rewind15, seek, cycleSpeed, close } = useAudio();
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const [showColumn, setShowColumn] = useState(false);
+  const navigate = useNavigate();
 
   const handleProgressClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
