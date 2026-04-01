@@ -185,7 +185,8 @@ const PodcastSection = () => {
                           {ep.title.replace(/Ep\.\s*\d+\s*—\s*/, "")}
                         </span>
 
-                        <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
+                        <span className="shrink-0 inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
+                          <Headphones size={11} />
                           {formatCount(plays[ep.id] ?? 0)}
                         </span>
 
