@@ -237,10 +237,11 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
               </div>
             </div>
           )}
-      </section>
+        </div>
     </section>
   );
 };
-};
+
+export default PodcastSection;
 
 export default PodcastSection;
