@@ -14,6 +14,7 @@ export type Article = {
   image: string;
   content: string;
   readingTime: number; // minutes
+  views: number;
 };
 
 export const articles: Article[] = [
