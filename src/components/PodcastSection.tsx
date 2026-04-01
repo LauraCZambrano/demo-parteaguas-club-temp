@@ -194,7 +194,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                             {idx + 1}
                           </span>
 
-                          <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-primary" : ""}`}>
+                          <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-foreground font-bold" : ""}`}>
                             {playing && <Equalizer />}
                             {ep.titulo}
                           </span>
