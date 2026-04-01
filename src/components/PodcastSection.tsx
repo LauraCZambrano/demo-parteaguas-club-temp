@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAudio } from "@/contexts/AudioContext";
 import { formatCount } from "@/hooks/useMetrics";
-import AudioPlayer from "@/components/AudioPlayer";
+
 import type { ColumnRecord } from "@/hooks/useColumns";
 import type { PodcastEpisode } from "@/data/articles";
 
