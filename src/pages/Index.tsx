@@ -10,6 +10,16 @@ import { useColumns } from "@/hooks/useColumns";
 
 const Index = () => {
   const { data: columns, loading, error } = useColumns();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [location.hash]);
 
   return (
     <div className="min-h-screen">
