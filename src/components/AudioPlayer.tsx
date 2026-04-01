@@ -1,12 +1,7 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Play, Pause, RotateCcw, X, FileText } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const formatTime = (s: number) => {
   if (!isFinite(s)) return "0:00";
