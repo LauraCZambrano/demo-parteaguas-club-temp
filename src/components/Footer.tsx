@@ -9,6 +9,26 @@ import logo from "@/assets/logo.png";
 const Footer = () => {
   const [email, setEmail] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
+      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
+    }
+  };
+
+  const handleAnchorClick = (hash: string) => {
+    if (location.pathname === "/") {
+      const el = document.querySelector(hash);
+      el?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/" + hash);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
