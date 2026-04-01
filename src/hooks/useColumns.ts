@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface ColumnRecord {
@@ -26,26 +26,41 @@ export const useColumns = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchColumns = async () => {
-      try {
-        const { data: rows, error: err } = await (supabase as any)
-          .from("columns")
-          .select("*")
-          .eq("status", "completado")
-          .order("created_at", { ascending: false });
+  const fetchColumns = useCallback(async () => {
+    try {
+      const { data: rows, error: err } = await (supabase as any)
+        .from("columns")
+        .select("*")
+        .eq("status", "completado")
+        .order("created_at", { ascending: false });
 
-        if (err) throw err;
-        setData(rows ?? []);
-      } catch (e: any) {
-        setError(e.message ?? "Error al cargar contenido");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchColumns();
+      if (err) throw err;
+      setData(rows ?? []);
+    } catch (e: any) {
+      setError(e.message ?? "Error al cargar contenido");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchColumns();
+
+    const channel = supabase
+      .channel("columns-realtime")
+      .on(
+        "postgres_changes" as any,
+        { event: "*", schema: "public", table: "columns" },
+        () => {
+          fetchColumns();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchColumns]);
 
   return { data, loading, error };
 };
