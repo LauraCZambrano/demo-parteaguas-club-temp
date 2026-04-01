@@ -30,7 +30,7 @@ const AudioPlayer = () => {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const hasAudio = !!episode.audioUrl;
-  const hasColumnText = !!episode.columnText;
+  const hasColumnText = !!episode.columnId;
 
   return (
     <>
