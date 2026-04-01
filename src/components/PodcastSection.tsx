@@ -240,9 +240,8 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
           )}
         </div>
       </section>
-
-      <AudioPlayer />
-    </>
+    </section>
+  );
   );
 };
 
