@@ -62,6 +62,8 @@ const toPodcastEpisode = (col: ColumnRecord): PodcastEpisode => ({
   isNew: false,
   audioUrl: col.url_transistor || col.url_podcast || undefined,
   plays: 0,
+  columnId: col.id,
+  columnText: col.columna || undefined,
 });
 
 interface PodcastSectionProps {
