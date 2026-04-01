@@ -145,7 +145,7 @@ const ArticleDetail = () => {
           {nextArticle && (
             <Link
               to={`/articulo/${nextArticle.id}`}
-              className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/40"
+              className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-foreground/30"
             >
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Siguiente nota</span>
               <div className="mt-4 flex items-start gap-5">
@@ -160,11 +160,11 @@ const ArticleDetail = () => {
                   <span className="inline-block rounded-sm bg-tag px-2 py-0.5 text-[10px] font-medium text-tag-foreground">
                     {nextArticle.origen}
                   </span>
-                  <h3 className="mt-1 font-editorial text-lg font-bold leading-snug tracking-tight group-hover:text-primary transition-colors">
+                  <h3 className="mt-1 font-editorial text-lg font-bold leading-snug tracking-tight group-hover:text-foreground transition-colors">
                     {nextArticle.titulo}
                   </h3>
                 </div>
-                <ArrowRight size={20} className="mt-1 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                <ArrowRight size={20} className="mt-1 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground" />
               </div>
             </Link>
           )}
