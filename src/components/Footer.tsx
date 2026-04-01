@@ -24,7 +24,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center">
-              <img src={logo} alt="Parteaguas Club" className="h-10 w-auto invert" />
+              <img src={logo} alt="Parteaguas Club" className="h-16 w-auto invert" />
             </div>
             <p className="mt-3 text-sm leading-relaxed opacity-70">
               Un medio digital para quienes buscan entender el mundo con profundidad, claridad y criterio propio.
