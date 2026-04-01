@@ -100,9 +100,9 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
           {/* Section header */}
           <div className="flex items-center gap-3">
             <Headphones size={28} className="text-foreground" />
-            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">El podcast</h2>
+            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">El Podcast</h2>
           </div>
-          <p className="mt-2 text-muted-foreground">Escucha la historia detrás de cada columna, en voz de Jonathan.</p>
+          <p className="mt-2 text-muted-foreground">Conversaciones largas con las mentes más interesantes.</p>
 
           {/* Platform buttons */}
           <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -113,14 +113,15 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
 
           {/* Error */}
           {error && (
-            <p className="mt-8 text-center text-sm text-destructive">
-              Error al cargar contenido, intenta refrescar.
-            </p>
+            <p className="mt-8 text-center text-sm text-destructive">Error al cargar contenido, intenta refrescar.</p>
           )}
 
           {/* Loading skeleton */}
           {loading && (
-            <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+            <div
+              className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row"
+              style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}
+            >
               <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
                 <Skeleton className="aspect-square w-full rounded-md" />
                 <Skeleton className="mt-4 h-6 w-3/4" />
@@ -146,33 +147,56 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
 
           {/* Content */}
           {!loading && !error && featured && (
-            <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+            <div
+              className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row"
+              style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}
+            >
               {/* LEFT — Featured Episode */}
               <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
                 <div className="relative">
-                  <img src={featured.img1} alt={featured.titulo} className="aspect-square w-full rounded-md object-cover" loading="lazy" />
+                  <img
+                    src={featured.img1}
+                    alt={featured.titulo}
+                    className="aspect-square w-full rounded-md object-cover"
+                    loading="lazy"
+                  />
                   <Badge className="absolute left-2.5 top-2.5 rounded-none bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0 font-mono">
                     Nuevo
                   </Badge>
                 </div>
 
-                <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">{featured.titulo}</h3>
+                <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">
+                  {featured.titulo}
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">{featured.sinopsis}</p>
                 <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-                  <time>{new Date(featured.created_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })}</time>
+                  <time>
+                    {new Date(featured.created_at).toLocaleDateString("es-MX", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </time>
                 </div>
 
                 <Button onClick={() => handlePlay(featured)} className="mt-4 w-fit rounded-full px-6">
                   {isActiveAndPlaying(featured.id) ? (
-                    <><Pause size={16} /> Pausar</>
+                    <>
+                      <Pause size={16} /> Pausar
+                    </>
                   ) : (
-                    <><Play size={16} className="ml-0.5" /> Escuchar ahora</>
+                    <>
+                      <Play size={16} className="ml-0.5" /> Escuchar ahora
+                    </>
                   )}
                 </Button>
               </div>
 
               {/* RIGHT — Episode list */}
-              <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0" style={{ backgroundColor: "#F8F9FA" }}>
+              <div
+                className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0"
+                style={{ backgroundColor: "#F8F9FA" }}
+              >
                 <div className="border-b border-border px-5 py-3">
                   <h4 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                     Episodios anteriores
@@ -194,7 +218,9 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                             {idx + 1}
                           </span>
 
-                          <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-foreground font-bold" : ""}`}>
+                          <span
+                            className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-foreground font-bold" : ""}`}
+                          >
                             {playing && <Equalizer />}
                             {ep.titulo}
                           </span>
