@@ -1,27 +1,48 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
+      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100);
+    }
+  };
+
+  const handleAnchorClick = (hash: string) => {
+    setMobileOpen(false);
+    if (location.pathname === "/") {
+      const el = document.querySelector(hash);
+      el?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/" + hash);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center">
+        <button onClick={handleLogoClick} className="flex items-center">
           <img src={logo} alt="Parteaguas Club" className="h-12 w-auto" />
-        </Link>
+        </button>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          <a href="#columnas" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <button onClick={() => handleAnchorClick("#columnas")} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Columnas
-          </a>
-          <a href="#podcast" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          </button>
+          <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Podcast
-          </a>
+          </button>
           <Button size="sm" className="rounded-full px-6 font-semibold">
             Suscribirse
           </Button>
@@ -41,20 +62,18 @@ const Header = () => {
       {mobileOpen && (
         <nav className="border-t bg-background px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
-            <a
-              href="#columnas"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-muted-foreground"
+            <button
+              onClick={() => handleAnchorClick("#columnas")}
+              className="text-left text-sm font-medium text-muted-foreground"
             >
               Columnas
-            </a>
-            <a
-              href="#podcast"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-muted-foreground"
+            </button>
+            <button
+              onClick={() => handleAnchorClick("#podcast")}
+              className="text-left text-sm font-medium text-muted-foreground"
             >
               Podcast
-            </a>
+            </button>
             <Button size="sm" className="w-full rounded-full font-semibold">
               Suscribirse
             </Button>
