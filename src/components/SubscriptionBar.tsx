@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const SubscriptionBar = () => {
   const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(() => sessionStorage.getItem("sub_bar_dismissed") === "1");
   const [email, setEmail] = useState("");
   const { toast } = useToast();
 
