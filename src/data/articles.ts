@@ -57,6 +57,7 @@ export const articles: Article[] = [
     date: "22 Mar 2026",
     image: article3,
     readingTime: 4,
+    views: 1840,
     content: `<p>Mientras los mercados desarrollados luchan contra la inflación y el estancamiento, una revolución silenciosa está ocurriendo en el sur global. África, el sudeste asiático y América Latina están experimentando un boom tecnológico que pocos en Wall Street están monitoreando.</p>
 <h2>Los números no mienten</h2>
 <p>El PIB combinado de los mercados emergentes superará al de las economías del G7 para 2030. La adopción móvil en África subsahariana crece un 8% anual, creando mercados digitales de cientos de millones de consumidores que saltaron directamente del efectivo al pago móvil.</p>`,
