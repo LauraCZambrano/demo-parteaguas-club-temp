@@ -13,7 +13,8 @@ export type Article = {
   date: string;
   image: string;
   content: string;
-  readingTime: number; // minutes
+  readingTime: number;
+  views: number;
 };
 
 export const articles: Article[] = [
@@ -25,6 +26,7 @@ export const articles: Article[] = [
     date: "28 Mar 2026",
     image: article1,
     readingTime: 7,
+    views: 3420,
     content: `<p>En un mundo saturado de datos, la capacidad de pensar en sistemas complejos se ha convertido en la habilidad más valiosa del siglo XXI. No se trata simplemente de acumular información, sino de entender las conexiones invisibles que dan forma a nuestra realidad.</p>
 <p>Los modelos mentales —esas representaciones simplificadas de cómo funciona el mundo— son las herramientas que utilizan los pensadores más efectivos para navegar la complejidad. Desde Charlie Munger hasta Elon Musk, los líderes que transforman industrias comparten una característica: piensan en redes, no en líneas rectas.</p>
 <h2>La trampa del pensamiento lineal</h2>
@@ -42,6 +44,7 @@ export const articles: Article[] = [
     date: "25 Mar 2026",
     image: article2,
     readingTime: 5,
+    views: 2180,
     content: `<p>La economía de la atención no es un concepto nuevo, pero sus implicaciones nunca han sido tan profundas. Cada día, miles de ingenieros optimizan algoritmos diseñados para capturar tu mirada durante un segundo más. Y ese segundo se acumula.</p>
 <h2>El costo invisible</h2>
 <p>Investigadores de Stanford han demostrado que el cambio constante entre tareas —lo que hacemos cada vez que revisamos el teléfono— reduce nuestra capacidad de pensamiento profundo en un 40%. No es solo tiempo perdido; es capacidad cognitiva que nunca recuperamos.</p>
@@ -55,6 +58,7 @@ export const articles: Article[] = [
     date: "22 Mar 2026",
     image: article3,
     readingTime: 4,
+    views: 1840,
     content: `<p>Mientras los mercados desarrollados luchan contra la inflación y el estancamiento, una revolución silenciosa está ocurriendo en el sur global. África, el sudeste asiático y América Latina están experimentando un boom tecnológico que pocos en Wall Street están monitoreando.</p>
 <h2>Los números no mienten</h2>
 <p>El PIB combinado de los mercados emergentes superará al de las economías del G7 para 2030. La adopción móvil en África subsahariana crece un 8% anual, creando mercados digitales de cientos de millones de consumidores que saltaron directamente del efectivo al pago móvil.</p>`,
@@ -67,6 +71,7 @@ export const articles: Article[] = [
     date: "19 Mar 2026",
     image: article4,
     readingTime: 4,
+    views: 1560,
     content: `<p>El minimalismo se ha convertido en la estética dominante de nuestra era. Desde las interfaces de Apple hasta la arquitectura de lujo, "menos es más" se repite como un mantra incuestionable. Pero, ¿qué ocurre cuando el minimalismo se convierte en dogma?</p>
 <h2>La paradoja del minimalismo de lujo</h2>
 <p>Es irónico que el minimalismo —originalmente una respuesta al consumismo— se haya convertido en su propia forma de consumo conspicuo. Un sofá "minimalista" de 5,000 dólares comunica estatus precisamente por su aparente simplicidad.</p>`,
@@ -79,6 +84,7 @@ export const articles: Article[] = [
     date: "16 Mar 2026",
     image: article5,
     readingTime: 5,
+    views: 980,
     content: `<p>La narrativa dominante de la innovación nos dice que las grandes ideas nacen en garajes de Palo Alto, financiadas por venture capital y escaladas por genios solitarios. La realidad es mucho más interesante.</p>
 <h2>Innovación por necesidad</h2>
 <p>M-Pesa nació en Kenia, no en San Francisco. El sistema de pagos móviles que transformó las finanzas de un continente entero fue creado porque los bancos tradicionales ignoraban a millones de personas. La necesidad, no el capital, fue el motor.</p>`,
@@ -91,6 +97,7 @@ export const articles: Article[] = [
     date: "13 Mar 2026",
     image: article6,
     readingTime: 4,
+    views: 2750,
     content: `<p>La inteligencia artificial generativa ha pasado de ser una curiosidad técnica a una herramienta que redefine lo que significa "crear". Pero el debate público sigue atrapado en una dicotomía falsa: IA vs. humanos.</p>
 <h2>El verdadero cambio</h2>
 <p>La pregunta correcta no es "¿la IA reemplazará a los creativos?" sino "¿qué tipo de creativos prosperarán en un mundo con IA?" La respuesta, como siempre, favorece a los adaptables.</p>`,
@@ -108,6 +115,7 @@ export type PodcastEpisode = {
   image: string;
   isNew?: boolean;
   audioUrl?: string;
+  plays: number;
 };
 
 import podcastCover from "@/assets/podcast-cover.jpg";
@@ -122,6 +130,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     image: podcastCover,
     isNew: true,
     audioUrl: "https://res.cloudinary.com/dfdy3dt9h/video/upload/v1774993586/voz_jonathan_1774993585.mp3",
+    plays: 8500,
   },
   {
     id: "ep2",
@@ -131,6 +140,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     date: "19 Mar 2026",
     image: podcastCover,
     audioUrl: "https://res.cloudinary.com/dfdy3dt9h/video/upload/v1774982817/voz_jonathan_1774982816.mp3",
+    plays: 6200,
   },
   {
     id: "ep3",
@@ -139,5 +149,6 @@ export const podcastEpisodes: PodcastEpisode[] = [
     duration: "51 min",
     date: "12 Mar 2026",
     image: podcastCover,
+    plays: 4730,
   },
 ];

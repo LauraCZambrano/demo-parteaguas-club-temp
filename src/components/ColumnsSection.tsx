@@ -1,8 +1,9 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Clock, ArrowRight, Loader2 } from "lucide-react";
+import { Clock, ArrowRight, Loader2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { articles, categories } from "@/data/articles";
+import { useMetrics, formatCount } from "@/hooks/useMetrics";
 
 const ITEMS_PER_PAGE = 3;
 
@@ -10,6 +11,10 @@ const ColumnsSection = () => {
   const [active, setActive] = useState("Todos");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
+
+  const initialViews = Object.fromEntries(articles.map((a) => [a.id, a.views]));
+  const { counts: views, increment: incrementView } = useMetrics(initialViews);
+
   const filtered = active === "Todos" ? articles : articles.filter((a) => a.category === active);
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -62,6 +67,7 @@ const ColumnsSection = () => {
             <Link
               key={article.id}
               to={`/articulo/${article.id}`}
+              onClick={() => incrementView(article.id)}
               className="group flex flex-col animate-fade-in-up rounded-lg border border-border overflow-hidden"
               style={{ animationDelay: `${i * 80}ms` }}
             >
@@ -104,6 +110,10 @@ const ColumnsSection = () => {
                     <span className="inline-flex items-center gap-1">
                       <Clock size={11} />
                       {article.readingTime} min
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Eye size={11} />
+                      {formatCount(views[article.id] ?? 0)}
                     </span>
                   </div>
                 </div>
