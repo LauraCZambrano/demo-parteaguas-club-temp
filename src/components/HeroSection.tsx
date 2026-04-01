@@ -31,7 +31,7 @@ const HeroSection = () => {
             la conversación.
           </h1>
           <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Columnas, análisis y conversaciones para quienes piensan diferente. Cada semana en tu bandeja de entrada.
+            Una lectura diaria sobre los temas que definen nuestra realidad. Sin distracciones, solo las ideas que valen tu tiempo.
           </p>
           <form onSubmit={handleSubmit} className="mx-auto mt-10 flex max-w-md gap-2">
             <Input
