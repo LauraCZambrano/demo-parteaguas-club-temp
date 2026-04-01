@@ -1,12 +1,14 @@
+import { useRef } from "react";
 import { Headphones, Play, Pause } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { podcastEpisodes, type PodcastEpisode } from "@/data/articles";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAudio } from "@/contexts/AudioContext";
-import { useMetrics, formatCount } from "@/hooks/useMetrics";
+import { formatCount } from "@/hooks/useMetrics";
 import AudioPlayer from "@/components/AudioPlayer";
-import { useRef } from "react";
+import type { ColumnRecord } from "@/hooks/useColumns";
+import type { PodcastEpisode } from "@/data/articles";
 
 /* ---------- Equalizer animation ---------- */
 const Equalizer = () => (
@@ -15,17 +17,10 @@ const Equalizer = () => (
       <span
         key={i}
         className="w-[2.5px] rounded-full bg-primary"
-        style={{
-          animation: `eq-bar 0.8s ease-in-out ${i * 0.15}s infinite alternate`,
-        }}
+        style={{ animation: `eq-bar 0.8s ease-in-out ${i * 0.15}s infinite alternate` }}
       />
     ))}
-    <style>{`
-      @keyframes eq-bar {
-        0%   { height: 20%; }
-        100% { height: 100%; }
-      }
-    `}</style>
+    <style>{`@keyframes eq-bar { 0% { height: 20%; } 100% { height: 100%; } }`}</style>
   </span>
 );
 
@@ -56,162 +51,168 @@ const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: s
   </a>
 );
 
-const PodcastSection = () => {
-  const { episode: activeEpisode, isPlaying, play } = useAudio();
+/** Convert a ColumnRecord to a PodcastEpisode for the AudioContext */
+const toPodcastEpisode = (col: ColumnRecord): PodcastEpisode => ({
+  id: String(col.id),
+  title: col.titulo,
+  description: col.sinopsis,
+  duration: "",
+  date: new Date(col.created_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" }),
+  image: col.img1,
+  isNew: false,
+  audioUrl: col.url_transistor || col.url_podcast || undefined,
+  plays: 0,
+});
 
-  const initialPlays = Object.fromEntries(podcastEpisodes.map((ep) => [ep.id, ep.plays]));
-  const { counts: plays, increment: incrementPlay } = useMetrics(initialPlays);
+interface PodcastSectionProps {
+  columns: ColumnRecord[];
+  loading: boolean;
+  error: string | null;
+}
+
+const PodcastSection = ({ columns, loading, error }: PodcastSectionProps) => {
+  const { episode: activeEpisode, isPlaying, play } = useAudio();
   const playedRef = useRef<Set<string>>(new Set());
 
-  const handlePlay = (ep: PodcastEpisode) => {
-    // Only increment if this is a new play start (not toggling pause on same ep)
+  // Filter columns that have audio
+  const withAudio = columns.filter((c) => c.url_podcast || c.url_transistor);
+  const featured = withAudio[0] ?? null;
+  const rest = withAudio.slice(1, 6);
+
+  const handlePlay = (col: ColumnRecord) => {
+    const ep = toPodcastEpisode(col);
     const isSameEp = activeEpisode?.id === ep.id;
-    const willPlay = !isSameEp || !isPlaying;
-    if (willPlay && !isSameEp) {
-      // Increment only once per episode per session
-      if (!playedRef.current.has(ep.id)) {
-        playedRef.current.add(ep.id);
-        incrementPlay(ep.id);
-      }
+    if (!isSameEp && !playedRef.current.has(ep.id)) {
+      playedRef.current.add(ep.id);
     }
     play(ep);
   };
 
-  const featured = podcastEpisodes[0];
-  const rest = podcastEpisodes.slice(1);
+  const isActiveAndPlaying = (id: number) => activeEpisode?.id === String(id) && isPlaying;
+  const isActive = (id: number) => activeEpisode?.id === String(id);
 
-  const isActiveAndPlaying = (id: string) => activeEpisode?.id === id && isPlaying;
-  const isActive = (id: string) => activeEpisode?.id === id;
+  if (!loading && !error && withAudio.length === 0) return null;
 
   return (
     <>
       <section id="podcast" className="bg-podcast py-16 md:py-24">
         <div className="container">
-          {/* ── Section header ── */}
+          {/* Section header */}
           <div className="flex items-center gap-3">
             <Headphones size={28} className="text-foreground" />
-            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">
-              Podcast
-            </h2>
+            <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">Podcast</h2>
           </div>
-          <p className="mt-2 text-muted-foreground">
-            Conversaciones largas con las mentes más interesantes.
-          </p>
+          <p className="mt-2 text-muted-foreground">Conversaciones largas con las mentes más interesantes.</p>
 
-          {/* ── Platform buttons row ── */}
+          {/* Platform buttons */}
           <div className="mt-6 flex flex-wrap items-center gap-2">
             <PlatformButton icon={<SpotifyIcon />} label="Spotify" href="#" />
             <PlatformButton icon={<AppleIcon />} label="Apple Podcasts" href="#" />
             <PlatformButton icon={<YouTubeIcon />} label="YouTube" href="#" />
           </div>
 
-          {/* ── The Podcast Hub ── */}
-          <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-            {/* LEFT — Featured Episode (40%) */}
-            <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
-              <div className="relative">
-                <img
-                  src={featured.image}
-                  alt={featured.title}
-                  className="aspect-square w-full rounded-md object-cover"
-                  loading="lazy"
-                />
-                {featured.isNew && (
+          {/* Error */}
+          {error && (
+            <p className="mt-8 text-center text-sm text-destructive">
+              Error al cargar contenido, intenta refrescar.
+            </p>
+          )}
+
+          {/* Loading skeleton */}
+          {loading && (
+            <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+              <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
+                <Skeleton className="aspect-square w-full rounded-md" />
+                <Skeleton className="mt-4 h-6 w-3/4" />
+                <Skeleton className="mt-2 h-4 w-full" />
+                <Skeleton className="mt-1 h-4 w-2/3" />
+                <Skeleton className="mt-4 h-10 w-40 rounded-full" />
+              </div>
+              <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0">
+                <div className="border-b border-border px-5 py-3">
+                  <Skeleton className="h-3 w-32" />
+                </div>
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-4 border-b border-border px-5 py-4">
+                    <Skeleton className="h-4 w-7" />
+                    <Skeleton className="h-4 flex-1" />
+                    <Skeleton className="h-4 w-12" />
+                    <Skeleton className="h-7 w-7 rounded-full" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Content */}
+          {!loading && !error && featured && (
+            <div className="mt-6 flex flex-col overflow-hidden rounded-lg border border-border md:flex-row" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+              {/* LEFT — Featured Episode */}
+              <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
+                <div className="relative">
+                  <img src={featured.img1} alt={featured.titulo} className="aspect-square w-full rounded-md object-cover" loading="lazy" />
                   <Badge className="absolute left-2.5 top-2.5 rounded-none bg-primary text-primary-foreground text-[10px] uppercase tracking-widest border-0 font-mono">
                     Nuevo
                   </Badge>
-                )}
-              </div>
-
-              <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">
-                {featured.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
-                {featured.description}
-              </p>
-              <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-                <span>{featured.duration}</span>
-                <span>·</span>
-                <time>{featured.date}</time>
-                <span>·</span>
-                <span className="inline-flex items-center gap-1">
-                  <Headphones size={11} />
-                  {formatCount(plays[featured.id] ?? 0)} escuchas
-                </span>
-              </div>
-
-              <Button
-                onClick={() => handlePlay(featured)}
-                className="mt-4 w-fit rounded-full px-6"
-              >
-                {isActiveAndPlaying(featured.id) ? (
-                  <>
-                    <Pause size={16} /> Pausar
-                  </>
-                ) : (
-                  <>
-                    <Play size={16} className="ml-0.5" /> Escuchar ahora
-                  </>
-                )}
-              </Button>
-            </div>
-
-            {/* RIGHT — Episode list (60%) */}
-            <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0" style={{ backgroundColor: '#F8F9FA' }}>
-              <div className="border-b border-border px-5 py-3">
-                <h4 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                  Episodios anteriores
-                </h4>
-              </div>
-
-              <ScrollArea className="max-h-[400px] md:max-h-none md:flex-1">
-                <div className="divide-y divide-border">
-                  {rest.map((ep) => {
-                    const epNum = ep.title.match(/Ep\.\s*(\d+)/)?.[1] ?? "";
-                    const active = isActive(ep.id);
-                    const playing = isActiveAndPlaying(ep.id);
-                    return (
-                      <button
-                        key={ep.id}
-                        onClick={() => handlePlay(ep)}
-                        className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
-                      >
-                        <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
-                          {epNum}
-                        </span>
-
-                        <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-primary" : ""}`}>
-                          {playing && <Equalizer />}
-                          {ep.title.replace(/Ep\.\s*\d+\s*—\s*/, "")}
-                        </span>
-
-                        <span className="shrink-0 inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
-                          <Headphones size={11} />
-                          {formatCount(plays[ep.id] ?? 0)}
-                        </span>
-
-                        <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
-                          {ep.duration}
-                        </span>
-
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
-                          {playing ? (
-                            <Pause size={12} />
-                          ) : (
-                            <Play size={12} className="ml-0.5" />
-                          )}
-                        </span>
-                      </button>
-                    );
-                  })}
                 </div>
-              </ScrollArea>
+
+                <h3 className="mt-4 font-editorial text-xl font-extrabold leading-snug md:text-2xl">{featured.titulo}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">{featured.sinopsis}</p>
+                <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
+                  <time>{new Date(featured.created_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })}</time>
+                </div>
+
+                <Button onClick={() => handlePlay(featured)} className="mt-4 w-fit rounded-full px-6">
+                  {isActiveAndPlaying(featured.id) ? (
+                    <><Pause size={16} /> Pausar</>
+                  ) : (
+                    <><Play size={16} className="ml-0.5" /> Escuchar ahora</>
+                  )}
+                </Button>
+              </div>
+
+              {/* RIGHT — Episode list */}
+              <div className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0" style={{ backgroundColor: "#F8F9FA" }}>
+                <div className="border-b border-border px-5 py-3">
+                  <h4 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    Episodios anteriores
+                  </h4>
+                </div>
+
+                <ScrollArea className="max-h-[400px] md:max-h-none md:flex-1">
+                  <div className="divide-y divide-border">
+                    {rest.map((ep, idx) => {
+                      const active = isActive(ep.id);
+                      const playing = isActiveAndPlaying(ep.id);
+                      return (
+                        <button
+                          key={ep.id}
+                          onClick={() => handlePlay(ep)}
+                          className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
+                        >
+                          <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
+                            {idx + 1}
+                          </span>
+
+                          <span className={`flex flex-1 items-center gap-2 truncate text-sm font-medium ${active ? "text-primary" : ""}`}>
+                            {playing && <Equalizer />}
+                            {ep.titulo}
+                          </span>
+
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                            {playing ? <Pause size={12} /> : <Play size={12} className="ml-0.5" />}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
-      {/* ── Sticky audio player ── */}
       <AudioPlayer />
     </>
   );
