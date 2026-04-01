@@ -122,21 +122,6 @@ const AudioPlayer = () => {
         </div>
       </div>
 
-      {/* Column text modal — audio keeps playing */}
-      <Dialog open={showColumn} onOpenChange={setShowColumn}>
-        <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-editorial text-xl font-bold leading-snug">
-              {episode.title}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground">
-            {episode.columnText?.split(/\n\s*\n/).filter(Boolean).map((p, i) => (
-              <p key={i} className="whitespace-pre-line">{p}</p>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
