@@ -15,6 +15,7 @@ const ArticleDetail = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchData = async () => {
       setLoading(true);
       const { data } = await (supabase as any)
