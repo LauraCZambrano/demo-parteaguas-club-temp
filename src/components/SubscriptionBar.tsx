@@ -51,7 +51,7 @@ const SubscriptionBar = () => {
         </form>
 
         <button
-          onClick={() => setDismissed(true)}
+          onClick={() => { setDismissed(true); sessionStorage.setItem("sub_bar_dismissed", "1"); }}
           className="shrink-0 opacity-60 transition-opacity hover:opacity-100"
           aria-label="Cerrar"
         >
