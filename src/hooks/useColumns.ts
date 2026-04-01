@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface ColumnRecord {
@@ -25,25 +25,28 @@ export const useColumns = () => {
   const [data, setData] = useState<ColumnRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchColumns = useCallback(async () => {
-    try {
-      const { data: rows, error: err } = await (supabase as any)
-        .from("columns")
-        .select("*")
-        .eq("status", "completado")
-        .order("created_at", { ascending: false });
-
-      if (err) throw err;
-      setData(rows ?? []);
-    } catch (e: any) {
-      setError(e.message ?? "Error al cargar contenido");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
+    mountedRef.current = true;
+
+    const fetchColumns = async () => {
+      try {
+        const { data: rows, error: err } = await (supabase as any)
+          .from("columns")
+          .select("*")
+          .eq("status", "completado")
+          .order("created_at", { ascending: false });
+
+        if (err) throw err;
+        if (mountedRef.current) setData(rows ?? []);
+      } catch (e: any) {
+        if (mountedRef.current) setError(e.message ?? "Error al cargar contenido");
+      } finally {
+        if (mountedRef.current) setLoading(false);
+      }
+    };
+
     fetchColumns();
 
     const channel = supabase
@@ -51,16 +54,15 @@ export const useColumns = () => {
       .on(
         "postgres_changes" as any,
         { event: "*", schema: "public", table: "columns" },
-        () => {
-          fetchColumns();
-        }
+        () => fetchColumns()
       )
       .subscribe();
 
     return () => {
+      mountedRef.current = false;
       supabase.removeChannel(channel);
     };
-  }, [fetchColumns]);
+  }, []);
 
   return { data, loading, error };
 };
