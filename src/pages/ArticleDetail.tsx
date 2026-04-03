@@ -19,11 +19,15 @@ const ArticleDetail = () => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
       setLoading(true);
-      const { data } = await (supabase as any)
+      // Fetch all published columns and match by slug
+      const { data: allCols } = await (supabase as any)
         .from("columns")
         .select("*")
-        .eq("id", Number(id))
-        .single();
+        .in("status", ["completado", "publicado"]);
+      const matched = (allCols ?? []).find(
+        (c: ColumnRecord) => slugify(c.titulo) === slug
+      );
+      const data = matched ?? null;
       setArticle(data ?? null);
 
       if (data) {
