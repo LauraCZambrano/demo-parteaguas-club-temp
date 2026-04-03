@@ -3,12 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
+import { slugify } from "@/lib/slugify";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const ArticleDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<ColumnRecord | null>(null);
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -18,11 +19,15 @@ const ArticleDetail = () => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
       setLoading(true);
-      const { data } = await (supabase as any)
+      // Fetch all published columns and match by slug
+      const { data: allCols } = await (supabase as any)
         .from("columns")
         .select("*")
-        .eq("id", Number(id))
-        .single();
+        .in("status", ["completado", "publicado"]);
+      const matched = (allCols ?? []).find(
+        (c: ColumnRecord) => slugify(c.titulo) === slug
+      );
+      const data = matched ?? null;
       setArticle(data ?? null);
 
       if (data) {
@@ -39,7 +44,7 @@ const ArticleDetail = () => {
       setLoading(false);
     };
     fetchData();
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,7 +150,7 @@ const ArticleDetail = () => {
           {/* Siguiente nota */}
           {nextArticle && (
             <Link
-              to={`/articulo/${nextArticle.id}`}
+              to={`/articulo/${slugify(nextArticle.titulo)}`}
               className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-foreground/30"
             >
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Siguiente nota</span>

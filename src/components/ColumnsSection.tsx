@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight, Loader2, Eye } from "lucide-react";
+import { slugify } from "@/lib/slugify";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ColumnRecord } from "@/hooks/useColumns";
@@ -113,7 +114,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
               {visible.map((col, i) => (
                 <Link
                   key={col.id}
-                  to={`/articulo/${col.id}`}
+                  to={`/articulo/${slugify(col.titulo)}`}
                   className="group flex flex-col animate-fade-in-up rounded-lg border border-border overflow-hidden"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
