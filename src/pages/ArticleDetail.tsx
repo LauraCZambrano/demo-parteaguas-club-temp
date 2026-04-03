@@ -44,7 +44,7 @@ const ArticleDetail = () => {
       setLoading(false);
     };
     fetchData();
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
     const handleScroll = () => {
