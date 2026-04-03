@@ -9,7 +9,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const ArticleDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<ColumnRecord | null>(null);
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
