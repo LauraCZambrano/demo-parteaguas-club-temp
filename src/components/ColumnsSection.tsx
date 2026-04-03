@@ -114,7 +114,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
               {visible.map((col, i) => (
                 <Link
                   key={col.id}
-                  to={`/articulo/${col.id}`}
+                  to={`/articulo/${slugify(col.titulo)}`}
                   className="group flex flex-col animate-fade-in-up rounded-lg border border-border overflow-hidden"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >

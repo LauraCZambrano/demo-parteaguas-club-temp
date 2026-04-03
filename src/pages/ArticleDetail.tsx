@@ -150,7 +150,7 @@ const ArticleDetail = () => {
           {/* Siguiente nota */}
           {nextArticle && (
             <Link
-              to={`/articulo/${nextArticle.id}`}
+              to={`/articulo/${slugify(nextArticle.titulo)}`}
               className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-foreground/30"
             >
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Siguiente nota</span>

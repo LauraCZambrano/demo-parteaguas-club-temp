@@ -79,7 +79,7 @@ const AudioPlayer = () => {
             {/* Mobile-only read column icon */}
             {hasColumnText && (
               <button
-                onClick={() => navigate(`/articulo/${episode.columnId}`)}
+                onClick={() => navigate(`/articulo/${slugify(episode.title)}`)}
                 className="flex sm:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Leer columna"
               >
