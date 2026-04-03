@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight, Loader2, Eye } from "lucide-react";
+import { slugify } from "@/lib/slugify";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ColumnRecord } from "@/hooks/useColumns";
