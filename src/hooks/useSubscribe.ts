@@ -9,11 +9,10 @@ export const useSubscribe = () => {
     setLoading(true);
     try {
       const { error } = await (supabase as any)
-        .from("subscribers")
-        .insert({ email: email.trim().toLowerCase() });
+        .rpc("safe_subscribe", { email_input: email.trim().toLowerCase(), config_id: null });
 
       if (error) {
-        if (error.code === "23505") {
+        if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("already")) {
           toast.error("Este correo ya está registrado");
         } else {
           toast.error("Hubo un error, intenta de nuevo");
