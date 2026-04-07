@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { useSubscribe } from "@/hooks/useSubscribe";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
 
 const HeroSection = () => {
   const [email, setEmail] = useState("");
-  const { toast } = useToast();
+  const { subscribe, loading } = useSubscribe();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      toast({ title: "¡Bienvenido al club!", description: "Te hemos añadido a la lista." });
-      setEmail("");
+      const success = await subscribe(email);
+      if (success) setEmail("");
     }
   };
 
@@ -42,8 +42,8 @@ const HeroSection = () => {
               className="h-11 rounded-sm border"
               required
             />
-            <Button type="submit" className="h-11 shrink-0 gap-2 rounded-full px-6 font-semibold">
-              Unirse <ArrowRight size={16} />
+            <Button type="submit" className="h-11 shrink-0 gap-2 rounded-full px-6 font-semibold" disabled={loading}>
+              {loading ? <Loader2 size={16} className="animate-spin" /> : <>Unirse <ArrowRight size={16} /></>}
             </Button>
           </form>
           <p className="mt-3 text-xs text-muted-foreground">

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { useSubscribe } from "@/hooks/useSubscribe";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
-  const { toast } = useToast();
+  const { subscribe, loading } = useSubscribe();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,11 +30,11 @@ const Footer = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      toast({ title: "¡Suscrito!", description: "Te mantendremos informado." });
-      setEmail("");
+      const success = await subscribe(email);
+      if (success) setEmail("");
     }
   };
 
@@ -82,8 +82,8 @@ const Footer = () => {
                 className="h-10 rounded-sm border-background/20 bg-background/10 text-background placeholder:text-background/40"
                 required
               />
-              <Button type="submit" size="sm" className="h-10 shrink-0 rounded-full">
-                <ArrowRight size={16} />
+              <Button type="submit" size="sm" className="h-10 shrink-0 rounded-full" disabled={loading}>
+                {loading ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
               </Button>
             </form>
           </div>
