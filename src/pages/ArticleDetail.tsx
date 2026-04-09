@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import SourcesSection from "@/components/SourcesSection";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
