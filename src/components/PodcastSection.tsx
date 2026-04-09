@@ -247,7 +247,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                           className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
                         >
                           <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
-                            {episodePage * EPISODES_PER_PAGE + idx + 1}
+                            {episodePage * episodesPerPage + idx + 1}
                           </span>
 
                           <span
