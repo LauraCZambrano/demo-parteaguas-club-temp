@@ -78,7 +78,8 @@ const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
             </span>
           </li>
         ))}
-      </ol>
+        </ol>
+      )}
     </div>
   );
 };
