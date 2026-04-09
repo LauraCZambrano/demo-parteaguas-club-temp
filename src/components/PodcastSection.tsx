@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { Headphones, Play, Pause } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -73,19 +73,44 @@ interface PodcastSectionProps {
   error: string | null;
 }
 
+const EPISODE_ROW_HEIGHT = 57; // approx height of each row (py-4 + content)
+const HEADER_HEIGHT = 44; // "Episodios anteriores" header
+const PAGINATION_HEIGHT = 45; // pagination bar
+
 const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) => {
   const { episode: activeEpisode, isPlaying, play } = useAudio();
   const playedRef = useRef<Set<string>>(new Set());
+  const listContainerRef = useRef<HTMLDivElement>(null);
 
-  const EPISODES_PER_PAGE = 5;
+  const [episodesPerPage, setEpisodesPerPage] = useState(5);
   const [episodePage, setEpisodePage] = useState(0);
 
   // Filter columns that have audio
   const withAudio = columns.filter((c) => c.url_podcast || c.url_transistor);
   const featured = withAudio[0] ?? null;
   const allRest = withAudio.slice(1);
-  const totalPages = Math.max(1, Math.ceil(allRest.length / EPISODES_PER_PAGE));
-  const rest = allRest.slice(episodePage * EPISODES_PER_PAGE, (episodePage + 1) * EPISODES_PER_PAGE);
+  const needsPagination = allRest.length > episodesPerPage;
+  const totalPages = Math.max(1, Math.ceil(allRest.length / episodesPerPage));
+  const rest = allRest.slice(episodePage * episodesPerPage, (episodePage + 1) * episodesPerPage);
+
+  // Dynamically calculate how many episodes fit
+  const calcFit = useCallback(() => {
+    const container = listContainerRef.current;
+    if (!container) return;
+    const available = container.clientHeight - HEADER_HEIGHT - PAGINATION_HEIGHT;
+    const fit = Math.max(1, Math.floor(available / EPISODE_ROW_HEIGHT));
+    setEpisodesPerPage(fit);
+    setEpisodePage((prev) => Math.min(prev, Math.max(0, Math.ceil(allRest.length / fit) - 1)));
+  }, [allRest.length]);
+
+  useEffect(() => {
+    calcFit();
+    const container = listContainerRef.current;
+    if (!container) return;
+    const observer = new ResizeObserver(calcFit);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [calcFit]);
 
   const handlePlay = (col: ColumnRecord) => {
     const ep = toPodcastEpisode(col);
