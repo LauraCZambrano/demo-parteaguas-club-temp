@@ -226,6 +226,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
 
               {/* RIGHT — Episode list */}
               <div
+                ref={listContainerRef}
                 className="flex w-full flex-col border-t border-border md:w-[60%] md:border-l md:border-t-0"
                 style={{ backgroundColor: "#F8F9FA" }}
               >
