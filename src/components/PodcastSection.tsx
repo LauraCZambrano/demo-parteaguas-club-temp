@@ -89,7 +89,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
   const withAudio = columns.filter((c) => c.url_podcast || c.url_transistor);
   const featured = withAudio[0] ?? null;
   const allRest = withAudio.slice(1);
-  const needsPagination = allRest.length > episodesPerPage;
+  
   const totalPages = Math.max(1, Math.ceil(allRest.length / episodesPerPage));
   const rest = allRest.slice(episodePage * episodesPerPage, (episodePage + 1) * episodesPerPage);
 
