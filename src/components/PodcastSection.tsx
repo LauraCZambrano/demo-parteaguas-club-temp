@@ -240,6 +240,29 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                     })}
                   </div>
                 </ScrollArea>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between border-t border-border px-5 py-2.5">
+                    <button
+                      onClick={() => setEpisodePage((p) => Math.max(0, p - 1))}
+                      disabled={episodePage === 0}
+                      className="flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft size={14} /> Anterior
+                    </button>
+                    <span className="font-mono text-[11px] text-muted-foreground">
+                      {episodePage + 1} / {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setEpisodePage((p) => Math.min(totalPages - 1, p + 1))}
+                      disabled={episodePage >= totalPages - 1}
+                      className="flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      Siguiente <ChevronRight size={14} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
