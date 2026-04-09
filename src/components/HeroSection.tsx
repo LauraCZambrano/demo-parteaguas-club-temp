@@ -30,7 +30,7 @@ const HeroSection = () => {
             </span>
             .
           </h1>
-          <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
             Una lectura diaria sobre los temas que definen nuestra realidad. Sin distracciones, solo las ideas que valen tu tiempo.
           </p>
           <form onSubmit={handleSubmit} className="mx-auto mt-10 flex max-w-md gap-2">
