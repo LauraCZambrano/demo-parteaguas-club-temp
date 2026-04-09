@@ -7,6 +7,7 @@ import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
