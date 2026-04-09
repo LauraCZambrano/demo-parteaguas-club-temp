@@ -45,7 +45,7 @@ const Header = () => {
           <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </button>
-          <Button size="sm" className="rounded-full px-6 font-semibold">
+          <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
             Suscribirse
           </Button>
         </nav>
@@ -76,7 +76,7 @@ const Header = () => {
             >
               Podcast
             </button>
-            <Button size="sm" className="w-full rounded-full font-semibold">
+            <Button size="sm" className="w-full rounded-full font-semibold" onClick={() => { setMobileOpen(false); setSubscribeOpen(true); }}>
               Suscribirse
             </Button>
           </div>
