@@ -148,6 +148,8 @@ const ArticleDetail = () => {
             );
           })()}
 
+          {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
+
           {/* Siguiente nota */}
           {nextArticle && (
             <Link
