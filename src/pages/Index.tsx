@@ -6,6 +6,7 @@ import ColumnsSection from "@/components/ColumnsSection";
 import PodcastSection from "@/components/PodcastSection";
 import Footer from "@/components/Footer";
 import SubscriptionBar from "@/components/SubscriptionBar";
+import ScrollToTop from "@/components/ScrollToTop";
 import { useColumns } from "@/hooks/useColumns";
 
 const Index = () => {
@@ -31,6 +32,7 @@ const Index = () => {
         <PodcastSection columns={columns} loading={loading} error={error} />
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
