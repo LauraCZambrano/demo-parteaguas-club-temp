@@ -58,7 +58,7 @@ const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
               key={i}
               className="flex items-start gap-3 rounded-md bg-muted/50 px-4 py-3 text-sm leading-relaxed text-muted-foreground transition-colors hover:bg-muted"
             >
-              <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-bold text-foreground">
+              <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-bold text-muted-foreground">
                 {i + 1}
               </span>
             <span className="flex-1">
