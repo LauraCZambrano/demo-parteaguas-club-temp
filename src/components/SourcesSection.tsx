@@ -26,6 +26,7 @@ const parseSource = (line: string) => {
 };
 
 const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
+  const [visible, setVisible] = useState(true);
   const lines = fuentes
     .split(/\n/)
     .map((l) => l.trim())
@@ -37,22 +38,29 @@ const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
 
   return (
     <div className="mt-16 border-t border-border pt-8">
-      <div className="flex items-center gap-2 mb-5">
+      <button
+        onClick={() => setVisible((v) => !v)}
+        className="flex w-full items-center gap-2 mb-5 group cursor-pointer"
+      >
         <BookOpen size={18} className="text-muted-foreground" />
         <h4 className="font-editorial text-base font-bold tracking-tight text-foreground">
           Fuentes y referencias
         </h4>
-      </div>
+        <span className="ml-auto text-muted-foreground transition-colors group-hover:text-foreground">
+          {visible ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </span>
+      </button>
 
-      <ol className="space-y-3 list-none">
-        {sources.map((src, i) => (
-          <li
-            key={i}
-            className="flex items-start gap-3 rounded-md bg-muted/50 px-4 py-3 text-sm leading-relaxed text-muted-foreground transition-colors hover:bg-muted"
-          >
-            <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-bold text-primary">
-              {i + 1}
-            </span>
+      {visible && (
+        <ol className="space-y-3 list-none animate-fade-in">
+          {sources.map((src, i) => (
+            <li
+              key={i}
+              className="flex items-start gap-3 rounded-md bg-muted/50 px-4 py-3 text-sm leading-relaxed text-muted-foreground transition-colors hover:bg-muted"
+            >
+              <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-bold text-foreground">
+                {i + 1}
+              </span>
             <span className="flex-1">
               {src.url ? (
                 <a
