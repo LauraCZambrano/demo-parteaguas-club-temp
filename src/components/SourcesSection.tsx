@@ -1,4 +1,5 @@
-import { BookOpen, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 
 interface SourcesSectionProps {
   fuentes: string;
