@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Headphones, Play, Pause } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAudio } from "@/contexts/AudioContext";
@@ -76,10 +77,15 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
   const { episode: activeEpisode, isPlaying, play } = useAudio();
   const playedRef = useRef<Set<string>>(new Set());
 
+  const EPISODES_PER_PAGE = 5;
+  const [episodePage, setEpisodePage] = useState(0);
+
   // Filter columns that have audio
   const withAudio = columns.filter((c) => c.url_podcast || c.url_transistor);
   const featured = withAudio[0] ?? null;
-  const rest = withAudio.slice(1, 6);
+  const allRest = withAudio.slice(1);
+  const totalPages = Math.max(1, Math.ceil(allRest.length / EPISODES_PER_PAGE));
+  const rest = allRest.slice(episodePage * EPISODES_PER_PAGE, (episodePage + 1) * EPISODES_PER_PAGE);
 
   const handlePlay = (col: ColumnRecord) => {
     const ep = toPodcastEpisode(col);
@@ -216,7 +222,7 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                           className="group flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[hsl(48_100%_97%)]"
                         >
                           <span className="shrink-0 font-mono text-xs font-semibold text-muted-foreground w-7">
-                            {idx + 1}
+                            {episodePage * EPISODES_PER_PAGE + idx + 1}
                           </span>
 
                           <span
@@ -234,6 +240,29 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
                     })}
                   </div>
                 </ScrollArea>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between border-t border-border px-5 py-2.5">
+                    <button
+                      onClick={() => setEpisodePage((p) => Math.max(0, p - 1))}
+                      disabled={episodePage === 0}
+                      className="flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft size={14} /> Anterior
+                    </button>
+                    <span className="font-mono text-[11px] text-muted-foreground">
+                      {episodePage + 1} / {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setEpisodePage((p) => Math.min(totalPages - 1, p + 1))}
+                      disabled={episodePage >= totalPages - 1}
+                      className="flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      Siguiente <ChevronRight size={14} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
