@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SubscribeDialog from "@/components/SubscribeDialog";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
