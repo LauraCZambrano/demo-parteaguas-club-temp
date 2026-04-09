@@ -77,10 +77,15 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
   const { episode: activeEpisode, isPlaying, play } = useAudio();
   const playedRef = useRef<Set<string>>(new Set());
 
+  const EPISODES_PER_PAGE = 5;
+  const [episodePage, setEpisodePage] = useState(0);
+
   // Filter columns that have audio
   const withAudio = columns.filter((c) => c.url_podcast || c.url_transistor);
   const featured = withAudio[0] ?? null;
-  const rest = withAudio.slice(1, 6);
+  const allRest = withAudio.slice(1);
+  const totalPages = Math.max(1, Math.ceil(allRest.length / EPISODES_PER_PAGE));
+  const rest = allRest.slice(episodePage * EPISODES_PER_PAGE, (episodePage + 1) * EPISODES_PER_PAGE);
 
   const handlePlay = (col: ColumnRecord) => {
     const ep = toPodcastEpisode(col);
