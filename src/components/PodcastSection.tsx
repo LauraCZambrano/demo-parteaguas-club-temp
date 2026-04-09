@@ -95,6 +95,12 @@ const PodcastSection = ({ columns = [], loading, error }: PodcastSectionProps) =
 
   // Dynamically calculate how many episodes fit
   const calcFit = useCallback(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      setEpisodesPerPage(5);
+      setEpisodePage((prev) => Math.min(prev, Math.max(0, Math.ceil(allRest.length / 5) - 1)));
+      return;
+    }
     const container = listContainerRef.current;
     if (!container) return;
     const available = container.clientHeight - HEADER_HEIGHT - PAGINATION_HEIGHT;
