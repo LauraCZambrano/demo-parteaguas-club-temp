@@ -35,7 +35,7 @@ const ArticleDetail = () => {
         const { data: next } = await (supabase as any)
           .from("columns")
           .select("*")
-          .eq("status", "completado")
+          .eq("web_published", true)
           .lt("created_at", data.created_at)
           .order("created_at", { ascending: false })
           .limit(1)
