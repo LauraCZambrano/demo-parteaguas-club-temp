@@ -24,7 +24,7 @@ const ArticleDetail = () => {
       const { data: allCols } = await (supabase as any)
         .from("columns")
         .select("*")
-        .in("status", ["completado", "publicado"]);
+        .eq("web_published", true);
       const matched = (allCols ?? []).find(
         (c: ColumnRecord) => slugify(c.titulo) === slug
       );
