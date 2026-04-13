@@ -35,7 +35,7 @@ export const useColumns = () => {
         const { data: rows, error: err } = await (supabase as any)
           .from("columns")
           .select("*")
-          .in("status", ["completado", "publicado"])
+          .eq("web_published", true)
           .order("created_at", { ascending: false });
 
         if (err) throw err;
