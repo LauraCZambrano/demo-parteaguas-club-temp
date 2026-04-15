@@ -90,9 +90,6 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                   </div>
 
                   <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
-                    <span className="mb-2 inline-block w-fit rounded-full bg-tag px-2.5 py-0.5 text-[10px] font-medium text-tag-foreground">
-                      {col.origen}
-                    </span>
 
                     <h3 className="font-editorial text-lg font-bold leading-snug tracking-tight text-foreground transition-colors duration-200 group-hover:text-muted-foreground">
                       {col.titulo}

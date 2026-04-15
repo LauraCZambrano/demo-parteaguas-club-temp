@@ -105,10 +105,7 @@ const ArticleDetail = () => {
           </Link>
 
           <div className="mt-8">
-            <span className="inline-block rounded-sm bg-tag px-2.5 py-1 text-xs font-medium text-tag-foreground">
-              {article.origen}
-            </span>
-            <h1 className="mt-4 font-editorial text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl">
+            <h1 className="font-editorial text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl">
               {article.titulo}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
@@ -166,10 +163,7 @@ const ArticleDetail = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <span className="inline-block rounded-sm bg-tag px-2 py-0.5 text-[10px] font-medium text-tag-foreground">
-                    {nextArticle.origen}
-                  </span>
-                  <h3 className="mt-1 font-editorial text-lg font-bold leading-snug tracking-tight group-hover:text-foreground transition-colors">
+                  <h3 className="font-editorial text-lg font-bold leading-snug tracking-tight group-hover:text-foreground transition-colors">
                     {nextArticle.titulo}
                   </h3>
                 </div>
