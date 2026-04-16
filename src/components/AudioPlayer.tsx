@@ -1,5 +1,5 @@
 import { useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { Play, Pause, RotateCcw, X } from "lucide-react";
 import { Play, Pause, RotateCcw, X } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
 
