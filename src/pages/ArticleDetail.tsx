@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Play, Pause, Headphones } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
@@ -8,6 +8,21 @@ import { slugify } from "@/lib/slugify";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useAudio } from "@/contexts/AudioContext";
+import type { PodcastEpisode } from "@/data/articles";
+
+const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
+  id: String(col.id),
+  title: col.titulo,
+  description: col.sinopsis,
+  duration: "",
+  date: new Date(col.created_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" }),
+  image: col.img1,
+  audioUrl: col.url_transistor || col.url_podcast || undefined,
+  plays: 0,
+  columnId: col.id,
+  columnText: col.columna || undefined,
+});
 
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +30,7 @@ const ArticleDetail = () => {
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const { episode: activeEpisode, isPlaying, play } = useAudio();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -111,7 +127,32 @@ const ArticleDetail = () => {
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               {article.sinopsis}
             </p>
-            <time className="mt-4 block text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
+            <div className="mt-4 flex items-center gap-4">
+              <time className="text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
+              {(article.url_transistor || article.url_podcast) && (() => {
+                const ep = columnToEpisode(article);
+                const isThis = activeEpisode?.id === ep.id;
+                const playing = isThis && isPlaying;
+                return (
+                  <button
+                    onClick={() => play(ep)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-foreground/40 hover:text-foreground"
+                  >
+                    {playing ? (
+                      <>
+                        <Pause size={16} className="text-primary" />
+                        <span>Pausar podcast</span>
+                      </>
+                    ) : (
+                      <>
+                        <Headphones size={16} className="text-primary" />
+                        <span>Escuchar podcast</span>
+                      </>
+                    )}
+                  </button>
+                );
+              })()}
+            </div>
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
