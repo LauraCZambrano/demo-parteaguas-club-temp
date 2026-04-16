@@ -141,12 +141,12 @@ const ArticleDetail = () => {
                     {playing ? (
                       <>
                         <Pause size={16} className="text-primary" />
-                        <span>Pausar podcast</span>
+                        <span>Pausar resumen</span>
                       </>
                     ) : (
                       <>
                         <Headphones size={16} className="text-primary" />
-                        <span>Escuchar podcast</span>
+                        <span>Escuchar resumen de la nota</span>
                       </>
                     )}
                   </button>
