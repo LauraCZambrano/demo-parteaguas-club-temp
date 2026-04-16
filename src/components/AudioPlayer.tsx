@@ -60,29 +60,9 @@ const AudioPlayer = () => {
               </p>
             </div>
 
-            {/* Read column button — only visible when column text exists */}
-            {hasColumnText && (
-              <button
-                onClick={() => navigate(`/articulo/${slugify(episode.title)}`)}
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
-              >
-                <FileText size={13} />
-                Leer columna
-              </button>
-            )}
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2">
-            {/* Mobile-only read column icon */}
-            {hasColumnText && (
-              <button
-                onClick={() => navigate(`/articulo/${slugify(episode.title)}`)}
-                className="flex sm:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                aria-label="Leer columna"
-              >
-                <FileText size={16} />
-              </button>
-            )}
 
             <button
               onClick={rewind15}
