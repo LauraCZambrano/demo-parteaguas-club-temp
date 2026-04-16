@@ -1,8 +1,6 @@
 import { useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Play, Pause, RotateCcw, X, FileText } from "lucide-react";
+import { Play, Pause, RotateCcw, X } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
-import { slugify } from "@/lib/slugify";
 
 const formatTime = (s: number) => {
   if (!isFinite(s)) return "0:00";
@@ -14,7 +12,6 @@ const formatTime = (s: number) => {
 const AudioPlayer = () => {
   const { episode, isPlaying, currentTime, duration, speed, togglePlay, rewind15, seek, cycleSpeed, close } = useAudio();
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const handleProgressClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,7 +28,7 @@ const AudioPlayer = () => {
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const hasAudio = !!episode.audioUrl;
-  const hasColumnText = !!episode.columnId;
+  
 
   return (
     <>
@@ -63,29 +60,9 @@ const AudioPlayer = () => {
               </p>
             </div>
 
-            {/* Read column button — only visible when column text exists */}
-            {hasColumnText && (
-              <button
-                onClick={() => navigate(`/articulo/${slugify(episode.title)}`)}
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
-              >
-                <FileText size={13} />
-                Leer columna
-              </button>
-            )}
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2">
-            {/* Mobile-only read column icon */}
-            {hasColumnText && (
-              <button
-                onClick={() => navigate(`/articulo/${slugify(episode.title)}`)}
-                className="flex sm:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                aria-label="Leer columna"
-              >
-                <FileText size={16} />
-              </button>
-            )}
 
             <button
               onClick={rewind15}
