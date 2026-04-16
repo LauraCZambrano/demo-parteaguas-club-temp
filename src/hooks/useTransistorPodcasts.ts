@@ -88,8 +88,25 @@ export const useTransistorPodcasts = () => {
     // Abort the request if it takes more than 20s so the UI can recover.
     const timeoutId = window.setTimeout(() => controller.abort(), 20000);
 
+    // 1) Hidratar inmediatamente desde caché (si existe)
+    const cached = readCache();
+    const isFresh = cached && Date.now() - cached.timestamp < CACHE_TTL_MS;
+    if (cached && cached.data.length > 0) {
+      setData(cached.data);
+      setLoading(false);
+    }
+
+    // 2) Si la caché está fresca, no llamamos al webhook
+    if (isFresh) {
+      window.clearTimeout(timeoutId);
+      return () => {
+        cancelled = true;
+        controller.abort();
+      };
+    }
+
     const run = async () => {
-      setLoading(true);
+      if (!cached) setLoading(true);
       setError(null);
       try {
         const res = await fetch(WEBHOOK_URL, {
@@ -101,9 +118,12 @@ export const useTransistorPodcasts = () => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         const list = extractEpisodes(json).map(flattenEpisode).filter((e) => e && e.media_url);
-        if (!cancelled) setData(list);
-      } catch (err) {
         if (!cancelled) {
+          setData(list);
+          writeCache(list);
+        }
+      } catch (err) {
+        if (!cancelled && !cached) {
           const msg =
             err instanceof DOMException && err.name === "AbortError"
               ? "Tiempo de espera agotado"
