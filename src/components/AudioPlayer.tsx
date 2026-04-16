@@ -1,8 +1,7 @@
 import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Play, Pause, RotateCcw, X, FileText } from "lucide-react";
+import { Play, Pause, RotateCcw, X } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
-import { slugify } from "@/lib/slugify";
 
 const formatTime = (s: number) => {
   if (!isFinite(s)) return "0:00";
