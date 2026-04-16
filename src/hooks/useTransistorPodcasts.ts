@@ -56,6 +56,10 @@ export const useTransistorPodcasts = () => {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
+    // Abort the request if it takes more than 20s so the UI can recover.
+    const timeoutId = window.setTimeout(() => controller.abort(), 20000);
+
     const run = async () => {
       setLoading(true);
       setError(null);
@@ -64,20 +68,32 @@ export const useTransistorPodcasts = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({}),
+          signal: controller.signal,
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         const list = extractEpisodes(json).map(flattenEpisode).filter((e) => e && e.media_url);
         if (!cancelled) setData(list);
       } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : "Error desconocido");
+        if (!cancelled) {
+          const msg =
+            err instanceof DOMException && err.name === "AbortError"
+              ? "Tiempo de espera agotado"
+              : err instanceof Error
+                ? err.message
+                : "Error desconocido";
+          setError(msg);
+        }
       } finally {
+        window.clearTimeout(timeoutId);
         if (!cancelled) setLoading(false);
       }
     };
     run();
     return () => {
       cancelled = true;
+      controller.abort();
+      window.clearTimeout(timeoutId);
     };
   }, []);
 
