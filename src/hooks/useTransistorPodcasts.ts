@@ -12,7 +12,7 @@ export type TransistorEpisode = {
   number?: number;
 };
 
-const WEBHOOK_URL = "https://ericdacodes.app.n8n.cloud/webhook/get-transistor-podcasts";
+const WEBHOOK_URL = "https://ericdacodes.app.n8n.cloud/webhook-test/get-transistor-podcasts";
 
 /** Best-effort extraction of an episode array from various n8n payload shapes. */
 const extractEpisodes = (payload: unknown): TransistorEpisode[] => {
