@@ -87,7 +87,7 @@ const Header = () => {
               onClick={() => setMobileOpen(false)}
               className="text-left text-sm font-medium text-muted-foreground"
             >
-              Acerca
+              Acerca de
             </Link>
           </div>
         </nav>
