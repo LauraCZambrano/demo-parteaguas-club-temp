@@ -48,6 +48,9 @@ const Header = () => {
           <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
             Suscribirse
           </Button>
+          <Link to="/acerca" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+            Acerca
+          </Link>
         </nav>
 
         {/* Mobile toggle */}
@@ -79,6 +82,13 @@ const Header = () => {
             <Button size="sm" className="w-full rounded-full font-semibold" onClick={() => { setMobileOpen(false); setSubscribeOpen(true); }}>
               Suscribirse
             </Button>
+            <Link
+              to="/acerca"
+              onClick={() => setMobileOpen(false)}
+              className="text-left text-sm font-medium text-muted-foreground"
+            >
+              Acerca
+            </Link>
           </div>
         </nav>
       )}
