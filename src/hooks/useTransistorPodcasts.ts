@@ -13,6 +13,34 @@ export type TransistorEpisode = {
 };
 
 const WEBHOOK_URL = "https://ericdacodes.app.n8n.cloud/webhook/get-transistor-podcasts";
+const CACHE_KEY = "transistor-podcasts-cache";
+const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hora
+
+type CachedPayload = {
+  timestamp: number;
+  data: TransistorEpisode[];
+};
+
+const readCache = (): CachedPayload | null => {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as CachedPayload;
+    if (!parsed || !Array.isArray(parsed.data) || typeof parsed.timestamp !== "number") return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const writeCache = (data: TransistorEpisode[]) => {
+  try {
+    const payload: CachedPayload = { timestamp: Date.now(), data };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+  } catch {
+    // Ignorar errores de cuota/serialización
+  }
+};
 
 /** Best-effort extraction of an episode array from various n8n payload shapes. */
 const extractEpisodes = (payload: unknown): TransistorEpisode[] => {
@@ -60,8 +88,25 @@ export const useTransistorPodcasts = () => {
     // Abort the request if it takes more than 20s so the UI can recover.
     const timeoutId = window.setTimeout(() => controller.abort(), 20000);
 
+    // 1) Hidratar inmediatamente desde caché (si existe)
+    const cached = readCache();
+    const isFresh = cached && Date.now() - cached.timestamp < CACHE_TTL_MS;
+    if (cached && cached.data.length > 0) {
+      setData(cached.data);
+      setLoading(false);
+    }
+
+    // 2) Si la caché está fresca, no llamamos al webhook
+    if (isFresh) {
+      window.clearTimeout(timeoutId);
+      return () => {
+        cancelled = true;
+        controller.abort();
+      };
+    }
+
     const run = async () => {
-      setLoading(true);
+      if (!cached) setLoading(true);
       setError(null);
       try {
         const res = await fetch(WEBHOOK_URL, {
@@ -73,9 +118,12 @@ export const useTransistorPodcasts = () => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         const list = extractEpisodes(json).map(flattenEpisode).filter((e) => e && e.media_url);
-        if (!cancelled) setData(list);
-      } catch (err) {
         if (!cancelled) {
+          setData(list);
+          writeCache(list);
+        }
+      } catch (err) {
+        if (!cancelled && !cached) {
           const msg =
             err instanceof DOMException && err.name === "AbortError"
               ? "Tiempo de espera agotado"
