@@ -40,7 +40,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
         <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">
           Columnas editoriales
         </h2>
-        <p className="mt-2 text-muted-foreground">Lo que está pasando, analizado a fondo.</p>
+        
 
         {error && (
           <p className="mt-8 text-center text-sm text-destructive">
