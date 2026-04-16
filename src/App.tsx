@@ -7,6 +7,7 @@ import { AudioProvider } from "@/contexts/AudioContext";
 import AudioPlayer from "@/components/AudioPlayer";
 import Index from "./pages/Index.tsx";
 import ArticleDetail from "./pages/ArticleDetail.tsx";
+import About from "./pages/About.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/articulo/:slug" element={<ArticleDetail />} />
+            <Route path="/acerca" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <AudioPlayer />
