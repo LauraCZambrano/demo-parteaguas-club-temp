@@ -11,12 +11,26 @@ import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
 import type { PodcastEpisode } from "@/data/articles";
 
+const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
+  id: String(col.id),
+  title: col.titulo,
+  description: col.sinopsis,
+  duration: "",
+  date: new Date(col.created_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" }),
+  image: col.img1,
+  audioUrl: col.url_transistor || col.url_podcast || undefined,
+  plays: 0,
+  columnId: col.id,
+  columnText: col.columna || undefined,
+});
+
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<ColumnRecord | null>(null);
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const { episode: activeEpisode, isPlaying, play } = useAudio();
 
   useEffect(() => {
     window.scrollTo(0, 0);
