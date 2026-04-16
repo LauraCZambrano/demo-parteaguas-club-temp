@@ -20,7 +20,7 @@ const About = () => {
             className="mb-8 h-20 w-20 md:h-24 md:w-24"
           />
           <h1 className="font-editorial text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-            Acerca de
+            Acerca de Parteaguas Club
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             Contexto diario sobre los temas que están definiendo tu nueva realidad.
