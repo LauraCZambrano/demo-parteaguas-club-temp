@@ -17,15 +17,26 @@ const WEBHOOK_URL = "https://ericdacodes.app.n8n.cloud/webhook-test/get-transist
 /** Best-effort extraction of an episode array from various n8n payload shapes. */
 const extractEpisodes = (payload: unknown): TransistorEpisode[] => {
   if (!payload) return [];
-  // Prefer payload.data.data
+
+  // n8n often wraps the response as an array: [{ data: [...] }]
+  if (Array.isArray(payload)) {
+    // If it's an array of episodes directly
+    const first = payload[0] as Record<string, unknown> | undefined;
+    if (first && typeof first === "object" && "data" in first) {
+      const inner = (first as Record<string, unknown>).data;
+      if (Array.isArray(inner)) return inner as TransistorEpisode[];
+    }
+    return payload as TransistorEpisode[];
+  }
+
+  // Object shapes: { data: [...] } or { data: { data: [...] } }
   const anyP = payload as Record<string, unknown>;
-  const dataA = anyP.data as Record<string, unknown> | unknown[] | undefined;
+  const dataA = anyP.data;
   if (Array.isArray(dataA)) return dataA as TransistorEpisode[];
   if (dataA && typeof dataA === "object") {
     const dataB = (dataA as Record<string, unknown>).data;
     if (Array.isArray(dataB)) return dataB as TransistorEpisode[];
   }
-  if (Array.isArray(payload)) return payload as TransistorEpisode[];
   return [];
 };
 
