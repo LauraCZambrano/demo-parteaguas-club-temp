@@ -30,7 +30,17 @@ const ArticleDetail = () => {
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const { episode: activeEpisode, isPlaying, play } = useAudio();
+  const { episode: activeEpisode, isPlaying, play, close } = useAudio();
+
+  // Stop audio when leaving the article page if the playing episode belongs to this article
+  useEffect(() => {
+    return () => {
+      if (article && activeEpisode?.id === String(article.id)) {
+        close();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article?.id, activeEpisode?.id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
