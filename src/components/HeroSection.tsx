@@ -23,15 +23,14 @@ const HeroSection = () => {
         <div className="mx-auto max-w-2xl text-center">
           <img src={iconParteaguas} alt="Parteaguas" className="mx-auto mb-6 h-24 w-24 md:h-28 md:w-28" />
           <h1 className="font-editorial text-3xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-            Donde la noticia se convierte en{" "}
+            Aquí te explicamos las{" "}
             <span className="relative inline-block">
-              análisis
+              noticias
               <span className="absolute -bottom-1 left-0 h-3 w-full bg-primary/30" />
             </span>
-            .
           </h1>
           <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            Una lectura diaria sobre los temas que definen nuestra realidad. Sin distracciones, solo las ideas que valen tu tiempo.
+            Contexto diario sobre temas que definen tu nueva realidad.
           </p>
           <form onSubmit={handleSubmit} className="mx-auto mt-10 flex max-w-md gap-2">
             <Input
