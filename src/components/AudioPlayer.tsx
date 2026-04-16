@@ -1,6 +1,5 @@
 import { useRef, useCallback } from "react";
 import { Play, Pause, RotateCcw, X } from "lucide-react";
-import { Play, Pause, RotateCcw, X } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
 
 const formatTime = (s: number) => {
@@ -13,7 +12,6 @@ const formatTime = (s: number) => {
 const AudioPlayer = () => {
   const { episode, isPlaying, currentTime, duration, speed, togglePlay, rewind15, seek, cycleSpeed, close } = useAudio();
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const handleProgressClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
