@@ -13,6 +13,34 @@ export type TransistorEpisode = {
 };
 
 const WEBHOOK_URL = "https://ericdacodes.app.n8n.cloud/webhook/get-transistor-podcasts";
+const CACHE_KEY = "transistor-podcasts-cache";
+const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hora
+
+type CachedPayload = {
+  timestamp: number;
+  data: TransistorEpisode[];
+};
+
+const readCache = (): CachedPayload | null => {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as CachedPayload;
+    if (!parsed || !Array.isArray(parsed.data) || typeof parsed.timestamp !== "number") return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const writeCache = (data: TransistorEpisode[]) => {
+  try {
+    const payload: CachedPayload = { timestamp: Date.now(), data };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+  } catch {
+    // Ignorar errores de cuota/serialización
+  }
+};
 
 /** Best-effort extraction of an episode array from various n8n payload shapes. */
 const extractEpisodes = (payload: unknown): TransistorEpisode[] => {
