@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Play, Pause, Headphones } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
@@ -8,6 +8,8 @@ import { slugify } from "@/lib/slugify";
 import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useAudio } from "@/contexts/AudioContext";
+import type { PodcastEpisode } from "@/data/articles";
 
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
