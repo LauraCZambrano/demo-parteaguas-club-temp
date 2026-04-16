@@ -49,7 +49,7 @@ const Header = () => {
             Suscribirse
           </Button>
           <Link to="/acerca" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            Acerca
+            Acerca de
           </Link>
         </nav>
 
