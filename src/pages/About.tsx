@@ -6,7 +6,7 @@ import iconParteaguas from "@/assets/icon-parteaguas.png";
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Acerca | Parteaguas Club";
+    document.title = "Acerca de | Parteaguas Club";
   }, []);
 
   return (
@@ -20,45 +20,54 @@ const About = () => {
             className="mb-8 h-20 w-20 md:h-24 md:w-24"
           />
           <h1 className="font-editorial text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-            Acerca de Parteaguas Club
+            Acerca de
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             Contexto diario sobre los temas que están definiendo tu nueva realidad.
           </p>
 
-          <div className="prose-article mt-12 space-y-6 text-base leading-relaxed text-foreground">
-            <p>
-              Parteaguas Club nace de una idea simple: las noticias importan, pero el
-              contexto importa más. Vivimos rodeados de titulares que aparecen y
-              desaparecen en minutos, sin tiempo para entender lo que realmente
-              significan.
-            </p>
-            <p>
-              Aquí te explicamos las noticias. Cada columna y cada episodio del
-              podcast están pensados para darte el trasfondo que necesitas para
-              tomar decisiones más informadas en tu vida personal, profesional y
-              financiera.
-            </p>
-
-            <h2 className="font-editorial text-2xl font-bold tracking-tight">
-              Qué encontrarás aquí
+          {/* ¿Qué es Parteaguas? */}
+          <section className="mt-16">
+            <h2 className="font-editorial text-2xl font-bold tracking-tight md:text-3xl">
+              ¿Qué es Parteaguas?
             </h2>
-            <ul className="ml-5 list-disc space-y-2">
-              <li>Columnas editoriales con análisis a fondo de los temas del día.</li>
-              <li>Podcast con la historia detrás de cada nota, en voz de Jonathan.</li>
-              <li>Resúmenes en audio para escuchar mientras haces otras cosas.</li>
-              <li>Una newsletter directa, sin ruido y sin spam.</li>
-            </ul>
+            <div className="prose-article mt-6 space-y-5 text-base leading-relaxed text-foreground">
+              <p>
+                {/* TODO: Reemplazar con la descripción oficial de Parteaguas */}
+                Parteaguas es un espacio editorial donde la noticia se convierte en
+                contexto. Aquí no buscamos sumarnos al ruido del día, sino darte las
+                herramientas para entender por qué las cosas están pasando como
+                están pasando.
+              </p>
+              <p>
+                A través de columnas editoriales, podcast y resúmenes en audio,
+                conectamos los hechos con sus causas, sus implicaciones y lo que
+                significan para tu vida personal, profesional y financiera.
+              </p>
+            </div>
+          </section>
 
-            <h2 className="font-editorial text-2xl font-bold tracking-tight">
-              Nuestra promesa
+          {/* ¿Quién es Jonathan Ruiz? */}
+          <section className="mt-16">
+            <h2 className="font-editorial text-2xl font-bold tracking-tight md:text-3xl">
+              ¿Quién es Jonathan Ruiz?
             </h2>
-            <p>
-              Sin clickbait. Sin distracciones. Solo las ideas que valen tu tiempo
-              y el contexto que te ayuda a entender por qué las cosas están pasando
-              como están pasando.
-            </p>
-          </div>
+            <div className="prose-article mt-6 space-y-5 text-base leading-relaxed text-foreground">
+              <p>
+                {/* TODO: Reemplazar con la biografía real de Jonathan Ruiz */}
+                Jonathan Ruiz es periodista, analista y la voz detrás de Parteaguas
+                Club. Con años de trayectoria cubriendo temas de tecnología,
+                economía y sociedad, su trabajo se enfoca en traducir la
+                complejidad en ideas claras y accionables.
+              </p>
+              <p>
+                Cada columna y cada episodio del podcast nacen de una convicción:
+                las audiencias merecen análisis honesto, sin clickbait y con la
+                profundidad necesaria para realmente entender el momento que
+                vivimos.
+              </p>
+            </div>
+          </section>
         </div>
       </main>
       <Footer />
