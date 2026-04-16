@@ -127,7 +127,32 @@ const ArticleDetail = () => {
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               {article.sinopsis}
             </p>
-            <time className="mt-4 block text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
+            <div className="mt-4 flex items-center gap-4">
+              <time className="text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
+              {(article.url_transistor || article.url_podcast) && (() => {
+                const ep = columnToEpisode(article);
+                const isThis = activeEpisode?.id === ep.id;
+                const playing = isThis && isPlaying;
+                return (
+                  <button
+                    onClick={() => play(ep)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-foreground/40 hover:text-foreground"
+                  >
+                    {playing ? (
+                      <>
+                        <Pause size={16} className="text-primary" />
+                        <span>Pausar podcast</span>
+                      </>
+                    ) : (
+                      <>
+                        <Headphones size={16} className="text-primary" />
+                        <span>Escuchar podcast</span>
+                      </>
+                    )}
+                  </button>
+                );
+              })()}
+            </div>
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
