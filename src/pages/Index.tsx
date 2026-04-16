@@ -29,7 +29,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <ColumnsSection columns={columns} loading={loading} error={error} />
-        <PodcastSection columns={columns} loading={loading} error={error} />
+        <PodcastSection />
       </main>
       <Footer />
       <ScrollToTop />
