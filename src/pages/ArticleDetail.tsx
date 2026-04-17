@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
 import InlineAudioPlayer from "@/components/InlineAudioPlayer";
+import SocialLinks from "@/components/SocialLinks";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
@@ -185,6 +186,17 @@ const ArticleDetail = () => {
           })()}
 
           {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
+
+          {/* Sigue a Parteaguas */}
+          <div className="mt-12 rounded-2xl border border-border bg-muted/40 p-6 text-center">
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              ¿Te gustó esta columna?
+            </p>
+            <h3 className="mt-1 font-editorial text-lg font-semibold text-foreground">
+              Sigue a Parteaguas en redes
+            </h3>
+            <SocialLinks className="mt-4 justify-center" />
+          </div>
 
           {/* Siguiente nota */}
           {nextArticle && (

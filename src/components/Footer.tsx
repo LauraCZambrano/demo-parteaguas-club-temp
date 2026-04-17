@@ -4,6 +4,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSubscribe } from "@/hooks/useSubscribe";
+import SocialLinks from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
@@ -50,6 +51,7 @@ const Footer = () => {
             <p className="mt-3 text-sm leading-relaxed opacity-70">
               Un medio digital para quienes buscan entender el mundo con profundidad, claridad y criterio propio.
             </p>
+            <SocialLinks variant="light" size="sm" className="mt-5" />
           </div>
 
           {/* Links */}
