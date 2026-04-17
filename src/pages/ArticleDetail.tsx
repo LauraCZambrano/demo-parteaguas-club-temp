@@ -146,9 +146,6 @@ const ArticleDetail = () => {
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Escucha el resumen de la noticia
                 </p>
-                <h2 className="mt-1 font-editorial text-base font-semibold leading-snug text-foreground sm:text-lg">
-                  {article.titulo}
-                </h2>
                 <div className="mt-4">
                   <InlineAudioPlayer episode={columnToEpisode(article)} label={article.titulo} />
                 </div>
