@@ -1,7 +1,28 @@
 import { useEffect } from "react";
+import { Instagram, Youtube, Music2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
+
+const XIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2H21l-6.52 7.45L22 22h-6.797l-4.77-6.231L4.8 22H2.043l6.974-7.97L2 2h6.914l4.31 5.696L18.244 2Zm-2.385 18.4h1.85L7.235 3.5H5.27L15.86 20.4Z" />
+  </svg>
+);
+
+const SOCIAL_LINKS = [
+  { name: "Instagram", href: "https://www.instagram.com/parteaguasclub", Icon: Instagram },
+  { name: "X (Twitter)", href: "https://x.com/parteaguasclub", Icon: XIcon },
+  { name: "YouTube", href: "https://www.youtube.com/@parteaguasclub", Icon: Youtube },
+  { name: "Spotify", href: "https://open.spotify.com/show/parteaguas", Icon: Music2 },
+] as const;
 
 const About = () => {
   useEffect(() => {
@@ -80,6 +101,26 @@ const About = () => {
                 <em>Parteaguas Diario</em> y en redes sociales como{" "}
                 <span className="font-medium text-foreground">@parteaguasclub</span>.
               </p>
+
+              <div className="pt-2">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Sigue a Jonathan
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  {SOCIAL_LINKS.map(({ name, href, Icon }) => (
+                    <a
+                      key={name}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${name} de Parteaguas Club`}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                    >
+                      <Icon size={18} />
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         </div>
