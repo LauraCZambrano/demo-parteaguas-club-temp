@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Play, Pause, Headphones } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
+import InlineAudioPlayer from "@/components/InlineAudioPlayer";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
@@ -30,7 +31,7 @@ const ArticleDetail = () => {
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const { episode: activeEpisode, isPlaying, play, close } = useAudio();
+  const { episode: activeEpisode, close } = useAudio();
 
   // Stop audio when leaving the article page if the playing episode belongs to this article
   useEffect(() => {
@@ -137,31 +138,11 @@ const ArticleDetail = () => {
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               {article.sinopsis}
             </p>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
               <time className="text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
-              {(article.url_transistor || article.url_podcast) && (() => {
-                const ep = columnToEpisode(article);
-                const isThis = activeEpisode?.id === ep.id;
-                const playing = isThis && isPlaying;
-                return (
-                  <button
-                    onClick={() => play(ep)}
-                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-foreground/40 hover:text-foreground"
-                  >
-                    {playing ? (
-                      <>
-                        <Pause size={16} className="text-primary" />
-                        <span>Pausar resumen</span>
-                      </>
-                    ) : (
-                      <>
-                        <Headphones size={16} className="text-primary" />
-                        <span>Escuchar resumen de la nota</span>
-                      </>
-                    )}
-                  </button>
-                );
-              })()}
+              {(article.url_transistor || article.url_podcast) && (
+                <InlineAudioPlayer episode={columnToEpisode(article)} />
+              )}
             </div>
           </div>
 
