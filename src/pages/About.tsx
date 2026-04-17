@@ -86,20 +86,7 @@ const About = () => {
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Sigue a Parteaguas
                 </p>
-                <div className="mt-3 flex flex-wrap items-center gap-2">
-                  {SOCIAL_LINKS.map(({ name, href, Icon }) => (
-                    <a
-                      key={name}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${name} de Parteaguas Club`}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary"
-                    >
-                      <Icon size={18} />
-                    </a>
-                  ))}
-                </div>
+                <SocialLinks className="mt-3" />
               </div>
             </div>
           </section>
