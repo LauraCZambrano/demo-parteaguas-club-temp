@@ -104,7 +104,7 @@ const About = () => {
 
               <div className="pt-2">
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Sigue a Jonathan
+                  Sigue a Parteaguas
                 </p>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   {SOCIAL_LINKS.map(({ name, href, Icon }) => (
