@@ -138,12 +138,22 @@ const ArticleDetail = () => {
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               {article.sinopsis}
             </p>
-            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-4">
               <time className="text-sm text-muted-foreground">{formatDate(article.created_at)}</time>
-              {(article.url_transistor || article.url_podcast) && (
-                <InlineAudioPlayer episode={columnToEpisode(article)} />
-              )}
             </div>
+            {(article.url_transistor || article.url_podcast) && (
+              <div className="mt-8 rounded-2xl border border-border bg-muted/40 p-5 sm:p-6">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Escucha el resumen de la noticia
+                </p>
+                <h2 className="mt-1 font-editorial text-base font-semibold leading-snug text-foreground sm:text-lg">
+                  {article.titulo}
+                </h2>
+                <div className="mt-4">
+                  <InlineAudioPlayer episode={columnToEpisode(article)} label={article.titulo} />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
