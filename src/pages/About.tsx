@@ -33,7 +33,6 @@ const About = () => {
             </h2>
             <div className="prose-article mt-6 space-y-5 text-base leading-relaxed text-foreground">
               <p>
-                {/* TODO: Reemplazar con la descripción oficial de Parteaguas */}
                 Parteaguas es un espacio editorial donde la noticia se convierte en
                 contexto. Aquí no buscamos sumarnos al ruido del día, sino darte las
                 herramientas para entender por qué las cosas están pasando como
@@ -43,6 +42,12 @@ const About = () => {
                 A través de columnas editoriales, podcast y resúmenes en audio,
                 conectamos los hechos con sus causas, sus implicaciones y lo que
                 significan para tu vida personal, profesional y financiera.
+              </p>
+              <p>
+                La columna Parteaguas nace en 2014 dedicada a los negocios
+                disruptivos y tecnológicos, con réplica diaria en el podcast{" "}
+                <em>Parteaguas Diario</em> y presencia activa en redes sociales como{" "}
+                <span className="font-medium text-foreground">@parteaguasclub</span>.
               </p>
             </div>
           </section>
@@ -54,17 +59,26 @@ const About = () => {
             </h2>
             <div className="prose-article mt-6 space-y-5 text-base leading-relaxed text-foreground">
               <p>
-                {/* TODO: Reemplazar con la biografía real de Jonathan Ruiz */}
-                Jonathan Ruiz es periodista, analista y la voz detrás de Parteaguas
-                Club. Con años de trayectoria cubriendo temas de tecnología,
-                economía y sociedad, su trabajo se enfoca en traducir la
-                complejidad en ideas claras y accionables.
+                Jonathan Ruiz es comunicólogo egresado de la Universidad Autónoma
+                de Nuevo León (UANL), con estudios especializados sobre Mercados
+                de Petróleo, Gas y Energía en la Universidad de Houston.
               </p>
               <p>
-                Cada columna y cada episodio del podcast nacen de una convicción:
-                las audiencias merecen análisis honesto, sin clickbait y con la
-                profundidad necesaria para realmente entender el momento que
-                vivimos.
+                A lo largo de su carrera ha sido reportero y editor de información
+                de Negocios en <em>Milenio</em>, <em>El Norte</em> y{" "}
+                <em>Reforma</em>, donde fundó la columna institucional{" "}
+                <em>Capitanes</em>. Posteriormente fue Director General de
+                Información Económica en <em>El Financiero</em> y fundador de la
+                revista <em>Bloomberg Businessweek México</em>.
+              </p>
+              <p>
+                Como Director General de Proyectos Especiales de{" "}
+                <em>El Financiero</em>, encabezó los esfuerzos de contenidos
+                digitales de la organización. Desde 2014 escribe su columna{" "}
+                <em>Parteaguas</em>, dedicada a los negocios disruptivos y
+                tecnológicos, con réplica en el podcast{" "}
+                <em>Parteaguas Diario</em> y en redes sociales como{" "}
+                <span className="font-medium text-foreground">@parteaguasclub</span>.
               </p>
             </div>
           </section>
