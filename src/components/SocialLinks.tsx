@@ -1,4 +1,4 @@
-import { Instagram, Youtube, Music2 } from "lucide-react";
+import { Instagram, Music2 } from "lucide-react";
 
 const XIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
   <svg
