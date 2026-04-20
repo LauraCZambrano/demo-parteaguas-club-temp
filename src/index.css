@@ -160,26 +160,30 @@
 
 /* ============================================================
  * Global readability override for League Spartan
- * League Spartan has a low x-height; sizes below 13px become hard
+ * League Spartan has a low x-height; small sizes become hard
  * to read. We bump the smallest tiers globally so existing
  * components inherit the improvement without manual edits.
  * ============================================================ */
 @layer utilities {
-  .text-xs {
-    font-size: 0.8125rem !important;   /* 13px (was 12px) */
-    line-height: 1.4 !important;
-  }
   .text-\[10px\] {
-    font-size: 0.75rem !important;     /* 12px (was 10px) */
+    font-size: 0.875rem !important;    /* 14px (was 10px) */
     line-height: 1.4 !important;
   }
   .text-\[11px\] {
-    font-size: 0.8125rem !important;   /* 13px (was 11px) */
+    font-size: 0.9375rem !important;   /* 15px (was 11px) */
     line-height: 1.4 !important;
   }
   .text-\[12px\] {
-    font-size: 0.8125rem !important;   /* 13px (was 12px) */
+    font-size: 0.9375rem !important;   /* 15px (was 12px) */
     line-height: 1.4 !important;
+  }
+  .text-xs {
+    font-size: 0.9375rem !important;   /* 15px (was 12px) */
+    line-height: 1.45 !important;
+  }
+  .text-sm {
+    font-size: 1rem !important;        /* 16px (was 14px) */
+    line-height: 1.55 !important;
   }
 }
 
