@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
 import InlineAudioPlayer from "@/components/InlineAudioPlayer";
 import SocialLinks from "@/components/SocialLinks";
+import AdSlot from "@/components/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
@@ -152,6 +153,9 @@ const ArticleDetail = () => {
                 </div>
               </div>
             )}
+
+            {/* Zona A: después del reproductor de audio */}
+            <AdSlot zone="A" className="my-8" />
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
@@ -169,6 +173,8 @@ const ArticleDetail = () => {
                 {paragraphs.map((p, i) => (
                   <div key={i}>
                     <p className="whitespace-pre-line">{p}</p>
+                    {/* Zona B: después del tercer párrafo */}
+                    {i === 2 && <AdSlot zone="B" className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
                         <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
@@ -184,6 +190,9 @@ const ArticleDetail = () => {
               </div>
             );
           })()}
+
+          {/* Zona C: al finalizar el texto, antes de fuentes */}
+          <AdSlot zone="C" className="my-8" />
 
           {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
 
