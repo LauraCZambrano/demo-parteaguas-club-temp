@@ -16,7 +16,6 @@ const XIcon = ({ size = 18, className }: { size?: number; className?: string }) 
 export const SOCIAL_LINKS = [
   { name: "Instagram", href: "https://www.instagram.com/parteaguasclub", Icon: Instagram },
   { name: "X (Twitter)", href: "https://x.com/parteaguasclub", Icon: XIcon },
-  { name: "YouTube", href: "https://www.youtube.com/@parteaguasclub", Icon: Youtube },
   { name: "Spotify", href: "https://open.spotify.com/show/parteaguas", Icon: Music2 },
 ] as const;
 
