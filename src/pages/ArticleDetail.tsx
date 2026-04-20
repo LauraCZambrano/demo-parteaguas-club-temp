@@ -5,6 +5,7 @@ import SourcesSection from "@/components/SourcesSection";
 import InlineAudioPlayer from "@/components/InlineAudioPlayer";
 import SocialLinks from "@/components/SocialLinks";
 import AdSlot from "@/components/AdSlot";
+import { normalizeColumnText } from "@/lib/normalizeText";
 import { supabase } from "@/integrations/supabase/client";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
@@ -163,7 +164,7 @@ const ArticleDetail = () => {
           </div>
 
           {(() => {
-            const paragraphs = article.columna.split(/\n\s*\n/).filter(Boolean);
+            const paragraphs = normalizeColumnText(article.columna);
             const total = paragraphs.length;
             const insertImg2 = article.img2 ? Math.floor(total / 3) : -1;
             const insertImg3 = article.img3 ? Math.floor((total * 2) / 3) : -1;
@@ -172,7 +173,7 @@ const ArticleDetail = () => {
               <div className="prose-article mt-12 text-base leading-relaxed text-foreground space-y-6">
                 {paragraphs.map((p, i) => (
                   <div key={i}>
-                    <p className="whitespace-pre-line">{p}</p>
+                    <p>{p}</p>
                     {/* Zona B: después del tercer párrafo */}
                     {i === 2 && <AdSlot zone="B" className="my-8" />}
                     {i === insertImg2 && (
