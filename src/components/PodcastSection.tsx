@@ -52,6 +52,26 @@ const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: s
   </a>
 );
 
+/** Strip HTML tags and decode common entities from a string. Safe text-only output. */
+const stripHtml = (html: string): string => {
+  if (!html) return "";
+  // Remove tags
+  const noTags = html.replace(/<[^>]*>/g, " ");
+  // Decode common HTML entities
+  const decoded = noTags
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&hellip;/gi, "…")
+    .replace(/&mdash;/gi, "—")
+    .replace(/&ndash;/gi, "–");
+  // Collapse whitespace
+  return decoded.replace(/\s+/g, " ").trim();
+};
+
 /** Convert a Transistor episode to the AudioContext PodcastEpisode shape. */
 const toPodcastEpisode = (ep: TransistorEpisode): PodcastEpisode => ({
   id: String(ep.id),
@@ -203,7 +223,7 @@ const PodcastSection = () => {
               </h3>
               {(featured.summary || featured.description) && (
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
-                  {featured.summary || featured.description}
+                  {stripHtml(featured.summary || featured.description || "")}
                 </p>
               )}
               <div className="mt-2 flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
