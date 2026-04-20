@@ -39,16 +39,16 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          <button onClick={() => handleAnchorClick("#columnas")} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <button onClick={() => handleAnchorClick("#columnas")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Columnas
           </button>
-          <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </button>
           <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
             Suscribirse
           </Button>
-          <Link to="/acerca" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <Link to="/acerca" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Acerca de
           </Link>
         </nav>
@@ -69,13 +69,13 @@ const Header = () => {
           <div className="flex flex-col gap-4">
             <button
               onClick={() => handleAnchorClick("#columnas")}
-              className="text-left text-sm font-medium text-muted-foreground"
+              className="text-left text-base font-semibold text-muted-foreground"
             >
               Columnas
             </button>
             <button
               onClick={() => handleAnchorClick("#podcast")}
-              className="text-left text-sm font-medium text-muted-foreground"
+              className="text-left text-base font-semibold text-muted-foreground"
             >
               Podcast
             </button>
@@ -85,7 +85,7 @@ const Header = () => {
             <Link
               to="/acerca"
               onClick={() => setMobileOpen(false)}
-              className="text-left text-sm font-medium text-muted-foreground"
+              className="text-left text-base font-semibold text-muted-foreground"
             >
               Acerca de
             </Link>

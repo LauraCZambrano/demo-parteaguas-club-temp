@@ -37,7 +37,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
   return (
     <section id="columnas" className="py-16 md:py-24">
       <div className="container">
-        <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">
+        <h2 className="font-editorial text-3xl font-bold md:text-4xl lg:text-5xl">
           Columnas editoriales
         </h2>
         
@@ -91,19 +91,19 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
 
                   <div className="flex flex-1 flex-col px-5 pb-5 pt-3">
 
-                    <h3 className="font-editorial text-lg font-bold leading-snug tracking-tight text-foreground transition-colors duration-200 group-hover:text-muted-foreground">
+                    <h3 className="font-editorial text-xl font-bold leading-[1.25] text-foreground transition-colors duration-200 group-hover:text-muted-foreground">
                       {col.titulo}
                     </h3>
 
-                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-3 line-clamp-3 text-base leading-relaxed text-muted-foreground">
                       {col.sinopsis}
                     </p>
 
                     <div className="mt-auto pt-4">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-foreground transition-all group-hover:gap-2.5">
-                        Leer columna <ArrowRight size={12} />
+                      <span className="inline-flex items-center gap-1.5 text-sm font-bold text-foreground transition-all group-hover:gap-2.5">
+                        Leer columna <ArrowRight size={14} />
                       </span>
-                      <div className="mt-2 flex items-center gap-3 font-mono text-[11px] text-muted-foreground">
+                      <div className="mt-2 flex items-center gap-3 font-mono text-xs text-muted-foreground">
                         <time>{formatDate(col.created_at)}</time>
                       </div>
                     </div>

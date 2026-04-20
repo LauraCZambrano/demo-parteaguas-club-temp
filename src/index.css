@@ -94,27 +94,38 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* League Spartan needs slightly more letter spacing in body for readability */
+    letter-spacing: 0.005em;
   }
 
+  /* Headings — League Spartan is condensed; avoid aggressive negative tracking */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
+    letter-spacing: -0.005em;
+    font-feature-settings: "ss01", "ss02";
   }
 }
 
 @layer utilities {
   .font-editorial {
     font-family: var(--font-serif);
+    letter-spacing: -0.005em;
   }
   .font-body {
     font-family: var(--font-sans);
   }
+  /* Override Tailwind's tracking-tight for our display font — it's already condensed */
+  .tracking-tight {
+    letter-spacing: -0.005em !important;
+  }
 }
 
-/* Article prose styles */
+/* Article prose styles — optimized for League Spartan readability */
 .prose-article {
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.8;
+  font-size: 1.125rem;        /* 18px — League Spartan needs +1px vs Inter */
+  line-height: 1.75;
+  letter-spacing: 0.005em;
   color: hsl(var(--foreground));
 }
 
@@ -124,22 +135,26 @@
 
 .prose-article h2 {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.625rem;        /* 26px */
   font-weight: 700;
   margin-top: 2.5em;
   margin-bottom: 0.75em;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
+  line-height: 1.25;
 }
 
 .prose-article a {
   color: hsl(var(--primary));
   text-decoration: underline;
+  font-weight: 600;
 }
 
 .prose-article blockquote {
   border-left: 3px solid hsl(var(--primary));
   padding-left: 1.25em;
-  margin: 1.5em 0;
+  margin: 1.75em 0;
   font-style: italic;
+  font-size: 1.0625rem;
   color: hsl(var(--muted-foreground));
 }
+
