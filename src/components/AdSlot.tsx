@@ -22,7 +22,7 @@ const ZONE_CONFIG = {
 } as const;
 
 export function AdSlot({ zone, className }: AdSlotProps) {
-  // Special video preview for Zone B
+  // Zone B — Video advertisement (300×250)
   if (zone === "B") {
     return (
       <div className={cn("w-full flex flex-col items-center", className)}>
@@ -31,57 +31,22 @@ export function AdSlot({ zone, className }: AdSlotProps) {
           Publicidad
         </span>
 
-        {/* Video Preview Container — fixed 300x250 */}
+        {/* Video Container — 300×250 */}
         <div className="relative w-[300px] h-[250px] overflow-hidden rounded-sm bg-[#F4F4F5]">
-          {/* Animated gradient simulating muted autoplay video */}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "linear-gradient(120deg, hsl(45 90% 60%), hsl(220 70% 55%), hsl(280 60% 55%), hsl(160 70% 50%))",
-              backgroundSize: "300% 300%",
-              animation: "adslot-gradient 6s ease infinite",
-            }}
+          <video
+            src="https://res.cloudinary.com/dfdy3dt9h/video/upload/v1776797362/Video_de_Anuncio_de_Podcast_ui6ahg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
           />
-
-          {/* Dark overlay for legibility */}
-          <div className="absolute inset-0 bg-black/35" />
-
-          {/* Play icon + label centered */}
-          <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-white px-3 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm ring-1 ring-white/40">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-            <p className="mt-3 text-sm font-semibold tracking-wide">
-              Video Muted / Autoplay
-            </p>
-            <p className="mt-1 text-[11px] text-white/80 font-mono">
-              300×250 · H.264
-            </p>
-          </div>
-
-          {/* Internal note badge */}
-          <div className="absolute top-2 left-2 z-10 rounded-full bg-black/60 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/90">
-            Alto impacto · CPM 2–4x
+          
+          {/* Subtle "Publicidad" badge overlay */}
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
+            Publicidad
           </div>
         </div>
-
-        {/* Inline keyframes for the gradient */}
-        <style>{`
-          @keyframes adslot-gradient {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}</style>
       </div>
     );
   }
