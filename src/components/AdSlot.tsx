@@ -66,7 +66,7 @@ export function AdSlot({ zone, className }: AdSlotProps) {
             src="https://res.cloudinary.com/dfdy3dt9h/image/upload/v1776796272/banner_b_g8xzo8.jpg"
             alt="Espacio publicitario C"
             loading="lazy"
-            className="h-full w-full object-contain"
+            className="h-full w-full object-cover"
           />
         </div>
       </div>
@@ -94,7 +94,7 @@ export function AdSlot({ zone, className }: AdSlotProps) {
           src={adPlaceholderBanner}
           alt={`Espacio publicitario ${config.label} — Síguenos en redes sociales`}
           loading="lazy"
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover"
         />
       </div>
     </div>
