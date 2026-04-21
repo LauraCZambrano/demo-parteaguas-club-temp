@@ -51,7 +51,29 @@ export function AdSlot({ zone, className }: AdSlotProps) {
     );
   }
 
-  // Default static slot for Zones A and C
+// Zone C — Specific banner from Cloudinary
+  if (zone === "C") {
+    return (
+      <div className={cn("w-full", className)}>
+        {/* Legal Label */}
+        <span className="block text-[10px] text-muted-foreground text-left mb-1">
+          Publicidad
+        </span>
+
+        {/* Ad Container — Cloudinary banner */}
+        <div className="w-full overflow-hidden rounded-sm bg-[#F4F4F5] min-h-[50px] md:min-h-[90px]">
+          <img
+            src="https://res.cloudinary.com/dfdy3dt9h/image/upload/v1776796272/banner_b_g8xzo8.jpg"
+            alt="Espacio publicitario C"
+            loading="lazy"
+            className="h-full w-full object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Default static slot for Zone A
   const config = ZONE_CONFIG[zone];
 
   return (
