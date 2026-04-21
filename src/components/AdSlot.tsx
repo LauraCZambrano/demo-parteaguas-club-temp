@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import adPlaceholderBanner from "@/assets/ad-placeholder-banner.jpg";
 
 interface AdSlotProps {
   zone: "A" | "B" | "C";
@@ -95,22 +96,19 @@ export function AdSlot({ zone, className }: AdSlotProps) {
         Publicidad
       </span>
 
-      {/* Ad Container */}
+      {/* Ad Container — placeholder banner */}
       <div
         className={cn(
-          "w-full flex items-center justify-center bg-[#F4F4F5] rounded-sm",
+          "w-full overflow-hidden rounded-sm bg-[#F4F4F5]",
           config.heightClasses
         )}
       >
-        <div className="text-center px-4">
-          <p className="text-sm font-medium text-muted-foreground">
-            Espacio Publicitario {config.label}
-          </p>
-          <p className="text-xs text-muted-foreground/70 mt-1">
-            <span className="hidden sm:inline">{config.desktopSize}</span>
-            <span className="sm:hidden">{config.mobileSize}</span>
-          </p>
-        </div>
+        <img
+          src={adPlaceholderBanner}
+          alt={`Espacio publicitario ${config.label} — Síguenos en redes sociales`}
+          loading="lazy"
+          className="h-full w-full object-contain"
+        />
       </div>
     </div>
   );
