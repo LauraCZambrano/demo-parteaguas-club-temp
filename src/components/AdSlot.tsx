@@ -82,7 +82,32 @@ export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: A
     return () => clearInterval(t);
   }, [ads.length, isHovered]);
 
-  if (!ads || ads.length === 0) return null;
+  // Zone B has no fallback (es slot 300x250 in-content); A & C muestran house ad
+  if (!ads || ads.length === 0) {
+    if (zone === "B") return null;
+    const fb = { ...FALLBACK_AD, zone };
+    return (
+      <div ref={containerRef} className={cn("w-full", className)}>
+        <span className="block text-[10px] text-muted-foreground text-left mb-1">Publicidad</span>
+        <a
+          href={fb.url_destination}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "block w-full overflow-hidden rounded-sm bg-[#F4F4F5]",
+            ZONE_HEIGHT[zone]
+          )}
+        >
+          <img
+            src={fb.url_image ?? ""}
+            alt={fb.alt_text ?? "Publicidad"}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </a>
+      </div>
+    );
+  }
 
   const current = ads[index];
   const isVideo = zone === "B" && !!current.url_video;
