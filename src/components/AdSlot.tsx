@@ -83,9 +83,32 @@ export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: A
     return () => clearInterval(t);
   }, [ads.length, isHovered]);
 
-  // Zone B has no fallback (es slot 300x250 in-content); A & C muestran house ad
+  // Fallback house ad cuando la API no devuelve anuncios
   if (!ads || ads.length === 0) {
-    if (zone === "B") return null;
+    if (zone === "B") {
+      return (
+        <div ref={containerRef} className={cn("w-full flex flex-col items-center", className)}>
+          <span className="block text-[10px] text-muted-foreground text-left mb-1 w-full max-w-[300px]">
+            Publicidad
+          </span>
+          <a
+            href={FALLBACK_AD.url_destination}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative block w-[300px] h-[250px] overflow-hidden rounded-sm bg-[#F4F4F5]"
+          >
+            <img
+              src={adFallbackB}
+              alt={FALLBACK_AD.alt_text ?? "Publicidad"}
+              loading="lazy"
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
+            />
+          </a>
+        </div>
+      );
+    }
     const fb = { ...FALLBACK_AD, zone };
     return (
       <div ref={containerRef} className={cn("w-full", className)}>
