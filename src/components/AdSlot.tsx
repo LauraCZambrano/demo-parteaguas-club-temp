@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Ad, AdZone } from "@/hooks/useArticleAds";
 import { trackAdClick, trackAdImpression } from "@/lib/adTracking";
+import adFallback from "@/assets/ad-fallback.jpg";
 
 interface AdSlotProps {
   zone: AdZone;
@@ -10,6 +11,18 @@ interface AdSlotProps {
   articleCategory: string;
   className?: string;
 }
+
+const FALLBACK_AD: Ad = {
+  id: "fallback-promocionate",
+  zone: "A",
+  category: "global",
+  url_image: adFallback,
+  url_video: null,
+  url_destination: "mailto:contacto@parteaguas.club?subject=Quiero%20promocionarme%20en%20Parteaguas",
+  advertiser: "Parteaguas",
+  alt_text: "¿Quieres promocionarte aquí? Contáctanos",
+  priority: 999,
+};
 
 const ROTATION_MS = 8000;
 
