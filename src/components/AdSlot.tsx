@@ -110,14 +110,18 @@ export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: A
               muted
               loop
               playsInline
-              className="h-full w-full object-cover"
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
             />
           ) : (
             <img
               src={current.url_image ?? ""}
               alt={current.alt_text ?? "Publicidad"}
               loading="lazy"
-              className="h-full w-full object-cover"
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
             />
           )}
           <div className="absolute top-2 right-2 z-10 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
