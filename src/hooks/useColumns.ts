@@ -19,6 +19,7 @@ export interface ColumnRecord {
   status: string;
   created_at: string;
   fuentes: string | null;
+  category?: string | null;
 }
 
 export const useColumns = () => {
