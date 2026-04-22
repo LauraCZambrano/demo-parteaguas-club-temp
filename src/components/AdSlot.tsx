@@ -14,9 +14,9 @@ interface AdSlotProps {
 const ROTATION_MS = 8000;
 
 const ZONE_HEIGHT: Record<AdZone, string> = {
-  A: "min-h-[50px] md:min-h-[90px]",
+  A: "h-[50px] md:h-[90px]",
   B: "",
-  C: "min-h-[50px] md:min-h-[90px]",
+  C: "h-[50px] md:h-[90px]",
 };
 
 export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: AdSlotProps) {
