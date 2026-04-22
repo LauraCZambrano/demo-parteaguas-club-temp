@@ -1,5 +1,5 @@
 const WEBHOOK_URL =
-  "https://ericdacodes.app.n8n.cloud/webhook-test/78742ead-9c42-4af7-befe-5604957b2f92/ads";
+  "https://ericdacodes.app.n8n.cloud/webhook/78742ead-9c42-4af7-befe-5604957b2f92/ads";
 
 export type AdEventType = "impression" | "click";
 
