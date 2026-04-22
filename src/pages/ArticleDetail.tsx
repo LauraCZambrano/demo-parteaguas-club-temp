@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
+import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
@@ -35,6 +36,9 @@ const ArticleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
+  const { ads } = useArticleAds(article?.category ?? null);
+  const articleSlug = article ? slugify(article.titulo) : "";
+  const articleCategory = article?.category ?? "";
 
   // Stop audio when leaving the article page if the playing episode belongs to this article
   useEffect(() => {
@@ -156,7 +160,7 @@ const ArticleDetail = () => {
             )}
 
             {/* Zona A: después del reproductor de audio */}
-            <AdSlot zone="A" className="my-8" />
+            <AdSlot zone="A" ads={ads.A} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
@@ -175,7 +179,7 @@ const ArticleDetail = () => {
                   <div key={i}>
                     <p>{p}</p>
                     {/* Zona B: después del tercer párrafo */}
-                    {i === 2 && <AdSlot zone="B" className="my-8" />}
+                    {i === 2 && <AdSlot zone="B" ads={ads.B} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
                         <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
@@ -193,7 +197,7 @@ const ArticleDetail = () => {
           })()}
 
           {/* Zona C: al finalizar el texto, antes de fuentes */}
-          <AdSlot zone="C" className="my-8" />
+          <AdSlot zone="C" ads={ads.C} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
 
           {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
 
