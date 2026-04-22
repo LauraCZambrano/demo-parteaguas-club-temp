@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import type { Ad, AdZone } from "@/hooks/useArticleAds";
 import { trackAdClick, trackAdImpression } from "@/lib/adTracking";
 import adFallback from "@/assets/ad-fallback.jpg";
+import adFallbackB from "@/assets/ad-fallback-b.jpg";
 
 interface AdSlotProps {
   zone: AdZone;
