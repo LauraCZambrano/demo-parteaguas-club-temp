@@ -6,42 +6,53 @@ interface SourcesSectionProps {
 }
 
 const URL_REGEX = /https?:\/\/[^\s)]+/g;
-// Detecta dominios "sueltos" tipo businesswire.com, apple.com/newsroom, etc.
+// Detecta dominios "sueltos" tipo businesswire.com, a71.mx/premio-innovacion/, apple.com/newsroom, etc.
 const BARE_DOMAIN_REGEX =
   /\b((?:[a-z0-9-]+\.)+[a-z]{2,})(\/[^\s,;)"']*)?/i;
 
+const extractUrl = (line: string): { url: string; matchText: string } | null => {
+  const explicit = line.match(URL_REGEX);
+  if (explicit && explicit.length > 0) {
+    return { url: explicit[0], matchText: explicit[0] };
+  }
+  const bare = line.match(BARE_DOMAIN_REGEX);
+  if (bare) {
+    return { url: `https://${bare[0]}`, matchText: bare[0] };
+  }
+  return null;
+};
+
 const parseSource = (line: string) => {
-  const urls = line.match(URL_REGEX);
-  if (urls && urls.length > 0) {
-    const url = urls[0];
+  // 1) Intentar separar título (hasta el primer ")" tras una fecha) y descripción.
+  // Patrón típico: "Apple Newsroom / Business Wire (20 de abril de 2026): Tim Cook to become..."
+  const split = line.match(/^(.+?\([^)]*\))\s*[:\-–—.]?\s*(.+)$/);
+  if (split) {
+    const title = split[1].trim();
+    const rest = split[2].trim();
+    const found = extractUrl(line);
+    const url = found ? found.url : null;
+    return { kind: "expandable" as const, title, rest, url };
+  }
+
+  // 2) Sin patrón título+fecha: si hay URL (explícita o dominio suelto), tratar como link.
+  const found = extractUrl(line);
+  if (found) {
     let text = line
-      .replace(url, "")
+      .replace(found.matchText, "")
       .replace(/[,\-–—:•]\s*$/, "")
       .replace(/^\s*[,\-–—:•]\s*/, "")
       .trim();
     if (!text) {
       try {
-        text = new URL(url).hostname.replace("www.", "");
+        text = new URL(found.url).hostname.replace("www.", "");
       } catch {
-        text = url;
+        text = found.matchText;
       }
     }
-    return { kind: "link" as const, text, url };
+    return { kind: "link" as const, text, url: found.url };
   }
 
-  // Sin URL explícita: intentamos separar título (hasta el primer ")" tras una fecha) y descripción.
-  // Patrón típico: "Apple Newsroom / Business Wire (20 de abril de 2026): Tim Cook to become..."
-  const match = line.match(/^(.+?\([^)]*\))\s*[:\-–—.]?\s*(.+)$/);
-  if (match) {
-    const title = match[1].trim();
-    const rest = match[2].trim();
-    // Buscar un dominio mencionado en cualquier parte del texto para enlazar
-    const domainMatch = line.match(BARE_DOMAIN_REGEX);
-    const url = domainMatch ? `https://${domainMatch[0]}` : null;
-    return { kind: "expandable" as const, title, rest, url };
-  }
-
-  // Línea libre con formato: respetar tal cual
+  // 3) Línea libre sin URL: respetar tal cual
   return { kind: "plain" as const, text: line.trim() };
 };
 
