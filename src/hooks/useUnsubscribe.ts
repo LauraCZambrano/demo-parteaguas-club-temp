@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-// TODO: Reemplazar con la URL final del webhook n8n para procesar desuscripciones.
-const UNSUBSCRIBE_WEBHOOK = "https://ericdacodes.app.n8n.cloud/webhook/REEMPLAZAR-UNSUBSCRIBE";
+const UNSUBSCRIBE_WEBHOOK = "https://ericdacodes.app.n8n.cloud/webhook-test/unsubscribe-parteaguas";
 
 export type UnsubscribeStatus = "idle" | "loading" | "success" | "error";
 
