@@ -14,8 +14,14 @@ interface UnsubscribePayload {
 export const useUnsubscribe = () => {
   const [status, setStatus] = useState<UnsubscribeStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const statusRef = useRef<UnsubscribeStatus>("idle");
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const updateStatus = (next: UnsubscribeStatus) => {
+    statusRef.current = next;
+    setStatus(next);
+  };
 
   const cleanup = () => {
     if (channelRef.current) {
@@ -32,13 +38,13 @@ export const useUnsubscribe = () => {
 
   const unsubscribe = async ({ token, email }: UnsubscribePayload) => {
     if (!token && !email) {
-      setStatus("error");
+      updateStatus("error");
       setErrorMessage("Falta el token o el correo para procesar la baja.");
       return false;
     }
 
     cleanup();
-    setStatus("loading");
+    updateStatus("loading");
     setErrorMessage(null);
 
     const normalizedEmail = email ? email.trim().toLowerCase() : null;
@@ -53,7 +59,7 @@ export const useUnsubscribe = () => {
       if (newRow.status !== "unsubscribed") return;
       if (normalizedEmail && newRow.email?.toLowerCase?.() !== normalizedEmail) return;
       // Confirmado por la base de datos.
-      setStatus("success");
+      updateStatus("success");
       cleanup();
     };
 
@@ -82,14 +88,12 @@ export const useUnsubscribe = () => {
 
     // 2) Timeout de seguridad: si la BD no confirma, marcamos error.
     timeoutRef.current = setTimeout(() => {
-      setStatus((prev) => {
-        if (prev === "success") return prev;
-        setErrorMessage(
-          "No recibimos confirmación de la baja. Intenta de nuevo en unos minutos."
-        );
-        cleanup();
-        return "error";
-      });
+      if (statusRef.current === "success") return;
+      setErrorMessage(
+        "No recibimos confirmación de la baja. Intenta de nuevo en unos minutos."
+      );
+      updateStatus("error");
+      cleanup();
     }, CONFIRMATION_TIMEOUT_MS);
 
     // 3) Disparar el webhook (no marca éxito por sí solo).
@@ -112,7 +116,7 @@ export const useUnsubscribe = () => {
       return true;
     } catch {
       cleanup();
-      setStatus("error");
+      updateStatus("error");
       setErrorMessage(
         "No pudimos procesar tu baja. Intenta de nuevo en unos minutos."
       );
