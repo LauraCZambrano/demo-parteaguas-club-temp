@@ -88,14 +88,12 @@ export const useUnsubscribe = () => {
 
     // 2) Timeout de seguridad: si la BD no confirma, marcamos error.
     timeoutRef.current = setTimeout(() => {
-      setStatus((prev) => {
-        if (prev === "success") return prev;
-        setErrorMessage(
-          "No recibimos confirmación de la baja. Intenta de nuevo en unos minutos."
-        );
-        cleanup();
-        return "error";
-      });
+      if (statusRef.current === "success") return;
+      setErrorMessage(
+        "No recibimos confirmación de la baja. Intenta de nuevo en unos minutos."
+      );
+      updateStatus("error");
+      cleanup();
     }, CONFIRMATION_TIMEOUT_MS);
 
     // 3) Disparar el webhook (no marca éxito por sí solo).
