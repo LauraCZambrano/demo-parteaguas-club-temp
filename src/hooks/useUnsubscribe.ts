@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const UNSUBSCRIBE_WEBHOOK = "https://ericdacodes.app.n8n.cloud/webhook-test/unsubscribe-parteaguas";
+const UNSUBSCRIBE_WEBHOOK = "https://ericdacodes.app.n8n.cloud/webhook/unsubscribe-parteaguas";
 const CONFIRMATION_TIMEOUT_MS = 20000;
 
 export type UnsubscribeStatus = "idle" | "loading" | "success" | "error";
