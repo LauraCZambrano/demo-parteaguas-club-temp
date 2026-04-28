@@ -38,13 +38,13 @@ export const useUnsubscribe = () => {
 
   const unsubscribe = async ({ token, email }: UnsubscribePayload) => {
     if (!token && !email) {
-      setStatus("error");
+      updateStatus("error");
       setErrorMessage("Falta el token o el correo para procesar la baja.");
       return false;
     }
 
     cleanup();
-    setStatus("loading");
+    updateStatus("loading");
     setErrorMessage(null);
 
     const normalizedEmail = email ? email.trim().toLowerCase() : null;
