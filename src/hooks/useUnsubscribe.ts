@@ -59,7 +59,7 @@ export const useUnsubscribe = () => {
       if (newRow.status !== "unsubscribed") return;
       if (normalizedEmail && newRow.email?.toLowerCase?.() !== normalizedEmail) return;
       // Confirmado por la base de datos.
-      setStatus("success");
+      updateStatus("success");
       cleanup();
     };
 
