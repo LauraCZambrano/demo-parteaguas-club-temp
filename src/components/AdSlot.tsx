@@ -1,102 +1,226 @@
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import adPlaceholderBanner from "@/assets/ad-placeholder-banner.jpg";
+import type { Ad, AdZone } from "@/hooks/useArticleAds";
+import { trackAdClick, trackAdImpression } from "@/lib/adTracking";
+import adFallback from "@/assets/ad-fallback.jpg";
+import adFallbackB from "@/assets/ad-fallback-b.jpg";
 
 interface AdSlotProps {
-  zone: "A" | "B" | "C";
+  zone: AdZone;
+  ads: Ad[];
+  articleSlug: string;
+  articleCategory: string;
   className?: string;
 }
 
-const ZONE_CONFIG = {
-  A: {
-    label: "A",
-    desktopSize: "728x90",
-    mobileSize: "320x50",
-    heightClasses: "min-h-[50px] md:min-h-[90px]",
-  },
-  C: {
-    label: "C",
-    desktopSize: "728x90",
-    mobileSize: "320x50",
-    heightClasses: "min-h-[50px] md:min-h-[90px]",
-  },
-} as const;
+const FALLBACK_AD: Ad = {
+  id: "fallback-promocionate",
+  zone: "A",
+  category: "global",
+  url_image: adFallback,
+  url_video: null,
+  url_destination: "mailto:contacto@parteaguas.club?subject=Quiero%20promocionarme%20en%20Parteaguas",
+  advertiser: "Parteaguas",
+  alt_text: "¿Quieres promocionarte aquí? Contáctanos",
+  priority: 999,
+};
 
-export function AdSlot({ zone, className }: AdSlotProps) {
-  // Zone B — Video advertisement (300×250)
-  if (zone === "B") {
-    return (
-      <div className={cn("w-full flex flex-col items-center", className)}>
-        {/* Legal Label */}
-        <span className="block text-[10px] text-muted-foreground text-left mb-1 w-full max-w-[300px]">
-          Publicidad
-        </span>
+const ROTATION_MS = 8000;
 
-        {/* Video Container — 300×250 */}
-        <div className="relative w-[300px] h-[250px] overflow-hidden rounded-sm bg-[#F4F4F5]">
-          <video
-            src="https://res.cloudinary.com/dfdy3dt9h/video/upload/v1776797362/Video_de_Anuncio_de_Podcast_ui6ahg.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="h-full w-full object-cover"
-          />
-          
-          {/* Subtle "Publicidad" badge overlay */}
-          <div className="absolute top-2 right-2 z-10 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
-            Publicidad
-          </div>
-        </div>
-      </div>
+const ZONE_HEIGHT: Record<AdZone, string> = {
+  A: "h-[50px] md:h-[90px]",
+  B: "",
+  C: "h-[50px] md:h-[90px]",
+};
+
+export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: AdSlotProps) {
+  const [index, setIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const impressionsRef = useRef<Set<string>>(new Set());
+
+  // Reset when ads change
+  useEffect(() => {
+    setIndex(0);
+    impressionsRef.current = new Set();
+  }, [ads]);
+
+  // Intersection Observer: track visibility (>=50%)
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node || ads.length === 0) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting && entry.intersectionRatio >= 0.5),
+      { threshold: [0, 0.5, 1] }
     );
-  }
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [ads.length]);
 
-// Zone C — Specific banner from Cloudinary
-  if (zone === "C") {
+  // Register impression for currently visible ad
+  useEffect(() => {
+    if (!isVisible || ads.length === 0) return;
+    const current = ads[index];
+    if (!current) return;
+    const key = String(current.id);
+    if (impressionsRef.current.has(key)) return;
+    impressionsRef.current.add(key);
+    trackAdImpression({
+      ad_id: current.id,
+      event_type: "impression",
+      article_slug: articleSlug,
+      article_category: articleCategory,
+    });
+  }, [isVisible, index, ads, articleSlug, articleCategory]);
+
+  // Carousel rotation
+  useEffect(() => {
+    if (ads.length <= 1 || isHovered) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % ads.length);
+    }, ROTATION_MS);
+    return () => clearInterval(t);
+  }, [ads.length, isHovered]);
+
+  // Fallback house ad cuando la API no devuelve anuncios
+  if (!ads || ads.length === 0) {
+    if (zone === "B") {
+      return (
+        <div ref={containerRef} className={cn("w-full flex flex-col items-center", className)}>
+          <span className="block text-[10px] text-muted-foreground text-left mb-1 w-full max-w-[300px]">
+            Publicidad
+          </span>
+          <a
+            href={FALLBACK_AD.url_destination}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative block w-[300px] h-[250px] overflow-hidden rounded-sm bg-[#F4F4F5]"
+          >
+            <img
+              src={adFallbackB}
+              alt={FALLBACK_AD.alt_text ?? "Publicidad"}
+              loading="lazy"
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
+            />
+          </a>
+        </div>
+      );
+    }
+    const fb = { ...FALLBACK_AD, zone };
     return (
-      <div className={cn("w-full", className)}>
-        {/* Legal Label */}
-        <span className="block text-[10px] text-muted-foreground text-left mb-1">
-          Publicidad
-        </span>
-
-        {/* Ad Container — Cloudinary banner */}
-        <div className="w-full overflow-hidden rounded-sm bg-[#F4F4F5] min-h-[50px] md:min-h-[90px]">
+      <div ref={containerRef} className={cn("w-full", className)}>
+        <span className="block text-[10px] text-muted-foreground text-left mb-1">Publicidad</span>
+        <a
+          href={fb.url_destination}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "block w-full overflow-hidden rounded-sm bg-[#F4F4F5]",
+            ZONE_HEIGHT[zone]
+          )}
+        >
           <img
-            src="https://res.cloudinary.com/dfdy3dt9h/image/upload/v1776796272/banner_b_g8xzo8.jpg"
-            alt="Espacio publicitario C"
+            src={fb.url_image ?? ""}
+            alt={fb.alt_text ?? "Publicidad"}
             loading="lazy"
             className="h-full w-full object-cover"
           />
-        </div>
+        </a>
       </div>
     );
   }
 
-  // Default static slot for Zone A
-  const config = ZONE_CONFIG[zone];
+  const current = ads[index];
+  const isVideo = zone === "B" && !!current.url_video;
 
-  return (
-    <div className={cn("w-full", className)}>
-      {/* Legal Label */}
-      <span className="block text-[10px] text-muted-foreground text-left mb-1">
-        Publicidad
-      </span>
+  const handleClick = () => {
+    trackAdClick({
+      ad_id: current.id,
+      event_type: "click",
+      article_slug: articleSlug,
+      article_category: articleCategory,
+    });
+  };
 
-      {/* Ad Container — placeholder banner */}
+  // Zone B: 300x250 video/image
+  if (zone === "B") {
+    return (
       <div
+        ref={containerRef}
+        className={cn("w-full flex flex-col items-center", className)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <span className="block text-[10px] text-muted-foreground text-left mb-1 w-full max-w-[300px]">
+          Publicidad
+        </span>
+        <a
+          href={current.url_destination}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleClick}
+          className="relative block w-[300px] h-[250px] overflow-hidden rounded-sm bg-[#F4F4F5] transition-opacity duration-500"
+          key={current.id}
+        >
+          {isVideo ? (
+            <video
+              src={current.url_video!}
+              autoPlay
+              muted
+              loop
+              playsInline
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
+            />
+          ) : (
+            <img
+              src={current.url_image ?? ""}
+              alt={current.alt_text ?? "Publicidad"}
+              loading="lazy"
+              width={300}
+              height={250}
+              className="block h-[250px] w-[300px] object-cover"
+            />
+          )}
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/90 backdrop-blur-sm">
+            Publicidad
+          </div>
+        </a>
+      </div>
+    );
+  }
+
+  // Zone A & C: banner
+  return (
+    <div
+      ref={containerRef}
+      className={cn("w-full", className)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <span className="block text-[10px] text-muted-foreground text-left mb-1">Publicidad</span>
+      <a
+        href={current.url_destination}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={handleClick}
+        key={current.id}
         className={cn(
-          "w-full overflow-hidden rounded-sm bg-[#F4F4F5]",
-          config.heightClasses
+          "block w-full overflow-hidden rounded-sm bg-[#F4F4F5] transition-opacity duration-500",
+          ZONE_HEIGHT[zone]
         )}
       >
         <img
-          src={adPlaceholderBanner}
-          alt={`Espacio publicitario ${config.label} — Síguenos en redes sociales`}
+          src={current.url_image ?? ""}
+          alt={current.alt_text ?? "Publicidad"}
           loading="lazy"
           className="h-full w-full object-cover"
         />
-      </div>
+      </a>
     </div>
   );
 }

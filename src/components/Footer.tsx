@@ -68,6 +68,7 @@ const Footer = () => {
               <ul className="mt-3 space-y-2 text-sm opacity-70">
                 <li><a href="#" className="hover:opacity-100">Privacidad</a></li>
                 <li><a href="#" className="hover:opacity-100">Términos</a></li>
+                <li><button onClick={() => navigate("/desuscribir")} className="hover:opacity-100">Desuscribirse</button></li>
               </ul>
             </div>
           </div>

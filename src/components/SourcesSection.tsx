@@ -1,28 +1,102 @@
 import { useState } from "react";
-import { BookOpen, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { BookOpen, ExternalLink, ChevronDown, ChevronUp, Plus, Minus } from "lucide-react";
 
 interface SourcesSectionProps {
   fuentes: string;
 }
 
 const URL_REGEX = /https?:\/\/[^\s)]+/g;
+// Detecta dominios "sueltos" tipo businesswire.com, a71.mx/premio-innovacion/, apple.com/newsroom, etc.
+const BARE_DOMAIN_REGEX =
+  /\b((?:[a-z0-9-]+\.)+[a-z]{2,})(\/[^\s,;)"']*)?/i;
+
+const extractUrl = (line: string): { url: string; matchText: string } | null => {
+  const explicit = line.match(URL_REGEX);
+  if (explicit && explicit.length > 0) {
+    return { url: explicit[0], matchText: explicit[0] };
+  }
+  const bare = line.match(BARE_DOMAIN_REGEX);
+  if (bare) {
+    return { url: `https://${bare[0]}`, matchText: bare[0] };
+  }
+  return null;
+};
 
 const parseSource = (line: string) => {
-  const urls = line.match(URL_REGEX);
-  if (!urls || urls.length === 0) {
-    return { text: line.trim(), url: null };
+  // 1) Intentar separar título (hasta el primer ")" tras una fecha) y descripción.
+  // Patrón típico: "Apple Newsroom / Business Wire (20 de abril de 2026): Tim Cook to become..."
+  const split = line.match(/^(.+?\([^)]*\))\s*[:\-–—.]?\s*(.+)$/);
+  if (split) {
+    const title = split[1].trim();
+    const rest = split[2].trim();
+    const found = extractUrl(line);
+    const url = found ? found.url : null;
+    return { kind: "expandable" as const, title, rest, url };
   }
-  const url = urls[0];
-  let text = line.replace(url, "").replace(/[,\-–—:•]\s*$/, "").replace(/^\s*[,\-–—:•]\s*/, "").trim();
-  if (!text) {
-    try {
-      const hostname = new URL(url).hostname.replace("www.", "");
-      text = hostname;
-    } catch {
-      text = url;
+
+  // 2) Sin patrón título+fecha: si hay URL (explícita o dominio suelto), tratar como link.
+  const found = extractUrl(line);
+  if (found) {
+    let text = line
+      .replace(found.matchText, "")
+      .replace(/[,\-–—:•]\s*$/, "")
+      .replace(/^\s*[,\-–—:•]\s*/, "")
+      .trim();
+    if (!text) {
+      try {
+        text = new URL(found.url).hostname.replace("www.", "");
+      } catch {
+        text = found.matchText;
+      }
     }
+    return { kind: "link" as const, text, url: found.url };
   }
-  return { text, url };
+
+  // 3) Línea libre sin URL: respetar tal cual
+  return { kind: "plain" as const, text: line.trim() };
+};
+
+const ExpandableSource = ({
+  title,
+  rest,
+  url,
+}: {
+  title: string;
+  rest: string;
+  url: string | null;
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="flex-1">
+      <div className="flex items-start gap-2">
+        <span className="flex-1 text-foreground">
+          {url ? (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-wrap items-baseline gap-1 underline decoration-muted-foreground/30 underline-offset-2 transition-colors hover:decoration-primary hover:text-primary"
+            >
+              {title}
+              <ExternalLink size={12} className="ml-0.5 inline-block translate-y-[1px] flex-shrink-0" />
+            </a>
+          ) : (
+            title
+          )}
+        </span>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted-foreground/10 hover:text-foreground"
+          aria-label={open ? "Ocultar detalle" : "Ver detalle"}
+        >
+          {open ? <Minus size={14} /> : <Plus size={14} />}
+        </button>
+      </div>
+      {open && (
+        <p className="mt-2 text-muted-foreground animate-fade-in">{rest}</p>
+      )}
+    </div>
+  );
 };
 
 const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
@@ -61,23 +135,27 @@ const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
               <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-bold text-muted-foreground">
                 {i + 1}
               </span>
-            <span className="flex-1">
-              {src.url ? (
-                <a
-                  href={src.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex flex-wrap items-baseline gap-1 text-foreground underline decoration-muted-foreground/30 underline-offset-2 transition-colors hover:decoration-primary hover:text-primary"
-                >
-                  {src.text}
-                  <ExternalLink size={12} className="ml-0.5 inline-block translate-y-[1px] flex-shrink-0" />
-                </a>
-              ) : (
-                <span className="text-foreground">{src.text}</span>
+              {src.kind === "link" && (
+                <span className="flex-1">
+                  <a
+                    href={src.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex flex-wrap items-baseline gap-1 text-foreground underline decoration-muted-foreground/30 underline-offset-2 transition-colors hover:decoration-primary hover:text-primary"
+                  >
+                    {src.text}
+                    <ExternalLink size={12} className="ml-0.5 inline-block translate-y-[1px] flex-shrink-0" />
+                  </a>
+                </span>
               )}
-            </span>
-          </li>
-        ))}
+              {src.kind === "expandable" && (
+                <ExpandableSource title={src.title} rest={src.rest} url={src.url} />
+              )}
+              {src.kind === "plain" && (
+                <span className="flex-1 text-foreground">{src.text}</span>
+              )}
+            </li>
+          ))}
         </ol>
       )}
     </div>
