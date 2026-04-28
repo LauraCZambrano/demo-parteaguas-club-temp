@@ -78,7 +78,7 @@ export const useUnsubscribe = () => {
     const channelName = `unsubscribe-${normalizedEmail ?? token}-${Date.now()}`;
     const channel = supabase.channel(channelName);
 
-    const handleUpdate = (payload: any) => {
+    const handleUpdate = (payload: { new?: { status?: string; email?: string | null } }) => {
       const newRow = payload?.new ?? {};
       if (newRow.status !== "unsubscribed") return;
       if (normalizedEmail && newRow.email?.toLowerCase?.() !== normalizedEmail) return;
