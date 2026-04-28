@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const UNSUBSCRIBE_WEBHOOK = "https://ericdacodes.app.n8n.cloud/webhook/unsubscribe-parteaguas";
 const CONFIRMATION_TIMEOUT_MS = 20000;
+const REALTIME_READY_TIMEOUT_MS = 8000;
 
 export type UnsubscribeStatus = "idle" | "loading" | "success" | "error";
 
@@ -36,6 +37,29 @@ export const useUnsubscribe = () => {
 
   useEffect(() => () => cleanup(), []);
 
+  const waitForRealtimeReady = (channel: ReturnType<typeof supabase.channel>) =>
+    new Promise<void>((resolve, reject) => {
+      const readyTimeout = setTimeout(() => {
+        reject(new Error("Realtime subscription timed out"));
+      }, REALTIME_READY_TIMEOUT_MS);
+
+      channel.subscribe((subscriptionStatus, err) => {
+        if (subscriptionStatus === "SUBSCRIBED") {
+          clearTimeout(readyTimeout);
+          resolve();
+        }
+
+        if (
+          subscriptionStatus === "CHANNEL_ERROR" ||
+          subscriptionStatus === "TIMED_OUT" ||
+          subscriptionStatus === "CLOSED"
+        ) {
+          clearTimeout(readyTimeout);
+          reject(err ?? new Error(`Realtime ${subscriptionStatus}`));
+        }
+      });
+    });
+
   const unsubscribe = async ({ token, email }: UnsubscribePayload) => {
     if (!token && !email) {
       updateStatus("error");
@@ -63,28 +87,25 @@ export const useUnsubscribe = () => {
       cleanup();
     };
 
-    if (normalizedEmail) {
-      channel.on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "subscribers",
-          filter: `email=eq.${normalizedEmail}`,
-        },
-        handleUpdate
-      );
-    } else {
-      // Sin email: escuchamos todos los UPDATE y matcheamos por status.
-      channel.on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "subscribers" },
-        handleUpdate
-      );
-    }
+    // Escuchamos todos los UPDATE y filtramos en cliente para evitar que
+    // caracteres del email rompan el filtro remoto de Realtime.
+    channel.on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "subscribers" },
+      handleUpdate
+    );
 
     channelRef.current = channel;
-    channel.subscribe();
+    try {
+      await waitForRealtimeReady(channel);
+    } catch {
+      cleanup();
+      updateStatus("error");
+      setErrorMessage(
+        "No pudimos conectar con la confirmación en tiempo real. Intenta de nuevo en unos minutos."
+      );
+      return false;
+    }
 
     // 2) Timeout de seguridad: si la BD no confirma, marcamos error.
     timeoutRef.current = setTimeout(() => {
