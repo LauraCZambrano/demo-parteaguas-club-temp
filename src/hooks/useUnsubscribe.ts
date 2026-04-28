@@ -116,7 +116,7 @@ export const useUnsubscribe = () => {
       return true;
     } catch {
       cleanup();
-      setStatus("error");
+      updateStatus("error");
       setErrorMessage(
         "No pudimos procesar tu baja. Intenta de nuevo en unos minutos."
       );
