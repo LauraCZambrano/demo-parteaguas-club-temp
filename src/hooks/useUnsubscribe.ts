@@ -14,8 +14,14 @@ interface UnsubscribePayload {
 export const useUnsubscribe = () => {
   const [status, setStatus] = useState<UnsubscribeStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const statusRef = useRef<UnsubscribeStatus>("idle");
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const updateStatus = (next: UnsubscribeStatus) => {
+    statusRef.current = next;
+    setStatus(next);
+  };
 
   const cleanup = () => {
     if (channelRef.current) {
