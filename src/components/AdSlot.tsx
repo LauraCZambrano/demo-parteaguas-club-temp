@@ -33,7 +33,12 @@ const ZONE_HEIGHT: Record<AdZone, string> = {
   C: "h-[50px] md:h-[90px]",
 };
 
-export function AdSlot({ zone, ads, articleSlug, articleCategory, className }: AdSlotProps) {
+export function AdSlot({ zone, ads: adsProp, articleSlug, articleCategory, className }: AdSlotProps) {
+  const zoneAds: ZoneAds = Array.isArray(adsProp)
+    ? { ads: adsProp, hasSpecific: false }
+    : adsProp;
+  // If a specific ad is assigned to this column, pin to the first one (no rotation/fallback).
+  const ads = zoneAds.hasSpecific ? zoneAds.ads.slice(0, 1) : zoneAds.ads;
   const [index, setIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
