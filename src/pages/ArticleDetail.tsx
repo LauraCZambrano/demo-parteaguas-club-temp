@@ -36,7 +36,7 @@ const ArticleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
-  const { ads } = useArticleAds(article?.category ?? null);
+  const { ads } = useArticleAds(article?.id ?? null);
   const articleSlug = article ? slugify(article.titulo) : "";
   const articleCategory = article?.category ?? "";
 
