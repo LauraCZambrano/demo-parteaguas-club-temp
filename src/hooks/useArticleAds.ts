@@ -16,33 +16,42 @@ export interface Ad {
   assignment_type?: "specific" | "category" | "global";
 }
 
-/**
- * Fetch ads for a given column + zone using the `get_ads_for_column` RPC.
- * The RPC handles specific assignments, category match, and "Global" fallback,
- * all ordered by priority DESC.
- */
+export interface ZoneAds {
+  ads: Ad[];
+  hasSpecific: boolean;
+}
+
+const EMPTY_ZONE: ZoneAds = { ads: [], hasSpecific: false };
+
 const fetchAdsForZone = async (
   columnId: number,
   zone: AdZone
-): Promise<Ad[]> => {
+): Promise<ZoneAds> => {
   const { data, error } = await (supabase as any).rpc("get_ads_for_column", {
     p_column_id: columnId,
     p_zone: zone,
   });
   if (error) {
     console.warn("[ads] rpc error", error.message);
-    return [];
+    return EMPTY_ZONE;
   }
-  return (data?.ads ?? []) as Ad[];
+  return {
+    ads: (data?.ads ?? []) as Ad[],
+    hasSpecific: Boolean(data?.has_specific_ads),
+  };
 };
 
 export const useArticleAds = (columnId: number | undefined | null) => {
-  const [ads, setAds] = useState<Record<AdZone, Ad[]>>({ A: [], B: [], C: [] });
+  const [ads, setAds] = useState<Record<AdZone, ZoneAds>>({
+    A: EMPTY_ZONE,
+    B: EMPTY_ZONE,
+    C: EMPTY_ZONE,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!columnId) {
-      setAds({ A: [], B: [], C: [] });
+      setAds({ A: EMPTY_ZONE, B: EMPTY_ZONE, C: EMPTY_ZONE });
       setLoading(false);
       return;
     }
