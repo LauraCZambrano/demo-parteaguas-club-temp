@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import type { Ad, AdZone } from "@/hooks/useArticleAds";
+import type { Ad, AdZone, ZoneAds } from "@/hooks/useArticleAds";
 import { trackAdClick, trackAdImpression } from "@/lib/adTracking";
 import adFallback from "@/assets/ad-fallback.jpg";
 import adFallbackB from "@/assets/ad-fallback-b.jpg";
