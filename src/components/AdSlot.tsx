@@ -7,7 +7,7 @@ import adFallbackB from "@/assets/ad-fallback-b.jpg";
 
 interface AdSlotProps {
   zone: AdZone;
-  ads: Ad[];
+  ads: Ad[] | ZoneAds;
   articleSlug: string;
   articleCategory: string;
   className?: string;
