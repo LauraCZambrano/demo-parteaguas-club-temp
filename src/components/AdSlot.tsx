@@ -88,7 +88,13 @@ export function AdSlot({ zone, ads: adsProp, articleSlug, articleCategory, class
     return () => clearInterval(t);
   }, [ads.length, isHovered]);
 
-  // Fallback house ad cuando la API no devuelve anuncios
+  // Si hay un anuncio específico asignado pero sin contenido válido, no mostrar nada
+  // (los específicos tienen prioridad absoluta sobre carrusel y fallback)
+  if (zoneAds.hasSpecific && (!ads || ads.length === 0)) {
+    return null;
+  }
+
+  // Fallback house ad cuando la API no devuelve anuncios (solo si no hay específico)
   if (!ads || ads.length === 0) {
     if (zone === "B") {
       return (
