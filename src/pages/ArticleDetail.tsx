@@ -97,7 +97,11 @@ const ArticleDetail = () => {
     const truncate = (s: string, n: number) =>
       s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
     const description = truncate((article.sinopsis ?? "").replace(/\s+/g, " ").trim(), 160);
-    const title = truncate(`${article.titulo} | Parteaguas Club`, 60);
+    const suffix = " | Parteaguas Club";
+    const baseTitle = article.titulo.trim();
+    const title = baseTitle.length + suffix.length <= 60
+      ? `${baseTitle}${suffix}`
+      : truncate(baseTitle, 60);
     applySeo({
       title,
       description,
