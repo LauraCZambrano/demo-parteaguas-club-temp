@@ -243,7 +243,8 @@ const ArticleDetail = () => {
                 <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm">
                   <img
                     src={nextArticle.img1}
-                    alt={nextArticle.titulo}
+                    alt={`Portada de la columna: ${nextArticle.titulo}`}
+                    title={nextArticle.titulo}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
