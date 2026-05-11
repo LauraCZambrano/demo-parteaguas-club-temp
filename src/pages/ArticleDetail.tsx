@@ -105,7 +105,7 @@ const ArticleDetail = () => {
     const baseTitle = article.titulo.trim();
     const title = baseTitle.length + suffix.length <= 60
       ? `${baseTitle}${suffix}`
-      : truncate(baseTitle, 60);
+      : truncate(baseTitle, 60 - suffix.length) + suffix;
     applySeo({
       title,
       description,
