@@ -8,10 +8,21 @@ import Footer from "@/components/Footer";
 import SubscriptionBar from "@/components/SubscriptionBar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useColumns } from "@/hooks/useColumns";
+import { applySeo } from "@/lib/seo";
 
 const Index = () => {
   const { data: columns, loading, error } = useColumns();
   const location = useLocation();
+
+  useEffect(() => {
+    applySeo({
+      title: "Parteaguas Club — Columnas, análisis y podcast editorial",
+      description:
+        "Columnas editoriales, análisis crítico y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
+      url: `${window.location.origin}/`,
+      type: "website",
+    });
+  }, []);
 
   useEffect(() => {
     if (location.hash) {

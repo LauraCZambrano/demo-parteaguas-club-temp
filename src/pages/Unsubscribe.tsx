@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUnsubscribe } from "@/hooks/useUnsubscribe";
+import { applySeo } from "@/lib/seo";
 
 const Unsubscribe = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,16 @@ const Unsubscribe = () => {
   const { unsubscribe, status, errorMessage } = useUnsubscribe();
   const [email, setEmail] = useState(emailParam ?? "");
   const [autoTried, setAutoTried] = useState(false);
+
+  useEffect(() => {
+    applySeo({
+      title: "Darse de baja | Parteaguas Club",
+      description:
+        "Cancela tu suscripción a Parteaguas Club en un solo paso. Gestiona tus preferencias de correo y deja de recibir nuestros boletines cuando quieras.",
+      url: `${window.location.origin}/desuscribir`,
+      type: "website",
+    });
+  }, []);
 
   // Si llega con token en la URL, procesar automáticamente.
   useEffect(() => {
