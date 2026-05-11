@@ -17,6 +17,16 @@ const Unsubscribe = () => {
   const [email, setEmail] = useState(emailParam ?? "");
   const [autoTried, setAutoTried] = useState(false);
 
+  useEffect(() => {
+    applySeo({
+      title: "Darse de baja | Parteaguas Club",
+      description:
+        "Cancela tu suscripción a Parteaguas Club en un solo paso. Gestiona tus preferencias de correo y deja de recibir nuestros boletines cuando quieras.",
+      url: `${window.location.origin}/desuscribir`,
+      type: "website",
+    });
+  }, []);
+
   // Si llega con token en la URL, procesar automáticamente.
   useEffect(() => {
     if (tokenParam && !autoTried) {
