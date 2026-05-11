@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
 import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
+import { applySeo } from "@/lib/seo";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
   id: String(col.id),
@@ -90,6 +91,25 @@ const ArticleDetail = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!article) return;
+    const truncate = (s: string, n: number) =>
+      s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
+    const description = truncate((article.sinopsis ?? "").replace(/\s+/g, " ").trim(), 160);
+    const suffix = " | Parteaguas Club";
+    const baseTitle = article.titulo.trim();
+    const title = baseTitle.length + suffix.length <= 60
+      ? `${baseTitle}${suffix}`
+      : truncate(baseTitle, 60);
+    applySeo({
+      title,
+      description,
+      image: article.img1,
+      url: `${window.location.origin}/articulo/${slugify(article.titulo)}`,
+      type: "article",
+    });
+  }, [article]);
 
   if (loading) {
     return (
