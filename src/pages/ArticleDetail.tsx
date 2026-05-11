@@ -202,12 +202,12 @@ const ArticleDetail = () => {
                     {i === 2 && <AdSlot zone="B" ads={ads.B} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img2!} alt={`${article.titulo} – imagen complementaria 2`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                     {i === insertImg3 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img3!} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img3!} alt={`${article.titulo} – imagen complementaria 3`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                   </div>
