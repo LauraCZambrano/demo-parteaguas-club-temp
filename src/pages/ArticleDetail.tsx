@@ -184,7 +184,7 @@ const ArticleDetail = () => {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
-            <img src={article.img1} alt={article.titulo} width={800} height={512} className="w-full object-cover" />
+            <img src={article.img1} alt={`Portada de la columna: ${article.titulo}`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
           </div>
 
           {(() => {
@@ -202,12 +202,12 @@ const ArticleDetail = () => {
                     {i === 2 && <AdSlot zone="B" ads={ads.B} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img2!} alt={`${article.titulo} – imagen complementaria 2`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                     {i === insertImg3 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img3!} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img3!} alt={`${article.titulo} – imagen complementaria 3`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -243,7 +243,8 @@ const ArticleDetail = () => {
                 <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm">
                   <img
                     src={nextArticle.img1}
-                    alt={nextArticle.titulo}
+                    alt={`Portada de la columna: ${nextArticle.titulo}`}
+                    title={nextArticle.titulo}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
