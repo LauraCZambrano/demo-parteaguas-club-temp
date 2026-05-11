@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
 import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
+import { applySeo } from "@/lib/seo";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
   id: String(col.id),
