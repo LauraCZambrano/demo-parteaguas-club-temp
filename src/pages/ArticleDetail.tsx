@@ -184,7 +184,7 @@ const ArticleDetail = () => {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
-            <img src={article.img1} alt={article.titulo} width={800} height={512} className="w-full object-cover" />
+            <img src={article.img1} alt={`Portada de la columna: ${article.titulo}`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
           </div>
 
           {(() => {
