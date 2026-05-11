@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUnsubscribe } from "@/hooks/useUnsubscribe";
+import { applySeo } from "@/lib/seo";
 
 const Unsubscribe = () => {
   const [searchParams] = useSearchParams();
