@@ -1,11 +1,19 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { applySeo } from "@/lib/seo";
 
 const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    applySeo({
+      title: "Página no encontrada (404) | Parteaguas Club",
+      description:
+        "La página que buscas no existe o fue movida. Vuelve al inicio para descubrir las últimas columnas, análisis y episodios de Parteaguas Club.",
+      url: `${window.location.origin}${location.pathname}`,
+      type: "website",
+    });
   }, [location.pathname]);
 
   return (

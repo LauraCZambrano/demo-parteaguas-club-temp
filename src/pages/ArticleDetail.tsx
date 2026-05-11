@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
 import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
+import { applySeo } from "@/lib/seo";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
   id: String(col.id),
@@ -36,7 +37,7 @@ const ArticleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
-  const { ads } = useArticleAds(article?.category ?? null);
+  const { ads } = useArticleAds(article?.id ?? null);
   const articleSlug = article ? slugify(article.titulo) : "";
   const articleCategory = article?.category ?? "";
 
@@ -90,6 +91,29 @@ const ArticleDetail = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!article) return;
+    const truncate = (s: string, n: number) =>
+      s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
+    const siteSuffix = " | Parteaguas";
+    const rawSinopsis = (article.sinopsis ?? "").replace(/\s+/g, " ").trim();
+    const description = rawSinopsis.length + siteSuffix.length <= 160
+      ? `${rawSinopsis}${siteSuffix}`
+      : truncate(rawSinopsis, 160 - siteSuffix.length) + siteSuffix;
+    const suffix = " | Parteaguas Club";
+    const baseTitle = article.titulo.trim();
+    const title = baseTitle.length + suffix.length <= 60
+      ? `${baseTitle}${suffix}`
+      : truncate(baseTitle, 60 - suffix.length) + suffix;
+    applySeo({
+      title,
+      description,
+      image: article.img1,
+      url: `${window.location.origin}/articulo/${slugify(article.titulo)}`,
+      type: "article",
+    });
+  }, [article]);
 
   if (loading) {
     return (
@@ -164,7 +188,7 @@ const ArticleDetail = () => {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
-            <img src={article.img1} alt={article.titulo} width={800} height={512} className="w-full object-cover" />
+            <img src={article.img1} alt={`Portada de la columna: ${article.titulo}`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
           </div>
 
           {(() => {
@@ -182,12 +206,12 @@ const ArticleDetail = () => {
                     {i === 2 && <AdSlot zone="B" ads={ads.B} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img2!} alt={`${article.titulo} – imagen 2`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img2!} alt={`${article.titulo} – imagen complementaria 2`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                     {i === insertImg3 && (
                       <div className="my-8 overflow-hidden rounded-sm">
-                        <img src={article.img3!} alt={`${article.titulo} – imagen 3`} width={800} height={512} className="w-full object-cover" />
+                        <img src={article.img3!} alt={`${article.titulo} – imagen complementaria 3`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
                       </div>
                     )}
                   </div>
@@ -223,7 +247,8 @@ const ArticleDetail = () => {
                 <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm">
                   <img
                     src={nextArticle.img1}
-                    alt={nextArticle.titulo}
+                    alt={`Portada de la columna: ${nextArticle.titulo}`}
+                    title={nextArticle.titulo}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

@@ -4,11 +4,18 @@ import Footer from "@/components/Footer";
 import SocialLinks from "@/components/SocialLinks";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
 import jonathanPortrait from "@/assets/jonathan-portrait.png";
+import { applySeo } from "@/lib/seo";
 
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Acerca de | Parteaguas Club";
+    applySeo({
+      title: "Acerca de Parteaguas Club | Quiénes somos",
+      description:
+        "Conoce Parteaguas Club: un medio editorial independiente de columnas, análisis y podcast sobre tecnología, sociedad y cultura desde una mirada crítica.",
+      url: `${window.location.origin}/acerca`,
+      type: "website",
+    });
   }, []);
 
   return (
