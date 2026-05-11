@@ -75,12 +75,12 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                   className="group flex flex-col animate-fade-in-up rounded-lg border border-border overflow-hidden"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
-                  <div className="relative overflow-hidden" style={{ aspectRatio: "3/2" }}>
+                  <div className="relative overflow-hidden bg-muted" style={{ aspectRatio: "3/2" }}>
                     <img
                       src={col.img1}
                       alt={col.titulo}
                       loading="lazy"
-                      className="block h-full w-full object-cover transition-all duration-300 group-hover:brightness-105"
+                      className="block h-full w-full object-contain transition-all duration-300 group-hover:brightness-105"
                     />
                     {i === 0 && (
                       <span className="absolute top-3 left-3 rounded-sm bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
