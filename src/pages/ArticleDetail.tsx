@@ -96,7 +96,11 @@ const ArticleDetail = () => {
     if (!article) return;
     const truncate = (s: string, n: number) =>
       s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
-    const description = truncate((article.sinopsis ?? "").replace(/\s+/g, " ").trim(), 160);
+    const siteSuffix = " | Parteaguas";
+    const rawSinopsis = (article.sinopsis ?? "").replace(/\s+/g, " ").trim();
+    const description = rawSinopsis.length + siteSuffix.length <= 160
+      ? `${rawSinopsis}${siteSuffix}`
+      : truncate(rawSinopsis, 160 - siteSuffix.length) + siteSuffix;
     const suffix = " | Parteaguas Club";
     const baseTitle = article.titulo.trim();
     const title = baseTitle.length + suffix.length <= 60
