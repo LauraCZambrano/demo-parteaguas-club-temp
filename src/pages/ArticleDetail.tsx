@@ -92,6 +92,21 @@ const ArticleDetail = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!article) return;
+    const truncate = (s: string, n: number) =>
+      s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
+    const description = truncate((article.sinopsis ?? "").replace(/\s+/g, " ").trim(), 160);
+    const title = truncate(`${article.titulo} | Parteaguas Club`, 60);
+    applySeo({
+      title,
+      description,
+      image: article.img1,
+      url: `${window.location.origin}/articulo/${slugify(article.titulo)}`,
+      type: "article",
+    });
+  }, [article]);
+
   if (loading) {
     return (
       <div className="min-h-screen">
