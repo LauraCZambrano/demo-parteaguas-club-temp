@@ -81,7 +81,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                       alt={`Portada de la columna: ${col.titulo}`}
                       title={col.titulo}
                       loading={i === 0 ? undefined : "lazy"}
-                      fetchpriority={i === 0 ? "high" : undefined}
+                      fetchPriority={i === 0 ? "high" : undefined}
                       className="block h-full w-full object-contain transition-all duration-300 group-hover:brightness-105"
                     />
                     {i === 0 && (
