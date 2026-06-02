@@ -164,6 +164,30 @@ const ArticleDetail = () => {
         <meta property="og:url" content={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
         <meta property="og:type" content="article" />
         {article.img1 && <meta property="og:image" content={article.img1} />}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: article.titulo,
+            description: article.sinopsis,
+            image: article.img1 ? { "@type": "ImageObject", url: article.img1 } : undefined,
+            datePublished: article.created_at,
+            author: {
+              "@type": "Organization",
+              name: "Parteaguas Club",
+            },
+            url: `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Parteaguas Club",
+              "@id": "https://www.parteaguas.club/#organization",
+            },
+          })}
+        </script>
       </Helmet>
       <div className="fixed left-0 top-0 z-[60] h-0.5 bg-primary transition-all duration-150" style={{ width: `${progress}%` }} />
       <Header />
