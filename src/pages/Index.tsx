@@ -9,6 +9,7 @@ import SubscriptionBar from "@/components/SubscriptionBar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useColumns } from "@/hooks/useColumns";
 import { applySeo } from "@/lib/seo";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const { data: columns, loading, error } = useColumns();
@@ -35,6 +36,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Parteaguas Club — Columnas, análisis y periodismo de opinión</title>
+        <meta name="description" content="Columnas, análisis y periodismo de opinión" />
+        <link rel="canonical" href="https://www.parteaguas.club/" />
+        <meta property="og:title" content="Parteaguas Club — Columnas, análisis y periodismo de opinión" />
+        <meta property="og:description" content="Columnas, análisis y periodismo de opinión" />
+        <meta property="og:url" content="https://www.parteaguas.club/" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <SubscriptionBar />
       <Header />
       <main>
