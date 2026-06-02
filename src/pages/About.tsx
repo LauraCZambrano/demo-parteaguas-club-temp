@@ -21,6 +21,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Acerca de — Parteaguas Club</title>
+        <meta name="description" content="Conoce al equipo detrás de Parteaguas Club" />
+        <link rel="canonical" href="https://www.parteaguas.club/acerca" />
+      </Helmet>
       <Header />
       <main className="container py-16 md:py-24">
         <div className="mx-auto max-w-2xl">
