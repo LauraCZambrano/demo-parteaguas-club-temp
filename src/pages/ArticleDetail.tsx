@@ -16,6 +16,7 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
 import { applySeo } from "@/lib/seo";
+import { Helmet } from "react-helmet-async";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
   id: String(col.id),
@@ -154,6 +155,16 @@ const ArticleDetail = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>{`${article.titulo} — Parteaguas Club`}</title>
+        <meta name="description" content={article.sinopsis ?? ""} />
+        <link rel="canonical" href={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <meta property="og:title" content={article.titulo} />
+        <meta property="og:description" content={article.sinopsis ?? ""} />
+        <meta property="og:url" content={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <meta property="og:type" content="article" />
+        {article.img1 && <meta property="og:image" content={article.img1} />}
+      </Helmet>
       <div className="fixed left-0 top-0 z-[60] h-0.5 bg-primary transition-all duration-150" style={{ width: `${progress}%` }} />
       <Header />
       <article className="container py-12 md:py-20">
