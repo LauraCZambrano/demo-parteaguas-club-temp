@@ -5,6 +5,7 @@ import SocialLinks from "@/components/SocialLinks";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
 import jonathanPortrait from "@/assets/jonathan-portrait.png";
 import { applySeo } from "@/lib/seo";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   useEffect(() => {
