@@ -16,6 +16,7 @@ import { useAudio } from "@/contexts/AudioContext";
 import { useArticleAds } from "@/hooks/useArticleAds";
 import type { PodcastEpisode } from "@/data/articles";
 import { applySeo } from "@/lib/seo";
+import { Helmet } from "react-helmet-async";
 
 const columnToEpisode = (col: ColumnRecord): PodcastEpisode => ({
   id: String(col.id),
@@ -154,6 +155,40 @@ const ArticleDetail = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>{`${article.titulo} — Parteaguas Club`}</title>
+        <meta name="description" content={article.sinopsis ?? ""} />
+        <link rel="canonical" href={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <meta property="og:title" content={article.titulo} />
+        <meta property="og:description" content={article.sinopsis ?? ""} />
+        <meta property="og:url" content={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <meta property="og:type" content="article" />
+        {article.img1 && <meta property="og:image" content={article.img1} />}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: article.titulo,
+            description: article.sinopsis,
+            image: article.img1 ? { "@type": "ImageObject", url: article.img1 } : undefined,
+            datePublished: article.created_at,
+            author: {
+              "@type": "Organization",
+              name: "Parteaguas Club",
+            },
+            url: `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Parteaguas Club",
+              "@id": "https://www.parteaguas.club/#organization",
+            },
+          })}
+        </script>
+      </Helmet>
       <div className="fixed left-0 top-0 z-[60] h-0.5 bg-primary transition-all duration-150" style={{ width: `${progress}%` }} />
       <Header />
       <article className="container py-12 md:py-20">
@@ -188,7 +223,17 @@ const ArticleDetail = () => {
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
-            <img src={article.img1} alt={`Portada de la columna: ${article.titulo}`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
+            <img
+              src={article.img1}
+              srcSet={`${article.img1}?width=400 400w, ${article.img1}?width=800 800w, ${article.img1}?width=1200 1200w`}
+              sizes="(max-width: 640px) 100vw, 80vw"
+              alt={`Portada de la columna: ${article.titulo}`}
+              title={article.titulo}
+              width={800}
+              height={512}
+              loading="lazy"
+              className="w-full object-cover"
+            />
           </div>
 
           {(() => {

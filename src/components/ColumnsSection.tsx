@@ -78,9 +78,14 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                   <div className="relative overflow-hidden bg-muted" style={{ aspectRatio: "3/2" }}>
                     <img
                       src={col.img1}
+                      {...(i !== 0 && {
+                        srcSet: `${col.img1}?width=400 400w, ${col.img1}?width=800 800w, ${col.img1}?width=1200 1200w`,
+                        sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                      })}
                       alt={`Portada de la columna: ${col.titulo}`}
                       title={col.titulo}
-                      loading="lazy"
+                      loading={i === 0 ? undefined : "lazy"}
+                      fetchPriority={i === 0 ? "high" : undefined}
                       className="block h-full w-full object-contain transition-all duration-300 group-hover:brightness-105"
                     />
                     {i === 0 && (

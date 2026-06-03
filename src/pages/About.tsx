@@ -5,6 +5,7 @@ import SocialLinks from "@/components/SocialLinks";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
 import jonathanPortrait from "@/assets/jonathan-portrait.png";
 import { applySeo } from "@/lib/seo";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   useEffect(() => {
@@ -20,6 +21,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Acerca de — Parteaguas Club</title>
+        <meta name="description" content="Conoce al equipo detrás de Parteaguas Club" />
+        <link rel="canonical" href="https://www.parteaguas.club/acerca" />
+      </Helmet>
       <Header />
       <main className="container py-16 md:py-24">
         <div className="mx-auto max-w-2xl">
