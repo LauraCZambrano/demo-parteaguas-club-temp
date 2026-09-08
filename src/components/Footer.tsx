@@ -24,18 +24,10 @@ const Footer = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      const success = await subscribe(email);
-      if (success) setEmail("");
-    }
-  };
-
   return (
     <footer className="border-t bg-foreground text-background">
       <div className="container py-16">
-        <div className="grid gap-12 md:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-2">
           {/* Brand */}
           <div>
             <button onClick={handleLogoClick} className="flex items-center">
