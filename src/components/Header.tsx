@@ -42,9 +42,6 @@ const Header = () => {
           <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </button>
-          <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
-            Suscribirse
-          </Button>
           <Link to="/acerca" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Acerca de
           </Link>
