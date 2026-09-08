@@ -84,7 +84,7 @@ const Header = () => {
         </nav>
       )}
 
-      <SubscribeDialog open={subscribeOpen} onOpenChange={setSubscribeOpen} />
+      
     </header>
   );
 };
