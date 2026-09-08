@@ -5,7 +5,6 @@ import HeroSection from "@/components/HeroSection";
 import ColumnsSection from "@/components/ColumnsSection";
 import PodcastSection from "@/components/PodcastSection";
 import Footer from "@/components/Footer";
-import SubscriptionBar from "@/components/SubscriptionBar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useColumns } from "@/hooks/useColumns";
 import { applySeo } from "@/lib/seo";
@@ -45,7 +44,6 @@ const Index = () => {
         <meta property="og:url" content="https://www.parteaguas.club/" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <SubscriptionBar />
       <Header />
       <main>
         <HeroSection />
