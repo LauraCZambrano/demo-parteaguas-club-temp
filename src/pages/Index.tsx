@@ -17,9 +17,9 @@ const Index = () => {
 
   useEffect(() => {
     applySeo({
-      title: "Parteaguas Club — Columnas, análisis y podcast editorial",
+      title: "Parteaguas Club — Análisis, contexto y podcast editorial",
       description:
-        "Columnas editoriales, análisis crítico y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
+        "Análisis editoriales, crónica crítica y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
       url: `${window.location.origin}/`,
       type: "website",
     });
@@ -37,11 +37,11 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Helmet>
-        <title>Parteaguas Club — Columnas, análisis y periodismo de opinión</title>
-        <meta name="description" content="Columnas, análisis y periodismo de opinión" />
+        <title>Parteaguas Club — Análisis, contexto y periodismo de opinión</title>
+        <meta name="description" content="Análisis, contexto y periodismo de opinión" />
         <link rel="canonical" href="https://www.parteaguas.club/" />
-        <meta property="og:title" content="Parteaguas Club — Columnas, análisis y periodismo de opinión" />
-        <meta property="og:description" content="Columnas, análisis y periodismo de opinión" />
+        <meta property="og:title" content="Parteaguas Club — Análisis, contexto y periodismo de opinión" />
+        <meta property="og:description" content="Análisis, contexto y periodismo de opinión" />
         <meta property="og:url" content="https://www.parteaguas.club/" />
         <meta property="og:type" content="website" />
       </Helmet>

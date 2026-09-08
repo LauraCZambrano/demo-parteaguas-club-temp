@@ -155,7 +155,7 @@ const PodcastSection = () => {
           <Headphones size={28} className="text-foreground" />
           <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">Podcast</h2>
         </div>
-        <p className="mt-2 text-muted-foreground">Escucha la historia detrás de cada columna, en voz de Jonathan</p>
+        <p className="mt-2 text-muted-foreground">Escucha la historia detrás de cada análisis, en voz de Jonathan</p>
 
         {/* Platform buttons */}
         <div className="mt-6 flex flex-wrap items-center gap-2">

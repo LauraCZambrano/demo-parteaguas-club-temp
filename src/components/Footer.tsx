@@ -59,7 +59,7 @@ const Footer = () => {
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wider opacity-50">Contenido</h4>
               <ul className="mt-3 space-y-2 text-sm opacity-70">
-                <li><button onClick={() => handleAnchorClick("#columnas")} className="hover:opacity-100">Columnas</button></li>
+                <li><button onClick={() => handleAnchorClick("#analisis")} className="hover:opacity-100">Análisis</button></li>
                 <li><button onClick={() => handleAnchorClick("#podcast")} className="hover:opacity-100">Podcast</button></li>
               </ul>
             </div>

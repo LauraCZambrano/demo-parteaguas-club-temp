@@ -13,7 +13,7 @@ const About = () => {
     applySeo({
       title: "Acerca de Parteaguas Club | Quiénes somos",
       description:
-        "Conoce Parteaguas Club: un medio editorial independiente de columnas, análisis y podcast sobre tecnología, sociedad y cultura desde una mirada crítica.",
+        "Conoce Parteaguas Club: un medio editorial independiente de análisis, contexto y podcast sobre tecnología, sociedad y cultura desde una mirada crítica.",
       url: `${window.location.origin}/acerca`,
       type: "website",
     });
@@ -54,7 +54,7 @@ const About = () => {
                 están pasando.
               </p>
               <p>
-                A través de columnas editoriales, podcast y resúmenes en audio,
+                A través de análisis editoriales, podcast y resúmenes en audio,
                 conectamos los hechos con sus causas, sus implicaciones y lo que
                 significan para tu vida personal, profesional y financiera.
               </p>
