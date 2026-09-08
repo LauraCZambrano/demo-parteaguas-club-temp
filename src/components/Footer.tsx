@@ -58,23 +58,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Subscribe */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider opacity-50">Newsletter</h4>
-            <form onSubmit={handleSubmit} className="mt-3 flex gap-2">
-              <Input
-                type="email"
-                placeholder="tu@correo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-10 rounded-sm border-background/20 bg-background/10 text-background placeholder:text-background/40"
-                required
-              />
-              <Button type="submit" size="sm" className="h-10 shrink-0 rounded-full" disabled={loading}>
-                {loading ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
-              </Button>
-            </form>
-          </div>
         </div>
 
         <div className="mt-12 border-t border-background/10 pt-6 text-center text-xs opacity-50">
