@@ -19,7 +19,7 @@ const Index = () => {
     applySeo({
       title: "Parteaguas Club — Columnas, análisis y podcast editorial",
       description:
-        "Columnas editoriales, análisis crítico y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
+        "Análisis editoriales, crónica crítica y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
       url: `${window.location.origin}/`,
       type: "website",
     });

@@ -39,8 +39,8 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          <button onClick={() => handleAnchorClick("#columnas")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
-            Columnas
+          <button onClick={() => handleAnchorClick("#analisis")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
+            Análisis
           </button>
           <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Podcast
@@ -68,10 +68,10 @@ const Header = () => {
         <nav className="border-t bg-background px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             <button
-              onClick={() => handleAnchorClick("#columnas")}
+              onClick={() => handleAnchorClick("#analisis")}
               className="text-left text-base font-semibold text-muted-foreground"
             >
-              Columnas
+              Análisis
             </button>
             <button
               onClick={() => handleAnchorClick("#podcast")}
