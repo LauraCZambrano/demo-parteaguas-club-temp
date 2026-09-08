@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import SubscribeDialog from "@/components/SubscribeDialog";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [subscribeOpen, setSubscribeOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,9 +42,6 @@ const Header = () => {
           <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </button>
-          <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
-            Suscribirse
-          </Button>
           <Link to="/acerca" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Acerca de
           </Link>
@@ -79,9 +73,6 @@ const Header = () => {
             >
               Podcast
             </button>
-            <Button size="sm" className="w-full rounded-full font-semibold" onClick={() => { setMobileOpen(false); setSubscribeOpen(true); }}>
-              Suscribirse
-            </Button>
             <Link
               to="/acerca"
               onClick={() => setMobileOpen(false)}
@@ -93,7 +84,7 @@ const Header = () => {
         </nav>
       )}
 
-      <SubscribeDialog open={subscribeOpen} onOpenChange={setSubscribeOpen} />
+      
     </header>
   );
 };
