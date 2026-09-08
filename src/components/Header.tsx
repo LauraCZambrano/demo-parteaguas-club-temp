@@ -73,9 +73,6 @@ const Header = () => {
             >
               Podcast
             </button>
-            <Button size="sm" className="w-full rounded-full font-semibold" onClick={() => { setMobileOpen(false); setSubscribeOpen(true); }}>
-              Suscribirse
-            </Button>
             <Link
               to="/acerca"
               onClick={() => setMobileOpen(false)}
