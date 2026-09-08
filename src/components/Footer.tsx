@@ -1,15 +1,8 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ArrowRight, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useSubscribe } from "@/hooks/useSubscribe";
 import SocialLinks from "@/components/SocialLinks";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const { subscribe, loading } = useSubscribe();
   const navigate = useNavigate();
   const location = useLocation();
 
