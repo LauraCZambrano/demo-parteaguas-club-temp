@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import SubscribeDialog from "@/components/SubscribeDialog";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [subscribeOpen, setSubscribeOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,15 +36,12 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          <button onClick={() => handleAnchorClick("#columnas")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
-            Columnas
+          <button onClick={() => handleAnchorClick("#analisis")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
+            Análisis
           </button>
           <button onClick={() => handleAnchorClick("#podcast")} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Podcast
           </button>
-          <Button size="sm" className="rounded-full px-6 font-semibold" onClick={() => setSubscribeOpen(true)}>
-            Suscribirse
-          </Button>
           <Link to="/acerca" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
             Acerca de
           </Link>
@@ -68,10 +62,10 @@ const Header = () => {
         <nav className="border-t bg-background px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             <button
-              onClick={() => handleAnchorClick("#columnas")}
+              onClick={() => handleAnchorClick("#analisis")}
               className="text-left text-base font-semibold text-muted-foreground"
             >
-              Columnas
+              Análisis
             </button>
             <button
               onClick={() => handleAnchorClick("#podcast")}
@@ -79,9 +73,6 @@ const Header = () => {
             >
               Podcast
             </button>
-            <Button size="sm" className="w-full rounded-full font-semibold" onClick={() => { setMobileOpen(false); setSubscribeOpen(true); }}>
-              Suscribirse
-            </Button>
             <Link
               to="/acerca"
               onClick={() => setMobileOpen(false)}
@@ -93,7 +84,7 @@ const Header = () => {
         </nav>
       )}
 
-      <SubscribeDialog open={subscribeOpen} onOpenChange={setSubscribeOpen} />
+      
     </header>
   );
 };

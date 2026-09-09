@@ -10,7 +10,7 @@ const NotFound = () => {
     applySeo({
       title: "Página no encontrada (404) | Parteaguas Club",
       description:
-        "La página que buscas no existe o fue movida. Vuelve al inicio para descubrir las últimas columnas, análisis y episodios de Parteaguas Club.",
+        "La página que buscas no existe o fue movida. Vuelve al inicio para descubrir las últimos análisis y episodios de Parteaguas Club.",
       url: `${window.location.origin}${location.pathname}`,
       type: "website",
     });

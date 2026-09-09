@@ -1,22 +1,6 @@
-import { useState } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useSubscribe } from "@/hooks/useSubscribe";
 import iconParteaguas from "@/assets/icon-parteaguas.png";
 
 const HeroSection = () => {
-  const [email, setEmail] = useState("");
-  const { subscribe, loading } = useSubscribe();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      const success = await subscribe(email);
-      if (success) setEmail("");
-    }
-  };
-
   return (
     <section className="border-b">
       <div className="container py-12 md:py-16">
@@ -31,22 +15,6 @@ const HeroSection = () => {
           </h1>
           <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground md:text-xl">
             Contexto diario sobre temas que definen tu nueva realidad.
-          </p>
-          <form onSubmit={handleSubmit} className="mx-auto mt-10 flex max-w-md gap-2">
-            <Input
-              type="email"
-              placeholder="tu@correo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-11 rounded-sm border"
-              required
-            />
-            <Button type="submit" className="h-11 shrink-0 gap-2 rounded-full px-6 font-semibold" disabled={loading}>
-              {loading ? <Loader2 size={16} className="animate-spin" /> : <>Unirse <ArrowRight size={16} /></>}
-            </Button>
-          </form>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Gratis. Sin spam. Cancela cuando quieras.
           </p>
         </div>
       </div>

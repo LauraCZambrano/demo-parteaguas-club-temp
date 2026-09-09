@@ -227,7 +227,7 @@ const ArticleDetail = () => {
               src={article.img1}
               srcSet={`${article.img1}?width=400 400w, ${article.img1}?width=800 800w, ${article.img1}?width=1200 1200w`}
               sizes="(max-width: 640px) 100vw, 80vw"
-              alt={`Portada de la columna: ${article.titulo}`}
+              alt={`Portada del análisis: ${article.titulo}`}
               title={article.titulo}
               width={800}
               height={512}
@@ -273,7 +273,7 @@ const ArticleDetail = () => {
           {/* Sigue a Parteaguas */}
           <div className="mt-12 rounded-2xl border border-border bg-muted/40 p-6 text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              ¿Te gustó esta columna?
+              ¿Te gustó este análisis?
             </p>
             <h3 className="mt-1 font-editorial text-lg font-semibold text-foreground">
               Sigue a Parteaguas en redes
@@ -292,7 +292,7 @@ const ArticleDetail = () => {
                 <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm">
                   <img
                     src={nextArticle.img1}
-                    alt={`Portada de la columna: ${nextArticle.titulo}`}
+                    alt={`Portada del análisis: ${nextArticle.titulo}`}
                     title={nextArticle.titulo}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />

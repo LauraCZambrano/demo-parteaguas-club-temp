@@ -35,10 +35,10 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
   };
 
   return (
-    <section id="columnas" className="py-16 md:py-24">
+    <section id="analisis" className="py-16 md:py-24">
       <div className="container">
         <h2 className="font-editorial text-3xl font-bold md:text-4xl lg:text-5xl">
-          Columnas editoriales
+          Análisis
         </h2>
         
 
@@ -82,7 +82,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                         srcSet: `${col.img1}?width=400 400w, ${col.img1}?width=800 800w, ${col.img1}?width=1200 1200w`,
                         sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
                       })}
-                      alt={`Portada de la columna: ${col.titulo}`}
+                      alt={`Portada del análisis: ${col.titulo}`}
                       title={col.titulo}
                       loading={i === 0 ? undefined : "lazy"}
                       fetchPriority={i === 0 ? "high" : undefined}
@@ -107,7 +107,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
 
                     <div className="mt-auto pt-4">
                       <span className="inline-flex items-center gap-1.5 text-sm font-bold text-foreground transition-all group-hover:gap-2.5">
-                        Leer columna <ArrowRight size={14} />
+                        Leer análisis <ArrowRight size={14} />
                       </span>
                       <div className="mt-2 flex items-center gap-3 font-mono text-xs text-muted-foreground">
                         <time>{formatDate(col.created_at)}</time>
@@ -132,7 +132,7 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
                       Cargando...
                     </>
                   ) : (
-                    "Ver más columnas"
+                    "Ver más análisis"
                   )}
                 </Button>
               </div>
