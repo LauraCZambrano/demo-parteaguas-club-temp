@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { slugify } from "@/lib/slugify";
@@ -6,28 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ColumnRecord } from "@/hooks/useColumns";
 
-const ITEMS_PER_PAGE = 3;
-
 interface ColumnsSectionProps {
   columns: ColumnRecord[];
   loading: boolean;
   error: string | null;
+  hasMore?: boolean;
+  loadingMore?: boolean;
+  onLoadMore?: () => void;
+  onRetry?: () => void;
 }
 
-const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) => {
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
-  const [loadingMore, setLoadingMore] = useState(false);
-
-  const visible = columns.slice(0, visibleCount);
-  const hasMore = visibleCount < columns.length;
-
-  const handleLoadMore = useCallback(() => {
-    setLoadingMore(true);
-    setTimeout(() => {
-      setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
-      setLoadingMore(false);
-    }, 600);
-  }, []);
+const ColumnsSection = ({ columns = [], loading, error, hasMore = false, loadingMore = false, onLoadMore, onRetry }: ColumnsSectionProps) => {
+  const visible = columns;
+  const handleLoadMore = () => onLoadMore?.();
 
   const formatDate = (iso: string) => {
     const d = new Date(iso);
@@ -42,9 +32,12 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
         </h2>
         
 
-        {error && (
+        {error && !columns.length && (
           <p className="mt-8 text-center text-sm text-destructive">
-            Error al cargar contenido, intenta refrescar.
+            Error al cargar contenido.{" "}
+            {onRetry && (
+              <button onClick={onRetry} className="underline">Reintentar</button>
+            )}
           </p>
         )}
 
@@ -65,13 +58,13 @@ const ColumnsSection = ({ columns = [], loading, error }: ColumnsSectionProps) =
           </div>
         )}
 
-        {!loading && !error && (
+        {!loading && (!error || columns.length > 0) && (
           <>
             <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {visible.map((col, i) => (
                 <Link
                   key={col.id}
-                  to={`/articulo/${slugify(col.titulo)}`}
+                  to={`/articulo/${col.slug ?? slugify(col.titulo)}`}
                   className="group flex flex-col animate-fade-in-up rounded-lg border border-border overflow-hidden"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >

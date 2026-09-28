@@ -11,7 +11,7 @@ import { applySeo } from "@/lib/seo";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
-  const { data: columns, loading, error } = useColumns();
+  const { data: columns, loading, error, hasMore, loadingMore, loadMore, retry } = useColumns();
   const location = useLocation();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <ColumnsSection columns={columns} loading={loading} error={error} />
+        <ColumnsSection columns={columns} loading={loading} error={error} hasMore={hasMore} loadingMore={loadingMore} onLoadMore={loadMore} onRetry={retry} />
         <PodcastSection />
       </main>
       <Footer />
