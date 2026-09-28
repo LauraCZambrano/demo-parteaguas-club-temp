@@ -20,6 +20,7 @@ export interface ColumnRecord {
   status: string;
   created_at: string;
   fuentes: string | null;
+  sources?: { title: string; url: string | null; detail: string | null }[] | null;
   category?: string | null;
 }
 
