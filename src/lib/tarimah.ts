@@ -47,6 +47,7 @@ export interface ApiColumn {
   img3: string | null;
   urlPodcast: string | null;
   publishedAt: string | null;
+  sources?: { title: string; url: string | null; detail: string | null }[] | null;
 }
 
 export interface ColumnsPage {
@@ -85,6 +86,7 @@ export const toColumnRecord = (c: ApiColumn): ColumnRecord => ({
   status: "",
   created_at: c.publishedAt ?? "",
   fuentes: null,
+  sources: c.sources ?? null,
   category: c.category,
 });
 

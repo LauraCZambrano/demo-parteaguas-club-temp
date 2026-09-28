@@ -269,7 +269,7 @@ const ArticleDetail = () => {
           {/* Zona C: al finalizar el texto, antes de fuentes */}
           <AdSlot zone="C" ads={ads.C} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
 
-          {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
+          {article.sources && article.sources.length > 0 && <SourcesSection sources={article.sources} />}
 
           {/* Sigue a Parteaguas */}
           <div className="mt-12 rounded-2xl border border-border bg-muted/40 p-6 text-center">
