@@ -40,7 +40,7 @@ const ArticleDetail = () => {
   const [loadError, setLoadError] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
-  const { ads } = useArticleAds(null);
+  const { ads } = useArticleAds();
   const articleSlug = article ? (article.slug ?? slugify(article.titulo)) : "";
   const articleCategory = article?.category ?? "";
 
