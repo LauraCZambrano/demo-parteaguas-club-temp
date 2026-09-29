@@ -6,7 +6,7 @@ import InlineAudioPlayer from "@/components/InlineAudioPlayer";
 import SocialLinks from "@/components/SocialLinks";
 import AdSlot from "@/components/AdSlot";
 import { normalizeColumnText } from "@/lib/normalizeText";
-import { supabase } from "@/integrations/supabase/client";
+import { getColumn, listColumns, toColumnRecord, NotFoundError } from "@/lib/tarimah";
 import type { ColumnRecord } from "@/hooks/useColumns";
 import { slugify } from "@/lib/slugify";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,9 +37,11 @@ const ArticleDetail = () => {
   const [nextArticle, setNextArticle] = useState<ColumnRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [loadError, setLoadError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
-  const { ads } = useArticleAds(article?.id ?? null);
-  const articleSlug = article ? slugify(article.titulo) : "";
+  const { ads } = useArticleAds();
+  const articleSlug = article ? (article.slug ?? slugify(article.titulo)) : "";
   const articleCategory = article?.category ?? "";
 
   // Stop audio when leaving the article page if the playing episode belongs to this article
@@ -56,32 +58,28 @@ const ArticleDetail = () => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
       setLoading(true);
-      // Fetch all published columns and match by slug
-      const { data: allCols } = await (supabase as any)
-        .from("columns")
-        .select("*")
-        .eq("web_published", true);
-      const matched = (allCols ?? []).find(
-        (c: ColumnRecord) => slugify(c.titulo) === slug
-      );
-      const data = matched ?? null;
-      setArticle(data ?? null);
-
-      if (data) {
-        const { data: next } = await (supabase as any)
-          .from("columns")
-          .select("*")
-          .eq("web_published", true)
-          .lt("created_at", data.created_at)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .single();
-        setNextArticle(next ?? null);
+      setLoadError(false);
+      setNextArticle(null);
+      try {
+        const detail = toColumnRecord(await getColumn(slug ?? ""));
+        setArticle(detail);
+        try {
+          const list = await listColumns(1, 50);
+          const items = list.items;
+          const idx = items.findIndex((c) => c.slug === detail.slug);
+          const next = idx >= 0 ? items[idx + 1] : items.find((c) => (c.publishedAt ?? "") < detail.created_at);
+          setNextArticle(next ? toColumnRecord(next) : null);
+        } catch {
+          /* siguiente nota opcional */
+        }
+      } catch (e) {
+        setArticle(null);
+        if (!(e instanceof NotFoundError)) setLoadError(true);
       }
       setLoading(false);
     };
     fetchData();
-  }, [slug]);
+  }, [slug, reloadKey]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,7 +137,10 @@ const ArticleDetail = () => {
         <Header />
         <div className="container flex flex-1 items-center justify-center py-20">
           <div className="text-center">
-            <h1 className="font-editorial text-2xl font-bold">Artículo no encontrado</h1>
+            <h1 className="font-editorial text-2xl font-bold">{loadError ? "No pudimos cargar el artículo" : "Artículo no encontrado"}</h1>
+            {loadError && (
+              <button onClick={() => setReloadKey((k) => k + 1)} className="mt-4 block w-full text-sm underline">Reintentar</button>
+            )}
             <Link to="/" className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
               <ArrowLeft size={16} /> Volver al inicio
             </Link>
@@ -268,7 +269,7 @@ const ArticleDetail = () => {
           {/* Zona C: al finalizar el texto, antes de fuentes */}
           <AdSlot zone="C" ads={ads.C} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
 
-          {article.fuentes && <SourcesSection fuentes={article.fuentes} />}
+          {article.sources && article.sources.length > 0 && <SourcesSection sources={article.sources} />}
 
           {/* Sigue a Parteaguas */}
           <div className="mt-12 rounded-2xl border border-border bg-muted/40 p-6 text-center">
@@ -284,7 +285,7 @@ const ArticleDetail = () => {
           {/* Siguiente nota */}
           {nextArticle && (
             <Link
-              to={`/articulo/${slugify(nextArticle.titulo)}`}
+              to={`/articulo/${nextArticle.slug ?? slugify(nextArticle.titulo)}`}
               className="group mt-16 block rounded-lg border border-border bg-card p-6 transition-colors hover:border-foreground/30"
             >
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Siguiente nota</span>

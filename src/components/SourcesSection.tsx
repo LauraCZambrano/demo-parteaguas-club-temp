@@ -2,59 +2,8 @@ import { useState } from "react";
 import { BookOpen, ExternalLink, ChevronDown, ChevronUp, Plus, Minus } from "lucide-react";
 
 interface SourcesSectionProps {
-  fuentes: string;
+  sources: { title: string; url: string | null; detail: string | null }[] | null;
 }
-
-const URL_REGEX = /https?:\/\/[^\s)]+/g;
-// Detecta dominios "sueltos" tipo businesswire.com, a71.mx/premio-innovacion/, apple.com/newsroom, etc.
-const BARE_DOMAIN_REGEX =
-  /\b((?:[a-z0-9-]+\.)+[a-z]{2,})(\/[^\s,;)"']*)?/i;
-
-const extractUrl = (line: string): { url: string; matchText: string } | null => {
-  const explicit = line.match(URL_REGEX);
-  if (explicit && explicit.length > 0) {
-    return { url: explicit[0], matchText: explicit[0] };
-  }
-  const bare = line.match(BARE_DOMAIN_REGEX);
-  if (bare) {
-    return { url: `https://${bare[0]}`, matchText: bare[0] };
-  }
-  return null;
-};
-
-const parseSource = (line: string) => {
-  // 1) Intentar separar título (hasta el primer ")" tras una fecha) y descripción.
-  // Patrón típico: "Apple Newsroom / Business Wire (20 de abril de 2026): Tim Cook to become..."
-  const split = line.match(/^(.+?\([^)]*\))\s*[:\-–—.]?\s*(.+)$/);
-  if (split) {
-    const title = split[1].trim();
-    const rest = split[2].trim();
-    const found = extractUrl(line);
-    const url = found ? found.url : null;
-    return { kind: "expandable" as const, title, rest, url };
-  }
-
-  // 2) Sin patrón título+fecha: si hay URL (explícita o dominio suelto), tratar como link.
-  const found = extractUrl(line);
-  if (found) {
-    let text = line
-      .replace(found.matchText, "")
-      .replace(/[,\-–—:•]\s*$/, "")
-      .replace(/^\s*[,\-–—:•]\s*/, "")
-      .trim();
-    if (!text) {
-      try {
-        text = new URL(found.url).hostname.replace("www.", "");
-      } catch {
-        text = found.matchText;
-      }
-    }
-    return { kind: "link" as const, text, url: found.url };
-  }
-
-  // 3) Línea libre sin URL: respetar tal cual
-  return { kind: "plain" as const, text: line.trim() };
-};
 
 const ExpandableSource = ({
   title,
@@ -99,16 +48,16 @@ const ExpandableSource = ({
   );
 };
 
-const SourcesSection = ({ fuentes }: SourcesSectionProps) => {
+const SourcesSection = ({ sources: raw }: SourcesSectionProps) => {
   const [visible, setVisible] = useState(true);
-  const lines = fuentes
-    .split(/\n/)
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0);
+  if (!raw || raw.length === 0) return null;
 
-  if (lines.length === 0) return null;
-
-  const sources = lines.map(parseSource);
+  const sources = raw.map((s) => {
+    const detail = s.detail?.trim();
+    if (detail) return { kind: "expandable" as const, title: s.title, rest: detail, url: s.url };
+    if (s.url) return { kind: "link" as const, text: s.title, url: s.url };
+    return { kind: "plain" as const, text: s.title };
+  });
 
   return (
     <div className="mt-16 border-t border-border pt-8">

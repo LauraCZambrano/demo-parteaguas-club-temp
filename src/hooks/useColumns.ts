@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { listColumns, toColumnRecord } from "@/lib/tarimah";
 
 export interface ColumnRecord {
   id: number;
   id_unico: number;
+  slug?: string;
   titulo: string;
   sinopsis: string;
   columna: string;
@@ -19,51 +20,74 @@ export interface ColumnRecord {
   status: string;
   created_at: string;
   fuentes: string | null;
+  sources?: { title: string; url: string | null; detail: string | null }[] | null;
   category?: string | null;
 }
 
-export const useColumns = () => {
+const PAGE_SIZE = 3;
+
+export const useColumns = (category?: string) => {
   const [data, setData] = useState<ColumnRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [featuredSlug, setFeaturedSlug] = useState<string | null>(null);
   const mountedRef = useRef(true);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await listColumns(1, PAGE_SIZE, category);
+      if (!mountedRef.current) return;
+      setData(res.items.map(toColumnRecord));
+      setPage(res.page);
+      setTotal(res.total);
+      setCategories(res.categories ?? []);
+      setFeaturedSlug(res.featuredSlug ?? null);
+    } catch (e: any) {
+      if (mountedRef.current) setError(e?.message ?? "Error al cargar contenido");
+    } finally {
+      if (mountedRef.current) setLoading(false);
+    }
+  }, [category]);
 
   useEffect(() => {
     mountedRef.current = true;
-
-    const fetchColumns = async () => {
-      try {
-        const { data: rows, error: err } = await (supabase as any)
-          .from("columns")
-          .select("*")
-          .eq("web_published", true)
-          .order("created_at", { ascending: false });
-
-        if (err) throw err;
-        if (mountedRef.current) setData(rows ?? []);
-      } catch (e: any) {
-        if (mountedRef.current) setError(e.message ?? "Error al cargar contenido");
-      } finally {
-        if (mountedRef.current) setLoading(false);
-      }
-    };
-
-    fetchColumns();
-
-    const channel = supabase
-      .channel("columns-realtime")
-      .on(
-        "postgres_changes" as any,
-        { event: "*", schema: "public", table: "columns" },
-        () => fetchColumns()
-      )
-      .subscribe();
-
+    load();
     return () => {
       mountedRef.current = false;
-      supabase.removeChannel(channel);
     };
-  }, []);
+  }, [load]);
 
-  return { data, loading, error };
+  const loadMore = useCallback(async () => {
+    setLoadingMore(true);
+    try {
+      const res = await listColumns(page + 1, PAGE_SIZE, category);
+      if (!mountedRef.current) return;
+      setData((prev) => [...prev, ...res.items.map(toColumnRecord)]);
+      setPage(res.page);
+      setTotal(res.total);
+    } catch (e: any) {
+      if (mountedRef.current) setError(e?.message ?? "Error al cargar contenido");
+    } finally {
+      if (mountedRef.current) setLoadingMore(false);
+    }
+  }, [page, category]);
+
+  return {
+    data,
+    loading,
+    loadingMore,
+    error,
+    hasMore: data.length < total,
+    loadMore,
+    retry: load,
+    categories,
+    featuredSlug,
+    total,
+  };
 };
