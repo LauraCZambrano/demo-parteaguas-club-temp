@@ -1,4 +1,5 @@
-import { Instagram } from "lucide-react";
+import { Instagram, Linkedin, Youtube } from "lucide-react";
+import { useBrand } from "@/hooks/useBrand";
 
 const XIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
   <svg
@@ -26,11 +27,15 @@ const TikTokIcon = ({ size = 18, className }: { size?: number; className?: strin
   </svg>
 );
 
-export const SOCIAL_LINKS = [
-  { name: "Instagram", href: "https://www.instagram.com/parteaguasclub", Icon: Instagram },
-  { name: "X (Twitter)", href: "https://x.com/parteaguasclub", Icon: XIcon },
-  { name: "TikTok", href: "https://www.tiktok.com/@parteaguasclub", Icon: TikTokIcon },
-] as const;
+// Demo copy: the links are the ones the owner set in Tarimah (Diseño y
+// contenido → Redes sociales), not Parteaguas' own accounts.
+const ICONS: Record<string, ({ size }: { size?: number }) => JSX.Element> = {
+  Instagram: ({ size }) => <Instagram size={size} />,
+  LinkedIn: ({ size }) => <Linkedin size={size} />,
+  "X (Twitter)": ({ size }) => <XIcon size={size} />,
+  TikTok: ({ size }) => <TikTokIcon size={size} />,
+  YouTube: ({ size }) => <Youtube size={size} />,
+};
 
 interface SocialLinksProps {
   /** Visual variant. `light` for dark backgrounds (footer), `default` for light backgrounds. */
@@ -40,6 +45,7 @@ interface SocialLinksProps {
 }
 
 const SocialLinks = ({ variant = "default", size = "md", className = "" }: SocialLinksProps) => {
+  const brand = useBrand();
   const dim = size === "sm" ? "h-9 w-9" : "h-10 w-10";
   const iconSize = size === "sm" ? 16 : 18;
 
@@ -50,18 +56,21 @@ const SocialLinks = ({ variant = "default", size = "md", className = "" }: Socia
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
-      {SOCIAL_LINKS.map(({ name, href, Icon }) => (
+      {brand.socials.map(({ name, href }) => {
+        const Icon = ICONS[name];
+        return (
         <a
           key={name}
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`${name} de Parteaguas Club`}
+          aria-label={`${name} de ${brand.name}`}
           className={`inline-flex items-center justify-center rounded-full border transition-colors ${dim} ${styles}`}
         >
           <Icon size={iconSize} />
         </a>
-      ))}
+        );
+      })}
     </div>
   );
 };

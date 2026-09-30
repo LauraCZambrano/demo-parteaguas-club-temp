@@ -6,7 +6,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAudio } from "@/contexts/AudioContext";
-import iconParteaguas from "@/assets/icon-parteaguas.png";
+import { useBrand } from "@/hooks/useBrand";
+
+const FALLBACK_IMAGE = "/placeholder.svg";
 
 import type { PodcastEpisode } from "@/data/articles";
 import { useTransistorPodcasts, type TransistorEpisode } from "@/hooks/useTransistorPodcasts";
@@ -23,33 +25,6 @@ const Equalizer = () => (
     ))}
     <style>{`@keyframes eq-bar { 0% { height: 20%; } 100% { height: 100%; } }`}</style>
   </span>
-);
-
-/* ---------- Platform SVG icons ---------- */
-const SpotifyIcon = () => (
-  <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current">
-    <path d="M10 1.8c-4.5 0-8.2 3.7-8.2 8.2s3.7 8.2 8.2 8.2 8.2-3.7 8.2-8.2S14.5 1.8 10 1.8zm3.7 11.8c-.2.3-.5.3-.7.2-2-.5-4.4-.6-7.3-.3-.3.1-.5-.1-.6-.4-.1-.3.1-.5.4-.6 3.2-.3 5.8-.2 8 .4.3.1.3.4.2.7zm1-1.9c-.2.3-.6.4-.9.2-2.3-1.4-5.7-1.8-8.4-1-.3.1-.7-.1-.8-.4-.1-.3.1-.7.4-.8 3-1 6.8-.5 9.5 1.1.3.2.4.6.2.9zm.1-2c-2.7-1.6-7.2-1.7-9.8-.9-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3-1 7.9-.8 11 1.1.4.2.5.7.3 1-.2.3-.7.4-1.1.2z" />
-  </svg>
-);
-const AppleIcon = () => (
-  <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current">
-    <path d="M15.7 13.5c-.3.5-.7 1-1.1 1.4-.7.7-1.3 1.1-1.8 1.1-.3 0-.7-.1-1.2-.3-.5-.2-.9-.3-1.3-.3-.4 0-.8.1-1.3.3-.5.2-.9.3-1.2.3-.7 0-1.4-.5-2.1-1.5-.8-1.1-1.2-2.3-1.2-3.7 0-1.2.3-2.2.9-3 .5-.7 1.2-1 2-1 .4 0 .9.1 1.4.3.5.2.9.3 1 .3.2 0 .6-.1 1.1-.3.5-.2 1-.3 1.3-.3.5 0 1 .1 1.5.4.4.3.8.6 1 1.1-.4.3-.8.6-1 1-.3.5-.4 1-.4 1.5 0 .6.2 1.2.5 1.7.3.4.6.8 1 1zM12 3.7c0 .5-.2 1-.5 1.5-.4.5-.9.9-1.5 1h-.1c0-.4.2-.9.5-1.4.4-.5.9-.9 1.5-1 0-.1.1-.1.1-.1z" />
-  </svg>
-);
-const YouTubeIcon = () => (
-  <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current">
-    <path d="M17.8 6.2s-.2-1.2-.7-1.7c-.6-.7-1.3-.7-1.7-.7C13 3.5 10 3.5 10 3.5s-3 0-5.4.3c-.3 0-1.1 0-1.7.7-.5.5-.7 1.7-.7 1.7S2 7.6 2 9v1.3c0 1.4.2 2.8.2 2.8s.2 1.2.7 1.7c.6.7 1.5.7 1.8.7 1.3.1 5.3.2 5.3.2s3 0 5.4-.2c.3 0 1.1 0 1.7-.7.5-.5.7-1.7.7-1.7s.2-1.4.2-2.8V9c0-1.4-.2-2.8-.2-2.8zM8.3 12.5V7l4.6 2.8-4.6 2.7z" />
-  </svg>
-);
-
-const PlatformButton = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (
-  <a
-    href={href}
-    className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground transition-all hover:bg-foreground hover:text-background hover:border-foreground"
-  >
-    {icon}
-    {label}
-  </a>
 );
 
 /** Strip HTML tags and decode common entities from a string. Safe text-only output. */
@@ -81,7 +56,7 @@ const toPodcastEpisode = (ep: TransistorEpisode): PodcastEpisode => ({
   date: ep.published_at
     ? new Date(ep.published_at).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })
     : "",
-  image: ep.image_url || iconParteaguas,
+  image: ep.image_url || FALLBACK_IMAGE,
   isNew: false,
   audioUrl: ep.media_url,
   plays: 0,
@@ -94,6 +69,7 @@ const PAGINATION_HEIGHT = 45;
 const PodcastSection = () => {
   const { episode: activeEpisode, isPlaying, play } = useAudio();
   const { data: episodes, loading, error } = useTransistorPodcasts();
+  const { name: brandName } = useBrand();
   const playedRef = useRef<Set<string>>(new Set());
   const listContainerRef = useRef<HTMLDivElement>(null);
 
@@ -155,14 +131,8 @@ const PodcastSection = () => {
           <Headphones size={28} className="text-foreground" />
           <h2 className="font-editorial text-3xl font-bold tracking-tight md:text-4xl">Podcast</h2>
         </div>
-        <p className="mt-2 text-muted-foreground">Escucha la historia detrás de cada análisis, en voz de Jonathan</p>
+        <p className="mt-2 text-muted-foreground">Escucha cada columna en voz de {brandName}</p>
 
-        {/* Platform buttons */}
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          <PlatformButton icon={<SpotifyIcon />} label="Spotify" href="#" />
-          <PlatformButton icon={<AppleIcon />} label="Apple Podcasts" href="#" />
-          <PlatformButton icon={<YouTubeIcon />} label="YouTube" href="#" />
-        </div>
 
         {/* Error */}
         {error && (
@@ -208,7 +178,7 @@ const PodcastSection = () => {
             <div className="flex w-full flex-col bg-secondary/40 p-5 md:w-[40%] md:p-6 lg:p-8">
               <div className="relative">
                 <img
-                  src={featured.image_url || iconParteaguas}
+                  src={featured.image_url || FALLBACK_IMAGE}
                   alt={featured.title}
                   className="aspect-square w-full rounded-md object-cover"
                   loading="lazy"

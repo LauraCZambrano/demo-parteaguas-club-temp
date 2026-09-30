@@ -38,7 +38,7 @@ const setLink = (rel: string, href: string) => {
   return el;
 };
 
-export const applySeo = ({ title, description, image, url, type = "article", siteName = "Parteaguas Club" }: SeoOptions) => {
+export const applySeo = ({ title, description, image, url, type = "article", siteName = (import.meta.env.VITE_SITE_NAME as string | undefined) ?? "Demo" }: SeoOptions) => {
   if (title) document.title = title;
 
   const tags: MetaTag[] = [];

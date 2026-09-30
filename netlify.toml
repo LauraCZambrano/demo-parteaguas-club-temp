@@ -1,0 +1,25 @@
+# Demo copy of the parteaguas.club frontend, reading the Tarimah feed of
+# another account. Branch demo/netlify-laura-tech — never merge into main.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Tarimah production API (the same one parteaguas.club reads). Public
+  # values: the /sites/v1 feed is anonymous, no key involved.
+  VITE_TARIMAH_API_BASE = "https://d23smvfp69svek.cloudfront.net/api/tarimah"
+  VITE_TARIMAH_SITE_HANDLE = "laura-tech"
+  VITE_SITE_NAME = "Laura Tech"
+
+# Single-page app: every route is served by index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

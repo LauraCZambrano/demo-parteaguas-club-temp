@@ -4,7 +4,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import SourcesSection from "@/components/SourcesSection";
 import InlineAudioPlayer from "@/components/InlineAudioPlayer";
 import SocialLinks from "@/components/SocialLinks";
-import AdSlot from "@/components/AdSlot";
 import { normalizeColumnText } from "@/lib/normalizeText";
 import { getColumn, listColumns, toColumnRecord, NotFoundError } from "@/lib/tarimah";
 import type { ColumnRecord } from "@/hooks/useColumns";
@@ -13,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAudio } from "@/contexts/AudioContext";
-import { useArticleAds } from "@/hooks/useArticleAds";
+import { useBrand } from "@/hooks/useBrand";
 import type { PodcastEpisode } from "@/data/articles";
 import { applySeo } from "@/lib/seo";
 import { Helmet } from "react-helmet-async";
@@ -40,9 +39,7 @@ const ArticleDetail = () => {
   const [loadError, setLoadError] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const { episode: activeEpisode, close } = useAudio();
-  const { ads } = useArticleAds();
-  const articleSlug = article ? (article.slug ?? slugify(article.titulo)) : "";
-  const articleCategory = article?.category ?? "";
+  const brand = useBrand();
 
   // Stop audio when leaving the article page if the playing episode belongs to this article
   useEffect(() => {
@@ -95,12 +92,12 @@ const ArticleDetail = () => {
     if (!article) return;
     const truncate = (s: string, n: number) =>
       s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s;
-    const siteSuffix = " | Parteaguas";
+    const siteSuffix = ` | ${brand.name}`;
     const rawSinopsis = (article.sinopsis ?? "").replace(/\s+/g, " ").trim();
     const description = rawSinopsis.length + siteSuffix.length <= 160
       ? `${rawSinopsis}${siteSuffix}`
       : truncate(rawSinopsis, 160 - siteSuffix.length) + siteSuffix;
-    const suffix = " | Parteaguas Club";
+    const suffix = ` | ${brand.name}`;
     const baseTitle = article.titulo.trim();
     const title = baseTitle.length + suffix.length <= 60
       ? `${baseTitle}${suffix}`
@@ -111,8 +108,9 @@ const ArticleDetail = () => {
       image: article.img1,
       url: `${window.location.origin}/articulo/${slugify(article.titulo)}`,
       type: "article",
+      siteName: brand.name,
     });
-  }, [article]);
+  }, [article, brand.name]);
 
   if (loading) {
     return (
@@ -157,12 +155,12 @@ const ArticleDetail = () => {
   return (
     <div className="min-h-screen">
       <Helmet>
-        <title>{`${article.titulo} — Parteaguas Club`}</title>
+        <title>{`${article.titulo} — ${brand.name}`}</title>
         <meta name="description" content={article.sinopsis ?? ""} />
-        <link rel="canonical" href={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <link rel="canonical" href={`${window.location.origin}/articulo/${slugify(article.titulo)}`} />
         <meta property="og:title" content={article.titulo} />
         <meta property="og:description" content={article.sinopsis ?? ""} />
-        <meta property="og:url" content={`https://www.parteaguas.club/articulo/${slugify(article.titulo)}`} />
+        <meta property="og:url" content={`${window.location.origin}/articulo/${slugify(article.titulo)}`} />
         <meta property="og:type" content="article" />
         {article.img1 && <meta property="og:image" content={article.img1} />}
         <script type="application/ld+json">
@@ -175,17 +173,16 @@ const ArticleDetail = () => {
             datePublished: article.created_at,
             author: {
               "@type": "Organization",
-              name: "Parteaguas Club",
+              name: brand.name,
             },
-            url: `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+            url: `${window.location.origin}/articulo/${slugify(article.titulo)}`,
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `https://www.parteaguas.club/articulo/${slugify(article.titulo)}`,
+              "@id": `${window.location.origin}/articulo/${slugify(article.titulo)}`,
             },
             publisher: {
               "@type": "Organization",
-              name: "Parteaguas Club",
-              "@id": "https://www.parteaguas.club/#organization",
+              name: brand.name,
             },
           })}
         </script>
@@ -220,7 +217,6 @@ const ArticleDetail = () => {
             )}
 
             {/* Zona A: después del reproductor de audio */}
-            <AdSlot zone="A" ads={ads.A} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
           </div>
 
           <div className="mt-10 overflow-hidden rounded-sm">
@@ -249,7 +245,6 @@ const ArticleDetail = () => {
                   <div key={i}>
                     <p>{p}</p>
                     {/* Zona B: después del tercer párrafo */}
-                    {i === 2 && <AdSlot zone="B" ads={ads.B} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />}
                     {i === insertImg2 && (
                       <div className="my-8 overflow-hidden rounded-sm">
                         <img src={article.img2!} alt={`${article.titulo} – imagen complementaria 2`} title={article.titulo} width={800} height={512} className="w-full object-cover" />
@@ -266,18 +261,16 @@ const ArticleDetail = () => {
             );
           })()}
 
-          {/* Zona C: al finalizar el texto, antes de fuentes */}
-          <AdSlot zone="C" ads={ads.C} articleSlug={articleSlug} articleCategory={articleCategory} className="my-8" />
 
           {article.sources && article.sources.length > 0 && <SourcesSection sources={article.sources} />}
 
-          {/* Sigue a Parteaguas */}
+          {/* Sigue en redes */}
           <div className="mt-12 rounded-2xl border border-border bg-muted/40 p-6 text-center">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               ¿Te gustó este análisis?
             </p>
             <h3 className="mt-1 font-editorial text-lg font-semibold text-foreground">
-              Sigue a Parteaguas en redes
+              Sigue a {brand.name} en redes
             </h3>
             <SocialLinks className="mt-4 justify-center" />
           </div>

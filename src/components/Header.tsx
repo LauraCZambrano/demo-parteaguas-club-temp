@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
+import BrandLogo from "@/components/BrandLogo";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,7 +31,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between">
         <button onClick={handleLogoClick} className="flex items-center">
-          <img src={logo} alt="Parteaguas Club" className="h-12 w-auto" />
+          <BrandLogo className="h-12 w-auto" />
         </button>
 
         {/* Desktop nav */}

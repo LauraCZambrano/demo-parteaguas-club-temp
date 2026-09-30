@@ -8,21 +8,23 @@ import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useColumns } from "@/hooks/useColumns";
 import { applySeo } from "@/lib/seo";
+import { useBrand } from "@/hooks/useBrand";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const { data: columns, loading, error, hasMore, loadingMore, loadMore, retry } = useColumns();
   const location = useLocation();
+  const brand = useBrand();
 
   useEffect(() => {
     applySeo({
-      title: "Parteaguas Club — Análisis, contexto y podcast editorial",
-      description:
-        "Análisis editoriales, crónica crítica y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.",
+      title: brand.name,
+      description: brand.profile?.bio ?? brand.name,
       url: `${window.location.origin}/`,
       type: "website",
+      siteName: brand.name,
     });
-  }, []);
+  }, [brand.name, brand.profile?.bio]);
 
   useEffect(() => {
     if (location.hash) {
@@ -36,12 +38,10 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Helmet>
-        <title>Parteaguas Club — Análisis, contexto y periodismo de opinión</title>
-        <meta name="description" content="Análisis, contexto y periodismo de opinión" />
-        <link rel="canonical" href="https://www.parteaguas.club/" />
-        <meta property="og:title" content="Parteaguas Club — Análisis, contexto y periodismo de opinión" />
-        <meta property="og:description" content="Análisis, contexto y periodismo de opinión" />
-        <meta property="og:url" content="https://www.parteaguas.club/" />
+        <title>{brand.name}</title>
+        <link rel="canonical" href={`${window.location.origin}/`} />
+        <meta property="og:title" content={brand.name} />
+        <meta property="og:url" content={`${window.location.origin}/`} />
         <meta property="og:type" content="website" />
       </Helmet>
       <Header />

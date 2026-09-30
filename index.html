@@ -1,88 +1,21 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WT36MMVH');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM0FC05L09"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-ZM0FC05L09');
-    </script>
-
+    <!--
+      Demo copy of the parteaguas.club frontend reading a Tarimah feed (Netlify).
+      No Google Tag Manager / Analytics: that measurement belongs to Parteaguas.
+      Kept out of search engines on purpose (also X-Robots-Tag in netlify.toml).
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parteaguas Club — Análisis, contexto y podcast editorial</title>
-    <meta name="description" content="Parteaguas Club: análisis editoriales, crónica crítica y conversaciones en podcast sobre tecnología, sociedad y cultura para mentes inquietas.">
-    <link rel="canonical" href="https://www.parteaguas.club/" />
-    <link rel="icon" href="https://res.cloudinary.com/dfdy3dt9h/image/upload/v1775086755/icon-parteaguas_dkjm8e.png" type="image/png">
-
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Demo · columnas desde Tarimah</title>
+    <meta name="description" content="Demo de una web propia que muestra columnas publicadas en Tarimah." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Parteaguas Club" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="og:title" content="Parteaguas Club — Análisis, contexto y podcast editorial">
-    <meta name="twitter:title" content="Parteaguas Club — Análisis, contexto y podcast editorial">
-    <meta property="og:description" content="Análisis editoriales, crónica crítica y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.">
-    <meta name="twitter:description" content="Análisis editoriales, crónica crítica y podcast sobre tecnología, sociedad y cultura. Lectura para mentes inquietas que buscan ir más allá del titular.">
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/e61fmqMZuvONQkFWVrkBnFx3jMi2/social-images/social-1775070295331-Screenshot_2026-04-01_at_12.04.16_p.m..webp">
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/e61fmqMZuvONQkFWVrkBnFx3jMi2/social-images/social-1775070295331-Screenshot_2026-04-01_at_12.04.16_p.m..webp">
-
-    <!-- Schema.org - Organization & WebSite -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "@id": "https://www.parteaguas.club/#organization",
-          "name": "Parteaguas Club",
-          "url": "https://www.parteaguas.club/",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.parteaguas.club/assets/logo-DOGJH2nm.png"
-          },
-          "sameAs": [
-            "https://www.instagram.com/parteaguasclub",
-            "https://x.com/parteaguasclub",
-            "https://www.tiktok.com/@parteaguasclub"
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://www.parteaguas.club/#website",
-          "url": "https://www.parteaguas.club/",
-          "name": "Parteaguas Club",
-          "description": "Análisis, contexto y periodismo de opinión",
-          "publisher": {
-            "@id": "https://www.parteaguas.club/#organization"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://www.parteaguas.club/?s={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-          }
-        }
-      ]
-    }
-    </script>
-</head>
+  </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WT36MMVH"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

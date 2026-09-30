@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import { Play, Pause, RotateCcw } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
-import iconParteaguas from "@/assets/icon-parteaguas.png";
+import { useBrand } from "@/hooks/useBrand";
 import type { PodcastEpisode } from "@/data/articles";
 
 const formatTime = (s: number) => {
@@ -21,6 +21,7 @@ interface InlineAudioPlayerProps {
  * Uses the global AudioContext so it stays in sync with the sticky bottom player.
  */
 const InlineAudioPlayer = ({ episode, label = "Escuchar resumen de la nota" }: InlineAudioPlayerProps) => {
+  const brand = useBrand();
   const { episode: activeEpisode, isPlaying, currentTime, duration, play, togglePlay, rewind15, seek } = useAudio();
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -49,11 +50,9 @@ const InlineAudioPlayer = ({ episode, label = "Escuchar resumen de la nota" }: I
 
   return (
     <div className="flex w-full items-center gap-3 rounded-full border border-border bg-card px-3 py-2 sm:w-auto sm:min-w-[360px]">
-      <img
-        src={iconParteaguas}
-        alt="Parteaguas"
-        className="h-9 w-9 shrink-0 rounded-full object-contain"
-      />
+      {brand.logo && (
+        <img src={brand.logo} alt={brand.name} className="h-9 w-9 shrink-0 rounded-full object-contain" />
+      )}
 
       <button
         onClick={handleMainClick}

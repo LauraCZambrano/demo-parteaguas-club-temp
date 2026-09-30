@@ -8,9 +8,9 @@ const NotFound = () => {
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
     applySeo({
-      title: "Página no encontrada (404) | Parteaguas Club",
+      title: "Página no encontrada (404)",
       description:
-        "La página que buscas no existe o fue movida. Vuelve al inicio para descubrir las últimos análisis y episodios de Parteaguas Club.",
+        "La página que buscas no existe o fue movida.",
       url: `${window.location.origin}${location.pathname}`,
       type: "website",
     });

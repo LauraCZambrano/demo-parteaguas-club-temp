@@ -93,10 +93,40 @@ export const toColumnRecord = (c: ApiColumn): ColumnRecord => ({
 export const listColumns = (page = 1, limit = 10, category?: string) => {
   const q = new URLSearchParams({ page: String(page), limit: String(limit) });
   if (category) q.set("category", category);
-  return get<ColumnsPage>(`/sites/${HANDLE}/columns?${q.toString()}`);
+  return get<ColumnsPage>(`/sites/v1/${HANDLE}/columns?${q.toString()}`);
 };
 
 export const getColumn = (slug: string) =>
-  get<ApiColumn>(`/sites/${HANDLE}/columns/${encodeURIComponent(slug)}`);
+  get<ApiColumn>(`/sites/v1/${HANDLE}/columns/${encodeURIComponent(slug)}`);
 
-export const getSite = () => get<Record<string, unknown>>(`/sites/${HANDLE}`);
+/** Brand profile of the site (GET /sites/v1/{handle}) — the demo takes its identity from here. */
+export interface SiteProfile {
+  handle: string;
+  clientName: string | null;
+  logo: string | null;
+  headline: string | null;
+  bio: string | null;
+  aboutHeadline: string | null;
+  authorName: string | null;
+  authorPhoto: string | null;
+  authorBio: string | null;
+  contactEmail: string | null;
+  instagramUrl: string | null;
+  linkedinUrl: string | null;
+  xUrl: string | null;
+  tiktokUrl: string | null;
+  youtubeUrl: string | null;
+}
+
+export const getSite = () => get<SiteProfile>(`/sites/v1/${HANDLE}`);
+
+export interface EpisodesPage {
+  items: ApiColumn[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+/** Published columns that have a podcast, newest first. */
+export const listEpisodes = (page = 1, limit = 50) =>
+  get<EpisodesPage>(`/sites/v1/${HANDLE}/episodes?page=${page}&limit=${limit}`);

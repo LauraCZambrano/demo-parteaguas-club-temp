@@ -1,8 +1,10 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import SocialLinks from "@/components/SocialLinks";
-import logo from "@/assets/logo.png";
+import BrandLogo from "@/components/BrandLogo";
+import { useBrand } from "@/hooks/useBrand";
 
 const Footer = () => {
+  const { name } = useBrand();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -31,7 +33,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <button onClick={handleLogoClick} className="flex items-center">
-              <img src={logo} alt="Parteaguas Club" className="h-16 w-auto invert" />
+              <BrandLogo className="h-16 w-auto rounded-md bg-background p-1" textClassName="font-editorial text-2xl font-bold" />
             </button>
             <p className="mt-3 text-sm leading-relaxed opacity-70">
               Un medio digital para quienes buscan entender el mundo con profundidad, claridad y criterio propio.
@@ -53,7 +55,6 @@ const Footer = () => {
               <ul className="mt-3 space-y-2 text-sm opacity-70">
                 <li><a href="#" className="hover:opacity-100">Privacidad</a></li>
                 <li><a href="#" className="hover:opacity-100">Términos</a></li>
-                <li><button onClick={() => navigate("/desuscribir")} className="hover:opacity-100">Desuscribirse</button></li>
               </ul>
             </div>
           </div>
@@ -61,7 +62,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 border-t border-background/10 pt-6 text-center text-xs opacity-50">
-          © {new Date().getFullYear()} Parteaguas Club. Todos los derechos reservados.
+          © {new Date().getFullYear()} {name} · Demo de conexión con Tarimah.
         </div>
       </div>
     </footer>
